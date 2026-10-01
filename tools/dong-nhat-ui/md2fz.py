@@ -2,7 +2,7 @@
 # Chuyển file bản dịch song ngữ (md) của 发展汉语 II bài 9–14 thành các <section class="les"> cho D2.
 import re,html,os,sys
 sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
-import csvdata
+import csvdata,photo_vocab
 HERE=os.path.dirname(os.path.abspath(__file__))
 SRC=os.path.join(HERE,'nguon','ban-dich-bai-9-14.md')
 CJK=re.compile(r'[㐀-鿿]')
@@ -144,6 +144,11 @@ def dict_words():
             syl=SPLIT.get(w)
         out[w]='!'+' '.join(syl)
     out['调成']='!tiáo chéng'
+    for L,t in photo_vocab.V.items():
+        for i,(w,py,en) in t.items():
+            if len(w)>1:
+                sy=csvdata.syllables(w,py.replace('//',' '))
+                if sy: out[w]='!'+' '.join(sy)
     return out
 SPLIT={'模式':['mó','shì'],'颠簸':['diān','bǒ'],'安抚':['ān','fǔ'],'不安':['bù','ān'],'一时':['yì','shí'],'不由得':['bù','yóu','de'],'瞥见':['piē','jiàn'],'何况':['hé','kuàng'],'出于':['chū','yú'],'强迫':['qiǎng','pò'],'惊奇':['jīng','qí'],'浮躁':['fú','zào'],'冷静':['lěng','jìng'],'屏蔽':['píng','bì'],'外界':['wài','jiè'],'干扰':['gān','rǎo'],'噪声':['zào','shēng'],'精英':['jīng','yīng'],'打交道':['dǎ','jiāo','dao'],'公寓':['gōng','yù'],'负担':['fù','dān'],'空虚':['kōng','xū'],'再三':['zài','sān'],'稳定':['wěn','dìng'],'体面':['tǐ','miàn'],'寂静':['jì','jìng'],'终极':['zhōng','jí'],'打击':['dǎ','jī'],'悲观':['bēi','guān'],'消极':['xiāo','jí'],'宁静':['níng','jìng'],'尽头':['jìn','tóu'],'导致':['dǎo','zhì'],'浏览':['liú','lǎn'],'设置':['shè','zhì'],'当下':['dāng','xià']}
 def l11_front():
@@ -175,8 +180,21 @@ def l11_exercises():
       ('咱们出去旅游别住%s，据说民宿又便宜又舒服。（高档）'%B8,'Chúng ta đi du lịch đừng ở %s, nghe nói nhà dân vừa rẻ vừa thoải mái. (高档 — cao cấp)'%B8),
       ('我好像感冒了，发烧，流鼻涕，还%s。（浑身）'%B8,'Hình như tôi bị cảm, sốt, sổ mũi, lại còn %s. (浑身 — toàn thân)'%B8),
       ('她的%s，现在正在为实现理想而努力呢。（理想）'%B8,'Cái %s của cô ấy, hiện giờ cô ấy đang nỗ lực để thực hiện lý tưởng đấy. (理想 — lý tưởng)'%B8)])]
-    # tr.184: các câu 4–8 của mục dùng từ chỉ định để viết lại câu (các câu đầu ở tr.183 chưa có)
-    b+=[('h',3,'（续）'),_ol([
+    b+=[('h',3,'六、用指定词语完成对话'),('p',['Hoàn thành hội thoại bằng từ ngữ được chỉ định'])]
+    b+=[_ol([
+      ('A：谢谢你，%s。（要不是）\\\nB：别客气，我正好顺路。'%B8,'A: Cảm ơn bạn, %s. (要不是 — nếu không nhờ)\\\nB: Đừng khách sáo, vừa hay tôi tiện đường.'%B8),
+      ('A：下周末我们想去爬山。\\\nB：天气预报下周末有大到暴雨，%s，我看，你们还是换个日子吧。（何况）'%B8,'A: Cuối tuần sau chúng tôi muốn đi leo núi.\\\nB: Dự báo thời tiết nói cuối tuần sau có mưa to đến mưa bão, %s, tôi thấy các bạn nên đổi ngày khác. (何况 — huống chi)'%B8),
+      ('A：%s，不建议你选择这个工作。（出于）\\\nB：那好吧，我好好想想。'%B8,'A: %s, tôi không khuyên bạn chọn công việc này. (出于 — xuất phát từ)\\\nB: Vậy được, để tôi suy nghĩ kỹ.'%B8),
+      ('A：糟了，我的手机不见了，可能丢了。\\\nB：别着急，%s，你都在哪儿用了手机。（冷静）'%B8,'A: Hỏng rồi, điện thoại của tôi không thấy đâu, có thể bị mất rồi.\\\nB: Đừng vội, %s, bạn đã dùng điện thoại ở những đâu. (冷静 — bình tĩnh)'%B8),
+      ('A：真佩服她，失败了那么多次，终于成功了。\\\nB：是啊，%s，可她还是坚持下来了。（打击）'%B8,'A: Thật khâm phục cô ấy, thất bại nhiều lần như vậy mà cuối cùng đã thành công.\\\nB: Đúng vậy, %s, nhưng cô ấy vẫn kiên trì được. (打击 — đả kích)'%B8),
+      ('A：%s，收入不一定多，但老有人给开支的工作。（稳定）\\\nB：那就去邮局，或者去卖药。'%B8,'A: %s, thu nhập chưa chắc nhiều, nhưng là công việc lúc nào cũng có người chi trả. (稳定 — ổn định)\\\nB: Vậy thì đi bưu điện, hoặc đi bán thuốc.'%B8),
+      ('A：你别这样走来走去的，走得我都头晕。\\\nB：唉，病人还在抢救，%s。（不安）'%B8,'A: Bạn đừng đi qua đi lại như vậy, đi làm tôi chóng mặt.\\\nB: Haizz, bệnh nhân vẫn đang được cấp cứu, %s. (不安 — bất an)'%B8),
+      ('A：他平时不怎么爱说话，今天怎么话这么多呀？\\\nB：%s，他今天求婚成功了，高兴的。（惊奇）'%B8,'A: Bình thường anh ấy không hay nói, hôm nay sao nói nhiều thế?\\\nB: %s, hôm nay anh ấy cầu hôn thành công, vui quá đấy. (惊奇 — ngạc nhiên)'%B8)])]
+    b+=[('h',3,'七、用指定词语改写句子'),('p',['Dùng từ ngữ được chỉ định để viết lại câu']),_ol([
+      ('他离开这家小公司，去了一个工资更高的大公司。%s（辞）'%B8,'Anh ấy rời công ty nhỏ này, sang một công ty lớn có lương cao hơn. %s (辞 — từ chức)'%B8),
+      ('A：这么快，一张报纸几分钟就看完啦？\\\nB：看一眼大标题而已。%s（浏览）'%B8,'A: Nhanh vậy, một tờ báo mà vài phút đã đọc xong rồi sao?\\\nB: Chỉ liếc qua tiêu đề lớn thôi. %s (浏览 — lướt xem)'%B8),
+      ('平常穿衣服一点儿都不讲究的她，今天穿这么漂亮，这是要干什么去呀？%s（体面）'%B8,'Cô ấy bình thường ăn mặc chẳng chút cầu kỳ, hôm nay lại mặc đẹp thế này, đây là định đi đâu vậy? %s (体面 — thể diện, chỉnh tề)'%B8)]),
+      _ol([
       ('你想事情不能总往不好的方面想，要多想它好的一面。%s（悲观）'%B8,'Bạn nghĩ sự việc không thể lúc nào cũng nghĩ theo hướng xấu, hãy nghĩ nhiều hơn đến mặt tốt của nó. %s (悲观 — bi quan)'%B8),
       ('你把时间安排得太紧了吧，减轻点儿压力，留出点儿娱乐的时间吧。%s（负担）'%B8,'Bạn sắp xếp thời gian quá sát rồi, hãy giảm bớt áp lực, chừa chút thời gian giải trí đi. %s (负担 — gánh nặng)'%B8),
       ('他第一次看到海底世界有那么多奇形怪状的生物，感到吃惊又好奇。%s（惊奇）'%B8,'Lần đầu tiên anh ấy thấy thế giới dưới đáy biển có nhiều sinh vật hình dạng kỳ quái như vậy, cảm thấy vừa kinh ngạc vừa tò mò. %s (惊奇 — ngạc nhiên)'%B8),
@@ -222,20 +240,22 @@ def lessons():
                 bl[k[0]:k[0]+1]=l11_exercises()+[('h',3,bl[k[0]][2])]
     return L
 
-def vocab_table(rows):
+def vocab_table(rows,lesson=None):
     cells=[[c.strip() for c in r.strip().strip('|').split('|')] for r in rows]
     cells=[c for c in cells if not all(re.match(r'^:?-+:?$',x) for x in c)]
-    body=cells[1:]; six=len(cells[0])==6
+    body=cells[1:]; ph=photo_vocab.V.get(lesson,{})
+    six=len(cells[0])==6 or bool(ph)
     head=['#','词语','Pinyin','Loại từ','Hán Việt','Nghĩa tiếng Việt']+(['English'] if six else [])
     out=[]
     for c in body:
         w=c[1]; r=csvdata.lookup(w)
-        if six: n,_,py,pos,vi,en=c
+        if len(c)==6: n,_,py,pos,vi,en=c
         else:
-            n,_,pos,vi=c; en=''; py=(r['pinyin'].strip() if r else '')
+            n,_,pos,vi=c; p=ph.get(int(n)) if n.isdigit() else None
+            if p and p[0]==w: py,en=p[1],p[2]
+            else: py=(r['pinyin'].strip() if r else ''); en=''
         hv=(r['han_viet'].strip() if r else '')
-        row=[n,w,py,pos,hv,vi]+([en] if six else [])
-        out.append(row)
+        out.append([n,w,py,pos,hv,vi]+([en] if six else []))
     return head,out
 def cells_table(head,rows):
     h='<thead><tr>'+''.join('<th>%s</th>'%inline(c) for c in head)+'</tr></thead>'
@@ -316,7 +336,7 @@ def lesson_html(c):
             out.append('</ol>'); continue
         if b[0]=='table':
             if state=='vo':
-                hd,rw=vocab_table(b[1]); out.append(cells_table(hd,rw))
+                hd,rw=vocab_table(b[1],c['n']); out.append(cells_table(hd,rw))
             else: out.append(table_html(b[1])); continue
     close_item()
     out.append('</section>')

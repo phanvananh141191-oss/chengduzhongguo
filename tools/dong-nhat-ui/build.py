@@ -34,6 +34,10 @@ _present|=set(re.findall(r'[\u3400-\u9fff]',open(md2fz.SRC,encoding='utf-8').rea
 _nc,_nw=md2fz.dict_updates(_present,_dd['C'],_dd['W'])
 for _k,_v in _nc.items(): _dd['C'].setdefault(_k,_v)
 for _k,_v in _nw.items(): _dd['W'].setdefault(_k,_v)
+import photo_vocab
+for _L,_t in photo_vocab.V.items():
+    for _i,(_w,_py,_en) in _t.items():
+        if len(_w)==1 and _w not in _dd['C'] and ' ' not in _py and '/' not in _py: _dd['C'][_w]=_py
 _R=csvdata.rows(); _extra=0
 for _w in md2fz.vocab_words():
     _r=_R.get(_w)

@@ -57,9 +57,9 @@ Nguồn: `tools/dong-nhat-ui/nguon/ban-dich-bai-9-14.md`. Bộ chuyển đổi: 
 - Chỗ trống trong bài tập giữ nguyên, **không điền đáp án**. Bài tập của 9–14 là dạng văn bản tĩnh, vì file nguồn không có đáp án nên không có nút Kiểm tra / Xem đáp án.
 
 ## Phần còn thiếu (theo ghi chú của file nguồn, để trống)
-- Bài 11: còn thiếu trang 183 (bài tập 六 và các câu đầu của bài 七). Trang 186 là trang kẻ ô nên không có nội dung cần thêm.
+- Bài 11: không còn trang nào thiếu (trang 186 là trang kẻ ô nên không có nội dung cần thêm).
 - Trang 219 (bài 13) và 236 (bài 14) chỉ là ô vuông trống theo xác nhận của bạn, không có nội dung cần bổ sung.
-- Bảng từ vựng bài 9, 10, 12, 13, 14 chỉ có *Từ vựng · Loại từ · Nghĩa*, không có pinyin, ví dụ hay Hán Việt (nguồn chỉ có thế), nên cột Ví dụ bị ẩn. Nếu bạn có ảnh các trang từ vựng của các bài này, mình bổ sung được pinyin và nghĩa tiếng Anh như bài 11.
+- Bảng từ vựng bài 9–14 không có ví dụ (nguồn không có), nên cột Ví dụ bị ẩn.
 - **Pinyin:** file nguồn không có pinyin, từ điển nhúng trong file không có 211 chữ Hán khác nhau (634 lần xuất hiện, chẳng hạn 摸 嫩 芽 煤 魂…). Những chữ này để trống pinyin, không tự sinh âm đọc. 32.132 chữ còn lại có pinyin. Nếu bạn muốn bổ sung pinyin cho 211 chữ này thì cần bạn duyệt nguồn pinyin.
 
 ## Kiểm tra
@@ -83,3 +83,10 @@ Nguồn: `tools/dong-nhat-ui/nguon/kho-tu-vung-obsidian.csv` (14.697 từ). Mã:
 - Chỗ trống giữ nguyên, không điền đáp án. **Bản dịch tiếng Việt do mình dịch thêm, cần duyệt.**
 - Các câu 4–8 (tr.184) nằm dưới tiêu đề trung tính “（续）”, vì tiêu đề bài tập chứa các câu đầu ở tr.183 chưa có nên mình không ghi.
 - Thứ tự và khóa lưu bài làm của các bài khác không bị ảnh hưởng.
+
+## Bổ sung từ 18 ảnh (file zip)
+- **Từ vựng bài 9, 10, 12, 13, 14:** nhập pinyin và nghĩa tiếng Anh từ ảnh các trang từ vựng (tr.139–140, 155–156, 188–189, 204–205, 222–223) cho toàn bộ 36 + 32 + 35 + 36 + 39 từ. Mình đối chiếu từng từ theo số thứ tự với bảng bản dịch, khớp 100%. Pinyin hiển thị trên chữ Hán; nghĩa tiếng Anh nằm trong *Chi tiết* (bật *Cột English* trong Tùy chọn). Pinyin của các từ nhiều chữ được đưa vào từ điển pinyin.
+- **Bài 11 trang 183:** thêm bài tập 六 (hội thoại, câu 1–8) và các câu 1–3 của bài 七. Hai nhóm câu 1–3 (tr.183) và 4–8 (tr.184) giờ nằm chung trong một bài 七 liền mạch; tiêu đề “（续）” tạm dùng trước đó đã bỏ. **Bản dịch tiếng Việt do mình dịch thêm, cần duyệt.** Riêng câu 6 (六), cụm “老有人给开支” mình dịch sát nghĩa là “lúc nào cũng có người chi trả”, bạn xem lại giúp.
+- **Chữ Hán còn thiếu pinyin** ở bài 9–14: 256 lần xuất hiện (92 chữ khác nhau), giảm từ 323. Đó là các chữ không có trong từ điển lẫn kho từ vựng.
+- Bốn ảnh trùng với trang đã dùng (tr.171, 172, 182, 184) và ảnh trang 224 (走进课文 bài 14) đã có nội dung từ file bản dịch nên không thay đổi gì.
+- Sai khác nhỏ so với kho từ vựng CSV (giữ theo sách): 播种 *bōzhòng* (kho *bōzhǒng*), 一同 *yìtóng*, 一无所知 *yìwúsuǒzhī* (kho ghi *yī*).
