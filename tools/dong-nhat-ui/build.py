@@ -151,7 +151,7 @@ for book in ['fz','ky','ld']:
 # vỏ
 sh=os.path.join(HERE,'shell_patch.py')
 if os.path.exists(sh):
-    ns={'out':out,'must_replace':must_replace,'rd':rd}
+    ns={'out':out,'must_replace':must_replace,'rd':rd,'os':os,'HERE':HERE}
     exec(open(sh,encoding='utf-8').read(),ns); out=ns['out']
 open(OUT,'w',encoding='utf-8').write(out)
 print('ghi',OUT,len(out))

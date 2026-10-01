@@ -55,3 +55,11 @@ out=must_replace(out,"  if(t.closest('.fm')){S.scale","  if(t.closest('#t-py')){
 out=must_replace(out,"  renderOpts();\n  document.querySelectorAll('.it')","  renderOpts();renderTools();\n  document.querySelectorAll('.it')",label='setCur')
 # chú thích chân mục lục
 out=must_replace(out,'Pinyin, cỡ chữ, nền và các lớp nội dung (dịch, nghĩa từ…) nằm ở nút <b>Tuỳ chọn</b> phía trên bên phải','Pinyin, dịch, cỡ chữ, <b>Xem toàn bài</b> và <b>Tuỳ chọn</b> nằm ở thanh công cụ phía trên nội dung',label='foot')
+
+# ---- Cách học (ảnh minh hoạ + thẻ hướng dẫn) ----
+import guide
+out=must_replace(out,'<button class="tbn" id="optb"','<button class="tbn" id="t-guide" aria-haspopup="dialog" aria-expanded="false" title="Cách học giáo trình này (ảnh minh hoạ)"><span class="ti" aria-hidden="true">📖</span><span class="tl">Cách học</span></button>\n  <button class="tbn" id="optb"',label='guide btn')
+out=must_replace(out,' <div id="optback"></div>',' <div id="optback"></div>\n '+guide.build(lambda n:open(os.path.join(HERE,n),'rb').read()),label='guide dlg')
+out=must_replace(out,'</style></head>','<style id="gd-css">'+guide.CSS+'</style></head>',label='guide css')
+out=must_replace(out,"function renderTools(){\n","function renderTools(){\n  document.documentElement.setAttribute('data-bk',cur?cur.book:'');\n",label='guide bk')
+i=out.rindex('</body>'); out=out[:i]+'<script>'+guide.JS+'</script>'+out[i:]

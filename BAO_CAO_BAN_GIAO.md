@@ -90,3 +90,14 @@ Nguồn: `tools/dong-nhat-ui/nguon/kho-tu-vung-obsidian.csv` (14.697 từ). Mã:
 - **Chữ Hán còn thiếu pinyin** ở bài 9–14: 256 lần xuất hiện (92 chữ khác nhau), giảm từ 323. Đó là các chữ không có trong từ điển lẫn kho từ vựng.
 - Bốn ảnh trùng với trang đã dùng (tr.171, 172, 182, 184) và ảnh trang 224 (走进课文 bài 14) đã có nội dung từ file bản dịch nên không thay đổi gì.
 - Sai khác nhỏ so với kho từ vựng CSV (giữ theo sách): 播种 *bōzhòng* (kho *bōzhǒng*), 一同 *yìtóng*, 一无所知 *yìwúsuǒzhī* (kho ghi *yī*).
+
+## Hình minh hoạ "Cách học"
+
+- Thêm nút **📖 Cách học** vào thanh công cụ; bấm mở khung bên phải (toàn màn hình trên điện thoại), đóng bằng ✕, nền mờ hoặc Esc. Khung tự hiện đúng giáo trình đang xem.
+- Mỗi giáo trình gồm: ảnh minh hoạ + thẻ hướng dẫn dựng bằng HTML (văn bản chọn/đọc được, chép lại từ các thẻ phẳng bạn gửi).
+  - D2 发展汉语 ← "Phát triển Hán ngữ" (6 bước)
+  - KY 汉语口语 ← "Khẩu ngữ thời đại mới" (5 bước)
+  - D1 乐读 5 ← "Lạc Độc – Đọc hiểu" (5 bước)
+- **Bỏ qua (thừa):** hai ảnh + thẻ "Khẩu ngữ Mục tiêu mới 6" (không thuộc 3 giáo trình này).
+- Ảnh nén WebP rộng 760px (~100–140 KB/ảnh). Đã thử 1440/820/390: không tràn ngang, nút ≥44px trên máy bbảng/điện thoại.
+- Nguồn: `tools/dong-nhat-ui/guide.py`, ảnh trong `nguon/cach-hoc/`.
