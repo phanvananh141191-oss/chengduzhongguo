@@ -57,10 +57,16 @@ Nguồn: `tools/dong-nhat-ui/nguon/ban-dich-bai-9-14.md`. Bộ chuyển đổi: 
 - Chỗ trống trong bài tập giữ nguyên, **không điền đáp án**. Bài tập của 9–14 là dạng văn bản tĩnh, vì file nguồn không có đáp án nên không có nút Kiểm tra / Xem đáp án.
 
 ## Phần còn thiếu (theo ghi chú của file nguồn, để trống)
-- Bài 11: thiếu 题解 và 词语学习 (trang 171–172) nên tab Tổng quan và Từ vựng trống. Thiếu trang 182–184 và 186 ở phần bài tập.
-- Bài 13: thiếu trang 219. Bài 14: thiếu trang 236.
-- Bảng từ vựng bài 9–14 chỉ có *Từ vựng · Loại từ · Nghĩa*, không có ví dụ hay Hán Việt, nên cột Ví dụ bị ẩn.
+- Bài 11: thiếu trang 182–184 và 186 ở phần bài tập (chưa có nguồn).
+- Trang 219 (bài 13) và 236 (bài 14) chỉ là ô vuông trống theo xác nhận của bạn, không có nội dung cần bổ sung.
+- Bảng từ vựng bài 9, 10, 12, 13, 14 chỉ có *Từ vựng · Loại từ · Nghĩa*, không có pinyin, ví dụ hay Hán Việt (nguồn chỉ có thế), nên cột Ví dụ bị ẩn. Nếu bạn có ảnh các trang từ vựng của các bài này, mình bổ sung được pinyin và nghĩa tiếng Anh như bài 11.
 - **Pinyin:** file nguồn không có pinyin, từ điển nhúng trong file không có 211 chữ Hán khác nhau (634 lần xuất hiện, chẳng hạn 摸 嫩 芽 煤 魂…). Những chữ này để trống pinyin, không tự sinh âm đọc. 32.132 chữ còn lại có pinyin. Nếu bạn muốn bổ sung pinyin cho 211 chữ này thì cần bạn duyệt nguồn pinyin.
 
 ## Kiểm tra
 Mọi đoạn, câu, ô bảng và mục danh sách trong file nguồn đều có mặt trên trang (chỉ khác các nhãn tiêu đề cột và nhãn mục đã chuẩn hóa). Điện thoại 390 px không tràn ngang, không nút nhỏ hơn 44 px; desktop không tràn ngang. Không có lỗi JavaScript.
+
+## Bổ sung bài 11 từ ảnh sách (trang 171–172)
+- Đã thêm 题解 và bảng 38 từ vựng (pinyin, loại từ, nghĩa tiếng Anh) đúng như ảnh. Tab Tổng quan và Từ vựng của bài 11 giờ đã có nội dung.
+- **Cần duyệt:** bản dịch tiếng Việt của 题解 và nghĩa tiếng Việt của 38 từ do mình dịch thêm (sách chỉ có tiếng Anh). Nghĩa tiếng Anh nằm trong *Chi tiết*, hiện khi bật tùy chọn *Cột English*.
+- Pinyin của 36 từ nhiều chữ trong bảng được đưa vào từ điển pinyin (nguồn: ảnh sách). Chữ 调 đọc *tiáo* theo ảnh; cụm 调成 trong tiêu đề và 题解 cũng đọc *tiáo chéng* theo đó.
+- Số chữ Hán bài 9–14 còn thiếu pinyin giảm còn 625 lần (209 chữ khác nhau).

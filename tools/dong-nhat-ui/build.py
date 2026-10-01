@@ -23,6 +23,9 @@ for _p in toc['parts']:
     if _p['name']=='Bài học':
         _p['sub']=re.sub(r'^\d+',str(int(re.match(r'\d+',_p['sub']).group(0))+len(_new)),_p['sub'])
 t=t[:_m.start(2)]+json.dumps(toc,ensure_ascii=False).replace('<','\\u003c')+t[_m.end(2):]
+_dm=re.search(r'(id="dict-data">)(.*?)(</script>)',t,re.S)
+_dd=json.loads(_dm.group(2)); _dd['W'].update(md2fz.dict_words())
+t=t[:_dm.start(2)]+json.dumps(_dd,ensure_ascii=False,separators=(',',':') if ', ' not in _dm.group(2)[:200] else None).replace('<','\\u003c')+t[_dm.end(2):]
 _fm=re.search(r'(<script type="application/json" id="src-fz">)(.*?)(</script>)',t,re.S)
 _fz=json.loads(_fm.group(2))
 _fz=must_replace(_fz,'</main>',md2fz.sections_html()+'\n</main>',label='fz sections')

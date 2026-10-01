@@ -68,7 +68,7 @@ def table_html(rows,vocab=False):
     if not cells: return ''
     head=cells[0]
     if vocab:
-        head=['#','词语','Loại từ','Nghĩa tiếng Việt'][:len(head)]
+        head=(['#','词语','Pinyin','Loại từ','Nghĩa tiếng Việt','English'] if len(head)==6 else ['#','词语','Loại từ','Nghĩa tiếng Việt'][:len(head)])
     h='<thead><tr>'+''.join('<th>%s</th>'%inline(c) for c in head)+'</tr></thead>'
     b='<tbody>'+''.join('<tr>'+''.join('<td>%s</td>'%inline(c) for c in r)+'</tr>' for r in cells[1:])+'</tbody>'
     return '<div class="tw"><table>%s%s</table></div>'%(h,b)
@@ -84,6 +84,72 @@ def role(t):
     if re.match(r'^综合练习',t): return 'ex'
     if re.match(r'^附录',t): return 'ap'
     return 'other'
+
+# ---- Bài 11: 题解 + 词语学习 lấy từ ảnh sách (tr.171–172); nghĩa tiếng Việt do người biên soạn dịch thêm, cần duyệt ----
+POS={'动':'动 — Động từ','名':'名 — Danh từ','形':'形 — Tính từ','副':'副 — Phó từ','连':'连 — Liên từ'}
+L11_JIETI_ZH='朋友，是不是有太多因素干扰你的生活和心情？那不妨试着把它们调成“飞行模式”吧，摆脱各种干扰，静听心灵之声，享受独处带来的内心的丰富。'
+L11_JIETI_VI='Bạn ơi, có phải có quá nhiều yếu tố đang gây nhiễu cuộc sống và tâm trạng của bạn không? Vậy sao không thử chuyển chúng sang “chế độ máy bay”, thoát khỏi mọi sự quấy nhiễu, lặng nghe tiếng nói của tâm hồn và tận hưởng sự phong phú nội tâm mà việc ở một mình mang lại.'
+L11_VOCAB=[
+(1,'调','tiáo','动','to adjust','Điều chỉnh'),
+(2,'模式','móshì','名','mode; pattern','Chế độ; mô thức'),
+(3,'颠簸','diānbǒ','动','to jolt; to shake up and down','Rung lắc; xóc nảy'),
+(4,'安抚','ānfǔ','动','to appease; to pacify','Trấn an; xoa dịu'),
+(5,'不安','bù\'ān','形','uneasy','Bất an; lo lắng'),
+(6,'一时','yìshí','名','a short while; a moment','Một lúc; nhất thời'),
+(7,'不由得','bùyóude','副','can\'t help (doing sth.)','Không kìm được; không thể không'),
+(8,'瞥见','piējiàn','动','to get a glimpse of','Thoáng thấy'),
+(9,'何况','hékuàng','连','moreover; what\'s more','Huống chi; hơn nữa'),
+(10,'出于','chūyú','动','to stem from; to be out of','Xuất phát từ; vì'),
+(11,'强迫','qiǎngpò','动','to compel; to force','Ép buộc; cưỡng ép'),
+(12,'惊奇','jīngqí','形','surprised; amazed','Ngạc nhiên; kinh ngạc'),
+(13,'浮躁','fúzào','形','restless; impulsive','Nôn nóng; bồn chồn'),
+(14,'冷静','lěngjìng','形','calm','Bình tĩnh'),
+(15,'屏蔽','píngbì','动','to shield','Che chắn; chặn'),
+(16,'外界','wàijiè','名','outside world','Thế giới bên ngoài'),
+(17,'干扰','gānrǎo','动','to disturb','Quấy nhiễu; làm phiền'),
+(18,'噪声','zàoshēng','名','noise','Tiếng ồn'),
+(19,'精英','jīngyīng','名','elite','Tinh hoa; người ưu tú'),
+(20,'打交道','dǎ jiāodao','动','to make contact with; to have dealings with','Giao thiệp; tiếp xúc với'),
+(21,'公寓','gōngyù','名','apartment','Căn hộ; chung cư'),
+(22,'负担','fùdān','名','burden; load','Gánh nặng'),
+(23,'空虚','kōngxū','形','empty; blank','Trống rỗng'),
+(24,'再三','zàisān','副','repeatedly; again and again','Nhiều lần; hết lần này đến lần khác'),
+(25,'辞','cí','动','to resign','Từ chức; xin thôi việc'),
+(26,'稳定','wěndìng','形','steady; stable','Ổn định'),
+(27,'体面','tǐmiàn','形','honorable; decent','Thể diện; đàng hoàng'),
+(28,'寂静','jìjìng','形','silent; quiet; noiseless','Tĩnh lặng; yên ắng'),
+(29,'终极','zhōngjí','名','ultimate; final','Tối thượng; cuối cùng'),
+(30,'打击','dǎjī','动','to attack; to strike','Đả kích; tấn công'),
+(31,'悲观','bēiguān','形','pessimistic; gloomy','Bi quan'),
+(32,'消极','xiāojí','形','passive; negative','Tiêu cực; thụ động'),
+(33,'宁静','níngjìng','形','tranquil; peaceful','Yên tĩnh; thanh bình'),
+(34,'尽头','jìntóu','名','end','Điểm cuối; tận cùng'),
+(35,'导致','dǎozhì','动','to lead to; to result in','Dẫn đến; gây ra'),
+(36,'浏览','liúlǎn','动','to glance over; to skim through','Lướt xem; duyệt qua'),
+(37,'设置','shèzhì','动','to set','Thiết lập; cài đặt'),
+(38,'当下','dāngxià','名','the present; the current','Hiện tại; lúc này')]
+def dict_words():
+    d={}
+    for n,w,py,pos,en,vi in L11_VOCAB:
+        if len(w)>1: d[w]='!'+' '.join(re.sub(r"'"," ",py).split(' ')) if False else None
+    out={}
+    for n,w,py,pos,en,vi in L11_VOCAB:
+        if len(w)<2: continue
+        if ' ' in py: syl=py.split(' ')
+        else:
+            syl=[];cur=''
+            # tách theo dấu ' và theo số chữ: dùng bảng chia sẵn
+            syl=SPLIT.get(w)
+        out[w]='!'+' '.join(syl)
+    out['调成']='!tiáo chéng'
+    return out
+SPLIT={'模式':['mó','shì'],'颠簸':['diān','bǒ'],'安抚':['ān','fǔ'],'不安':['bù','ān'],'一时':['yì','shí'],'不由得':['bù','yóu','de'],'瞥见':['piē','jiàn'],'何况':['hé','kuàng'],'出于':['chū','yú'],'强迫':['qiǎng','pò'],'惊奇':['jīng','qí'],'浮躁':['fú','zào'],'冷静':['lěng','jìng'],'屏蔽':['píng','bì'],'外界':['wài','jiè'],'干扰':['gān','rǎo'],'噪声':['zào','shēng'],'精英':['jīng','yīng'],'打交道':['dǎ','jiāo','dao'],'公寓':['gōng','yù'],'负担':['fù','dān'],'空虚':['kōng','xū'],'再三':['zài','sān'],'稳定':['wěn','dìng'],'体面':['tǐ','miàn'],'寂静':['jì','jìng'],'终极':['zhōng','jí'],'打击':['dǎ','jī'],'悲观':['bēi','guān'],'消极':['xiāo','jí'],'宁静':['níng','jìng'],'尽头':['jìn','tóu'],'导致':['dǎo','zhì'],'浏览':['liú','lǎn'],'设置':['shè','zhì'],'当下':['dāng','xià']}
+def l11_front():
+    rows=['| # | 词语 | Pinyin | Loại từ | Nghĩa tiếng Việt | English |','| :-- | :-- | :-- | :-- | :-- | :-- |']
+    for n,w,py,pos,en,vi in L11_VOCAB:
+        rows.append('| %d | %s | %s | %s | %s | %s |'%(n,w,py,POS[pos],vi,en))
+    return [('h',2,'题解 — Giới thiệu chủ đề'),('p',[L11_JIETI_ZH]),('p',[L11_JIETI_VI]),('h',2,'词语学习 — Học từ vựng'),('table',rows)]
+
 def lessons():
     md=open(SRC,encoding='utf-8').read()
     lines=clean(md)
@@ -102,6 +168,9 @@ def lessons():
             if m: c['vi']=m.group(1).rstrip('.'); bl.pop(0)
         # tiêu đề h3 "题解" ở bài 9 -> h2
         c['blocks']=[('h',2,b[2]) if b[0]=='h' and b[1]==3 and re.match(r'^(题解|词语学习|走进课文|课文旁问题|综合练习)',b[2]) else b for b in c['blocks']]
+    for c in L:
+        if c['n']==11 and not any(b[0]=='h' and b[2].startswith('词语学习') for b in c['blocks']):
+            c['blocks']=l11_front()+c['blocks']
     return L
 def lesson_html(c):
     out=[]

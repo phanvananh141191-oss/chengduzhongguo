@@ -37,7 +37,9 @@ function vtBuild(tb,opt){
   data.forEach(function(o,ri){var tr=document.createElement('tr');
     cols.forEach(function(k){var td=document.createElement('td');td.className='c-'+k+(k==='m'&&opt.semantic?' mv':'')+(k==='w'&&o.cls.w&&/\bw\b/.test(o.cls.w)?' w':'');
       if(k==='n')td.textContent=o.n?o.n.td.textContent.trim():String(ri+1);
-      else if(k==='w'){o.w.nodes.forEach(function(x){td.appendChild(x)});
+      else if(k==='w'){var wt=vtWord(o.w.td),pt=(o.p&&!em(o.p))?o.p.nodes.map(function(x){return x.textContent}).join('').trim():'';
+        if(wt.length===1&&/[\u3400-\u9fff]/.test(wt)&&pt&&!/\s/.test(pt)&&!o.w.td.querySelector('ruby')){var ru=document.createElement('ruby');ru.className='u-r';ru.appendChild(document.createTextNode(wt));var rtn=document.createElement('rt');rtn.setAttribute('data-p',pt);ru.appendChild(rtn);td.appendChild(ru)}
+        else o.w.nodes.forEach(function(x){td.appendChild(x)});
         if(o.p&&!em(o.p)){var sp=document.createElement('span');sp.className='ul-pyraw';sp.setAttribute('aria-hidden','true');o.p.nodes.forEach(function(x){sp.appendChild(x)});td.appendChild(sp)}}
       else if(k==='m'){if(!em(o.m))o.m.nodes.forEach(function(x){td.appendChild(x)})}
       else if(k==='x'){if(!em(o.x))o.x.nodes.forEach(function(x){td.appendChild(x)})}
