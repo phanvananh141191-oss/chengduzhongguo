@@ -1,0 +1,193 @@
+/* ===== ULAY · Giao diện bài học dùng chung (D1 · D2 · KY) ===== */
+html[data-u-book]{
+  --ul-w:920px;
+  --ul-hz:calc(23px*var(--u-scale,1));   /* chữ Hán vùng học chính */
+  --ul-py:calc(13px*var(--u-scale,1));   /* pinyin */
+  --ul-fs:calc(16px*var(--u-scale,1));   /* chữ Latin / tiếng Việt */
+  --ul-r:12px;
+  --ul-gap:16px;
+  --ul-acc:var(--u-ac2);
+}
+html[data-u-book].ul-serif{--u-font:"Noto Serif","Source Serif 4",Georgia,"Songti SC","Noto Serif SC",serif;--u-lat:"Noto Serif","Source Serif 4",Georgia,serif}
+html[data-u-book] body{font-family:var(--u-font)!important;font-size:var(--ul-fs)!important;line-height:1.7!important;background:var(--u-bg)!important;color:var(--u-fg)!important}
+html[data-u-book]{font-size:var(--ul-fs)!important}
+html[data-u-book] *:focus-visible{outline:2px solid var(--u-ac)!important;outline-offset:2px!important}
+html[data-u-book] button,html[data-u-book] summary{font-family:var(--u-font)}
+
+/* ---------- Khung nội dung ---------- */
+html[data-u-book] main{max-width:var(--ul-w)!important;margin:0 auto!important;padding:0 20px 96px!important;box-sizing:border-box!important}
+html[data-u-book] .wrap{display:block!important;max-width:none!important}
+html[data-u-book] .ul-lesson{max-width:var(--ul-w);margin:0 auto;padding:0;position:relative}
+html[data-u-book=ld] #lm .wrap,html[data-u-book=ld] #lm .ul-lesson{max-width:var(--ul-w)}
+
+/* ---------- Đầu bài ---------- */
+.ul-head{padding:22px 0 10px}
+.ul-kick{margin:0 0 4px;font:700 calc(14px*var(--u-scale,1))/1.4 var(--u-font);letter-spacing:0;text-transform:none;color:var(--u-ac)}
+html[data-u-book] header.ul-head{position:static!important;display:block!important;background:none!important;border:0!important;padding:22px 0 10px!important;box-shadow:none!important;z-index:auto}
+html[data-u-book] .ul-head h1{color:var(--u-fg)!important}
+.ul-head h1,html[data-u-book] .ul-head h1{margin:.1em 0 .1em!important;font:800 calc(30px*var(--u-scale,1))/1.5 var(--u-font)!important;color:var(--u-fg)!important}
+.ul-head h1 ruby,.ul-head .ul-title ruby{font-size:1em!important}
+.ul-title{margin:.1em 0 .1em;font:800 calc(30px*var(--u-scale,1))/1.5 var(--u-font);color:var(--u-fg)}
+.ul-no{display:none}
+.ul-vi{margin:0 0 6px;color:var(--u-mut);font-size:calc(16px*var(--u-scale,1));line-height:1.5}
+.ul-dup{display:none!important}
+.ul-crumb{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:calc(13px*var(--u-scale,1));color:var(--u-mut);margin:0 0 6px}
+.ul-crumb .cr,.ul-crumb .chip{min-height:44px}
+
+/* ---------- Thanh chọn phần học ---------- */
+.ul-tabs{position:sticky;top:0;z-index:20;display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;padding:8px 0;margin:0 0 8px;background:var(--u-bg);border-bottom:1px solid var(--u-line);scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.ul-tabs button{flex:0 0 auto;min-height:44px;min-width:44px;padding:0 16px;border:1px solid var(--u-line);background:var(--u-card);color:var(--u-fg);border-radius:99px;font:600 calc(14px*var(--u-scale,1)) var(--u-font);cursor:pointer;white-space:nowrap}
+.ul-tabs button:hover{background:var(--u-ghost)}
+.ul-tabs button[aria-selected=true]{background:var(--u-fg);color:var(--u-bg);border-color:var(--u-fg)}
+.ul-tabs button.ul-t-empty{color:var(--u-mut);border-style:dashed}
+.ul-tabs button.ul-t-empty[aria-selected=true]{color:var(--u-bg)}
+html[data-u-book=ld] #lm .ul-tabs{top:0}
+
+/* ---------- Các phần ---------- */
+.ul-pane{display:none;padding:0 0 8px}
+.ul-pane.on{display:block}
+html.ul-all .ul-pane{display:block;margin-top:8px}
+.ul-pane>.ul-ph{display:none;margin:1.6em 0 .6em;padding:.05em 0 .05em .7em;border-left:4px solid var(--u-ac);font:700 calc(21px*var(--u-scale,1))/1.6 var(--u-font)}
+html.ul-all .ul-pane>.ul-ph,.ul-pane.ul-empty>.ul-ph{display:block}
+.ul-pane.ul-empty>.ul-pb{display:none}
+.ul-pane.ul-empty{padding-bottom:0}
+html.ul-all .ul-pane.ul-empty>.ul-ph{margin:1em 0 .2em}
+.ul-pb{min-width:0}
+.ul-pb>*:first-child{margin-top:0}
+
+/* ---------- Tiêu đề, thẻ, ghi chú, nút dùng chung ---------- */
+html[data-u-book] .ul-pb h2,html[data-u-book] .ul-pb h3,html[data-u-book] .ul-pb h4{color:var(--u-fg)!important;line-height:1.6!important}
+html[data-u-book] .ul-pb h2{border:0!important;border-left:4px solid var(--u-ac)!important;background:none!important;border-radius:0!important;padding:.05em 0 .05em .7em!important;font:700 calc(21px*var(--u-scale,1))/1.6 var(--u-font)!important;margin:1.7em 0 .7em!important}
+html[data-u-book] .ul-pb h3{font:700 calc(18px*var(--u-scale,1))/1.6 var(--u-font)!important;margin:1.4em 0 .5em!important}
+html[data-u-book] .ul-pb h4{font:700 calc(15px*var(--u-scale,1))/1.5 var(--u-font)!important;margin:1.2em 0 .4em!important;letter-spacing:0!important;text-transform:none!important}
+html[data-u-book] .card,html[data-u-book] .sec,html[data-u-book] .note,html[data-u-book] .ul-card,html[data-u-book] details.ans{background:var(--u-card)!important;border:1px solid var(--u-line)!important;border-radius:var(--ul-r)!important;padding:12px 16px!important;margin:10px 0!important;box-shadow:none!important;color:var(--u-fg)}
+html[data-u-book] .sec{border-top:1px solid var(--u-line)!important}
+html[data-u-book] .note{border-left:4px solid var(--u-ac2)!important;background:var(--u-soft)!important}
+html[data-u-book] .card.txt{padding:14px 18px!important}
+html[data-u-book] .ul-pb p{margin:.5em 0}
+html[data-u-book] .ul-pb ol,html[data-u-book] .ul-pb ul{padding-left:1.5em}
+html[data-u-book] .ul-pb li{margin:.35em 0}
+.ul-meta{color:var(--u-mut);font-size:calc(14px*var(--u-scale,1));margin:.4em 0}
+
+html[data-u-book] .b,html[data-u-book] .uxb button,html[data-u-book] .uxp button,html[data-u-book] button.tb,html[data-u-book] .btn{min-height:44px;min-width:44px;padding:0 16px;border:1px solid var(--u-ac2);background:var(--u-soft);color:var(--u-ac2);border-radius:99px;font:600 calc(14px*var(--u-scale,1)) var(--u-font);cursor:pointer;margin:6px 6px 0 0;line-height:1.2}
+html[data-u-book] .b:hover,html[data-u-book] .uxb button:hover,html[data-u-book] .uxp button:hover,html[data-u-book] button.tb:hover{filter:brightness(.97)}
+html[data-u-book] .uxb button.act{background:var(--u-ac2);color:var(--u-bg)}
+html[data-u-book] button.tb{padding:0 14px}
+html[data-u-book] button.tb[aria-pressed=true]{background:var(--u-ac2);color:var(--u-bg)}
+
+/* ---------- Bảng ---------- */
+.tw,.w,.vtw,.ul-tw{overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch}
+html[data-u-book] .ul-pb table{border-collapse:collapse;max-width:100%;font-size:calc(15px*var(--u-scale,1))}
+html[data-u-book] .ul-pb th{background:var(--u-ghost)!important;font-weight:700;color:var(--u-mut);text-align:left;padding:8px 10px;border:1px solid var(--u-line)!important}
+html[data-u-book] .ul-pb td{padding:8px 10px;border:1px solid var(--u-line)!important;vertical-align:top;white-space:normal!important}
+html[data-u-book] .ul-pb table.vt,html[data-u-book] .ul-pb table.std{display:table!important}
+
+/* ---------- Từ vựng ---------- */
+html[data-u-book] table.ul-vt{display:table!important;width:100%;border-collapse:collapse;border:0!important;margin:0}
+html[data-u-book] table.ul-vt th{border:0!important;border-bottom:2px solid var(--u-line)!important;font-size:calc(13px*var(--u-scale,1));white-space:nowrap}
+html[data-u-book] table.ul-vt td{border:0!important;border-bottom:1px solid var(--u-line)!important;padding:10px}
+html[data-u-book] table.ul-vt tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--u-ghost) 45%,transparent)}
+.ul-vt .c-n{width:2.4em;color:var(--u-mut);font-size:calc(13px*var(--u-scale,1));font-variant-numeric:tabular-nums}
+.ul-vt .c-w{min-width:6.5em;font-weight:700;color:var(--vt-c,var(--u-fg));white-space:nowrap}
+.ul-vt .c-m{min-width:9em}
+.ul-vt .c-x{min-width:14em}
+.ul-vt .c-d{width:7.5em}
+.ul-vt .c-p,.ul-vt .c-t,.ul-vt .c-hv,.ul-vt .c-e{display:none}
+.ul-det{margin:0}
+.ul-det>summary{cursor:pointer;color:var(--u-ac2);font-size:calc(13px*var(--u-scale,1));font-weight:600;min-height:32px;display:inline-flex;align-items:center;list-style:none}
+.ul-det>summary::-webkit-details-marker{display:none}
+.ul-det>summary::before{content:"▸";margin-right:.35em;transition:transform .15s}
+.ul-det[open]>summary::before{transform:rotate(90deg)}
+.ul-det dl{margin:.3em 0 0;display:grid;grid-template-columns:auto 1fr;gap:.2em .8em;font-size:calc(14px*var(--u-scale,1))}
+.ul-det dt{color:var(--u-mut);font-weight:600}
+.ul-det dd{margin:0}
+.ul-det dd.hv{font-style:italic;color:var(--u-py)}
+.ul-pyraw{display:none!important}
+.ul-vt .c-e-on{display:block}
+main.en .ul-det dt.k-e,main.en .ul-det dd.k-e{display:block}
+.ul-det .k-e{display:none}
+
+/* ---------- Hán / pinyin / Việt ---------- */
+html[data-u-book] ruby{ruby-position:over;ruby-align:center;font-size:1.3em}
+html[data-u-book] rt{font-size:var(--ul-py)!important;font-weight:500!important;font-family:var(--u-lat)!important;letter-spacing:0!important;padding:0 .1em!important;color:var(--u-py)!important;line-height:1.2}
+html[data-u-book] .ul-zh,html[data-u-book] .ul-zh ruby{font-size:var(--ul-hz)}
+html[data-u-book] .ul-zh ruby{font-size:1em}
+html[data-u-book] h1 ruby,html[data-u-book] h2 ruby,html[data-u-book] h3 ruby,html[data-u-book] h4 ruby,html[data-u-book] th ruby,html[data-u-book] summary ruby,html[data-u-book] .ul-tabs ruby,html[data-u-book] button ruby{font-size:1em}
+html[data-u-book] .ul-zh{font-size:var(--ul-hz)!important;line-height:2.15!important;font-family:var(--u-hanf)}
+html[data-u-book].u-nopy .ul-zh{line-height:1.8!important}
+html[data-u-book] .ul-pb p,html[data-u-book] .ul-pb li,html[data-u-book] .ul-pb td{line-height:1.9}
+html[data-u-book]:not(.u-nopy) .ul-pb p:has(ruby),html[data-u-book]:not(.u-nopy) .ul-pb li:has(ruby){line-height:2.1}
+html[data-u-book] .ul-vi-line,html[data-u-book] .tr,html[data-u-book] .ln.lv,html[data-u-book] .svi{font-size:var(--ul-fs);line-height:1.6;color:var(--u-mut);font-family:var(--u-font);font-style:normal;margin:.2em 0 .8em;padding-left:.7em;border-left:3px solid var(--u-line)}
+html[data-u-book] .ln.lv{display:block}
+html[data-u-book].ul-notr .svi,html[data-u-book].ul-notr .ln.lv,html[data-u-book].ul-notr .tr{display:none!important}
+/* dòng pinyin riêng bị ẩn (đã có ruby trên chữ Hán); dữ liệu vẫn còn trong trang */
+html[data-u-book] .lp,html[data-u-book] .ln.lp,html[data-u-book] .spy,html[data-u-book] .pin.spy,html[data-u-book] .ul-pydup{display:none!important}
+html[data-u-book] .ln.lz{font-size:var(--ul-hz);line-height:2.15;margin:.5em 0 0}
+html[data-u-book].u-nopy .ln.lz{line-height:1.8}
+.ul-spk{display:inline-block;min-width:3.2em;margin-right:.5em;font-weight:700;color:var(--u-ac);font-size:calc(15px*var(--u-scale,1))}
+.ul-dlg p{margin:.2em 0 .6em!important}
+
+/* ---------- Bài tập ---------- */
+html[data-u-book] .uxp{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;border:1px solid var(--u-line)!important;background:var(--u-card)!important;border-radius:var(--ul-r)!important;padding:10px 14px!important;margin:0 0 12px!important;font-size:calc(14px*var(--u-scale,1))!important}
+.uxp .ul-m{display:inline-flex;gap:.4em;align-items:baseline}
+.uxp .ul-m b{color:var(--u-mut);font-weight:600}
+.uxp .ul-m span{font-variant-numeric:tabular-nums;font-weight:700}
+.uxp .uxbar{flex:1 0 100%;height:6px;border-radius:3px;background:var(--u-line)!important;margin:2px 0 0!important;overflow:hidden}
+.uxp .uxbar i{display:block;height:100%;background:var(--u-ac2)!important}
+html[data-u-book] .uxb{display:flex;flex-wrap:wrap;gap:2px 0;align-items:center;margin-top:8px}
+html[data-u-book] .uxb .sc{margin-left:6px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--u-mut)}
+html[data-u-book] input[data-a],html[data-u-book] input.uw,html[data-u-book] .ul-pb input[type=text]{font:inherit;min-width:3.5em;min-height:36px;border:0;border-bottom:2px solid var(--u-mut);border-radius:0;background:transparent;color:inherit;text-align:center;padding:0 4px;vertical-align:baseline}
+html[data-u-book] input[data-a].ok,html[data-u-book] select[data-a].ok{color:#1a8f4a;border-color:#1a8f4a}
+html[data-u-book] input[data-a].no,html[data-u-book] select[data-a].no{color:var(--u-ac);border-color:var(--u-ac)}
+html[data-u-book] input[type=checkbox]{width:22px;height:22px;accent-color:var(--u-ac2);vertical-align:-5px}
+html[data-u-book] .ans{background:var(--u-soft);color:var(--u-ac2);padding:8px 12px;border-radius:8px;margin-top:6px;font-size:calc(15px*var(--u-scale,1))}
+html[data-u-book] textarea{width:100%;min-height:7em;font:inherit;background:var(--u-card);color:inherit;border:1px solid var(--u-line);border-radius:8px;padding:8px}
+
+/* ---------- Ngữ pháp / mẫu câu ---------- */
+.ul-gram .ul-gf{margin:.35em 0}
+.ul-gram .ul-gl{display:inline-block;min-width:4.6em;margin-right:.6em;font-size:calc(12px*var(--u-scale,1));font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--u-ac2)}
+
+/* ---------- Hoạt động (KY) ---------- */
+.ul-act{background:var(--u-card);border:1px solid var(--u-line);border-radius:var(--ul-r);padding:12px 16px;margin:12px 0}
+.ul-act>*:first-child{margin-top:0}
+.ul-act>*:last-child{margin-bottom:0}
+.ul-act>.tw{margin:.6em 0}
+
+/* ---------- Điện thoại ---------- */
+@media(max-width:700px){
+  html[data-u-book] main{padding:0 14px 90px!important}
+  .ul-head h1,html[data-u-book] .ul-head h1,.ul-title{font-size:calc(26px*var(--u-scale,1))!important}
+  html[data-u-book] .card,html[data-u-book] .sec,html[data-u-book] .ul-act{padding:10px 12px!important}
+  /* bảng từ vựng -> thẻ dọc */
+  html[data-u-book] table.ul-vt,.ul-vt thead,.ul-vt tbody,.ul-vt tr,.ul-vt td{display:block!important;width:100%}
+  .ul-vt thead{display:none!important}
+  .ul-vt tr{padding:10px 0;border-bottom:1px solid var(--u-line)}
+  html[data-u-book] table.ul-vt td{border:0!important;padding:2px 0!important;background:none!important}
+  .ul-vt .c-n{display:none!important}
+  .ul-vt .c-w{font-size:var(--ul-hz);white-space:normal;min-width:0}
+  .ul-vt .c-m,.ul-vt .c-x{min-width:0}
+  .ul-vt td:empty{display:none!important}
+}
+@media(prefers-reduced-motion:reduce){.ul-det>summary::before{transition:none}}
+html[data-u-book] td.ul-zh,html[data-u-book] .ul-vt .c-x.ul-zh{font-size:calc(19px*var(--u-scale,1))!important;line-height:2.1!important}
+html[data-u-book] .ul-vt .c-w.ul-zh{font-size:var(--ul-hz)!important}
+.uxp .ul-m{margin-right:1.1em}
+@media(max-width:560px){.tools .tbn .ti{display:none}}
+
+/* ---------- nhãn trường ngữ pháp ---------- */
+.ul-gf{margin:.3em 0}
+.ul-gf::before{content:attr(data-gl);display:block;font:700 calc(11.5px*var(--u-scale,1))/1.6 var(--u-font);letter-spacing:.05em;text-transform:uppercase;color:var(--u-ac2);margin-bottom:1px}
+.ul-gf-ct{font-size:calc(17px*var(--u-scale,1))}
+html[data-u-book=ld] .gcard .gexpl::before,html[data-u-book=ld] .gcard .gex-list::before,html[data-u-book=ld] .gcard .gtitle::before{display:block;font:700 calc(11.5px*var(--u-scale,1))/1.6 var(--u-font);letter-spacing:.05em;text-transform:uppercase;color:var(--u-ac2)}
+html[data-u-book=ld] .gcard .gtitle::before{content:"Cấu trúc"}
+html[data-u-book=ld] .gcard .gexpl::before{content:"Giải thích"}
+html[data-u-book=ld] .gcard .gex-list::before{content:"Ví dụ"}
+html[data-u-book=ld] .gcard{background:var(--u-card)!important;border:1px solid var(--u-line)!important;border-radius:var(--ul-r)!important;box-shadow:none!important;padding:12px 16px!important;margin:10px 0!important}
+
+@media(max-width:900px){.ul-det>summary{min-height:44px;min-width:44px}}
+html[data-u-book=ld] .ul-lesson .cr,html[data-u-book=ld] .ul-lesson .ref,html[data-u-book=ld] .ul-lesson .btn,html[data-u-book=ld] .ul-lesson .chip,html[data-u-book=ld] .ul-lesson .speakbtn,html[data-u-book=ld] .ul-lesson button.vw{min-height:44px;min-width:44px}
+html[data-u-book=ld] .ul-lesson .speakbtn{display:inline-grid;place-items:center}
+@media(max-width:900px){html[data-u-book] .ul-lesson summary{min-height:44px}}
+
+/* sơ đồ vẽ bằng ký tự khung: giữ nguyên dòng, cuộn ngang trong khung riêng */
+html[data-u-book] .ul-diagram{display:block;white-space:pre;overflow-x:auto;max-width:100%;font-size:calc(15px*var(--u-scale,1));line-height:2.2;background:var(--u-ghost);border-radius:8px;padding:8px 12px}
