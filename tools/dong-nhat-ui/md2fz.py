@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # Chuyển file bản dịch song ngữ (md) của 发展汉语 II bài 9–14 thành các <section class="les"> cho D2.
-import re,html,os
+import re,html,os,sys
+sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
+import csvdata
 HERE=os.path.dirname(os.path.abspath(__file__))
 SRC=os.path.join(HERE,'nguon','ban-dich-bai-9-14.md')
 CJK=re.compile(r'[㐀-鿿]')
@@ -172,6 +174,57 @@ def lessons():
         if c['n']==11 and not any(b[0]=='h' and b[2].startswith('词语学习') for b in c['blocks']):
             c['blocks']=l11_front()+c['blocks']
     return L
+
+def vocab_table(rows):
+    cells=[[c.strip() for c in r.strip().strip('|').split('|')] for r in rows]
+    cells=[c for c in cells if not all(re.match(r'^:?-+:?$',x) for x in c)]
+    body=cells[1:]; six=len(cells[0])==6
+    head=['#','词语','Pinyin','Loại từ','Hán Việt','Nghĩa tiếng Việt']+(['English'] if six else [])
+    out=[]
+    for c in body:
+        w=c[1]; r=csvdata.lookup(w)
+        if six: n,_,py,pos,vi,en=c
+        else:
+            n,_,pos,vi=c; en=''; py=(r['pinyin'].strip() if r else '')
+        hv=(r['han_viet'].strip() if r else '')
+        row=[n,w,py,pos,hv,vi]+([en] if six else [])
+        out.append(row)
+    return head,out
+def cells_table(head,rows):
+    h='<thead><tr>'+''.join('<th>%s</th>'%inline(c) for c in head)+'</tr></thead>'
+    b='<tbody>'+''.join('<tr>'+''.join('<td>%s</td>'%inline(c) for c in r)+'</tr>' for r in rows)+'</tbody>'
+    return '<div class="tw"><table>%s%s</table></div>'%(h,b)
+def dict_updates(present,C,W):
+    """trả về (C_mới, W_mới) lấy từ kho từ vựng CSV cho chữ chưa có pinyin"""
+    R=csvdata.rows(); newC={}; newW={}
+    for ch in present:
+        if ch in C: continue
+        r=R.get(ch)
+        if r and r['pinyin'] and not re.search(r'[\s/,;、]',r['pinyin'].strip()): newC[ch]=r['pinyin'].strip()
+    for w,r in R.items():
+        if not (2<=len(w)<=6) or not r['pinyin'] or w in W: continue
+        if not all('\u3400'<=c<='\u9fff' for c in w): continue
+        if not any((c not in C) for c in w if c in present or True): continue
+        if not any(c not in C and c in present for c in w): continue
+        sy=csvdata.syllables(w,r['pinyin'])
+        if sy: newW[w]=' '.join(sy)
+    # từ vựng bài 9–14 (kể cả khi mọi chữ đã có pinyin riêng)
+    for c in lessons():
+        for b in c['blocks']:
+            pass
+    return newC,newW
+def vocab_words():
+    ws=set()
+    for c in lessons():
+        st=None
+        for b in c['blocks']:
+            if b[0]=='h' and b[1]==2: st=b[2]
+            if b[0]=='table' and st and st.startswith('词语学习'):
+                for r in b[1]:
+                    cc=[x.strip() for x in r.strip().strip('|').split('|')]
+                    if len(cc)>1 and re.match(r'^\d+$',cc[0]): ws.add(cc[1])
+    return ws
+
 def lesson_html(c):
     out=[]
     zh=c['zh']
@@ -215,7 +268,9 @@ def lesson_html(c):
                 out.append('<li value="%d">%s</li>'%(num,para_html(parts)))
             out.append('</ol>'); continue
         if b[0]=='table':
-            out.append(table_html(b[1],vocab=(state=='vo'))); continue
+            if state=='vo':
+                hd,rw=vocab_table(b[1]); out.append(cells_table(hd,rw))
+            else: out.append(table_html(b[1])); continue
     close_item()
     out.append('</section>')
     return '\n'.join(out)

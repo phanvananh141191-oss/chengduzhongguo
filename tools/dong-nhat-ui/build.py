@@ -25,6 +25,22 @@ for _p in toc['parts']:
 t=t[:_m.start(2)]+json.dumps(toc,ensure_ascii=False).replace('<','\\u003c')+t[_m.end(2):]
 _dm=re.search(r'(id="dict-data">)(.*?)(</script>)',t,re.S)
 _dd=json.loads(_dm.group(2)); _dd['W'].update(md2fz.dict_words())
+import csvdata
+_present=set()
+for _b in ('fz','ky','ld'):
+    _mm=re.search(r'<script type="application/json" id="src-%s">(.*?)</script>'%_b,t,re.S)
+    _present|=set(re.findall(r'[\u3400-\u9fff]',_mm.group(1)))
+_present|=set(re.findall(r'[\u3400-\u9fff]',open(md2fz.SRC,encoding='utf-8').read()))
+_nc,_nw=md2fz.dict_updates(_present,_dd['C'],_dd['W'])
+for _k,_v in _nc.items(): _dd['C'].setdefault(_k,_v)
+for _k,_v in _nw.items(): _dd['W'].setdefault(_k,_v)
+_R=csvdata.rows(); _extra=0
+for _w in md2fz.vocab_words():
+    _r=_R.get(_w)
+    if _r and len(_w)>1 and _w not in _dd['W'] and _r['pinyin']:
+        _sy=csvdata.syllables(_w,_r['pinyin'])
+        if _sy: _dd['W'][_w]=' '.join(_sy); _extra+=1
+print('từ điển pinyin bổ sung từ CSV: chữ',len(_nc),'từ',len(_nw),'+ từ vựng bài 9-14',_extra)
 t=t[:_dm.start(2)]+json.dumps(_dd,ensure_ascii=False,separators=(',',':') if ', ' not in _dm.group(2)[:200] else None).replace('<','\\u003c')+t[_dm.end(2):]
 _fm=re.search(r'(<script type="application/json" id="src-fz">)(.*?)(</script>)',t,re.S)
 _fz=json.loads(_fm.group(2))

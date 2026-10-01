@@ -70,3 +70,10 @@ Mọi đoạn, câu, ô bảng và mục danh sách trong file nguồn đều c�
 - **Cần duyệt:** bản dịch tiếng Việt của 题解 và nghĩa tiếng Việt của 38 từ do mình dịch thêm (sách chỉ có tiếng Anh). Nghĩa tiếng Anh nằm trong *Chi tiết*, hiện khi bật tùy chọn *Cột English*.
 - Pinyin của 36 từ nhiều chữ trong bảng được đưa vào từ điển pinyin (nguồn: ảnh sách). Chữ 调 đọc *tiáo* theo ảnh; cụm 调成 trong tiêu đề và 题解 cũng đọc *tiáo chéng* theo đó.
 - Số chữ Hán bài 9–14 còn thiếu pinyin giảm còn 625 lần (209 chữ khác nhau).
+
+## Bổ sung từ kho từ vựng `kho-tu-vung-obsidian.csv`
+Nguồn: `tools/dong-nhat-ui/nguon/kho-tu-vung-obsidian.csv` (14.697 từ). Mã: `tools/dong-nhat-ui/csvdata.py`.
+- **Bảng từ vựng bài 9–14:** thêm cột Pinyin (hiện trên chữ Hán) và Hán Việt (trong *Chi tiết*) cho 167 trên 216 từ có trong kho. 49 từ không có trong kho (như 嫩绿 沐浴 闷热 颠簸 瞥见 屏蔽 终极 咆哮…) vẫn để trống hai trường này. Bài 11 giữ pinyin theo ảnh sách. Nghĩa tiếng Việt giữ nguyên như file bản dịch.
+- **Từ điển pinyin:** thêm 65 chữ đơn, 509 từ ghép và 60 từ vựng bài 9–14 từ kho, chỉ cho chữ trước đó chưa có pinyin. Chữ Hán thiếu pinyin ở bài 9–14 giảm từ 625 xuống 323 lần xuất hiện (103 chữ khác nhau). Lỗi pinyin của KY bài 2 giảm từ 3 chữ xuống 2.
+- **Khác biệt cần biết:** kho ghi 一时 là *yīshí*, ảnh sách ghi *yìshí* → giữ theo sách. Kho có hai cách đọc cho 调 (*diào*, *tiáo*) → bài 11 giữ *tiáo* theo sách.
+- Các từ ghép thêm vào từ điển có thể đổi cách đọc ở những chỗ khác trong file nếu từ đó xuất hiện (chỉ với từ chứa chữ trước đó chưa có pinyin).
