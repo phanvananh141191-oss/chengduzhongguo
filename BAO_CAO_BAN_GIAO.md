@@ -57,7 +57,7 @@ Nguồn: `tools/dong-nhat-ui/nguon/ban-dich-bai-9-14.md`. Bộ chuyển đổi: 
 - Chỗ trống trong bài tập giữ nguyên, **không điền đáp án**. Bài tập của 9–14 là dạng văn bản tĩnh, vì file nguồn không có đáp án nên không có nút Kiểm tra / Xem đáp án.
 
 ## Phần còn thiếu (theo ghi chú của file nguồn, để trống)
-- Bài 11: thiếu trang 182–184 và 186 ở phần bài tập (chưa có nguồn).
+- Bài 11: còn thiếu trang 183 (bài tập 六 và các câu đầu của bài 七). Trang 186 là trang kẻ ô nên không có nội dung cần thêm.
 - Trang 219 (bài 13) và 236 (bài 14) chỉ là ô vuông trống theo xác nhận của bạn, không có nội dung cần bổ sung.
 - Bảng từ vựng bài 9, 10, 12, 13, 14 chỉ có *Từ vựng · Loại từ · Nghĩa*, không có pinyin, ví dụ hay Hán Việt (nguồn chỉ có thế), nên cột Ví dụ bị ẩn. Nếu bạn có ảnh các trang từ vựng của các bài này, mình bổ sung được pinyin và nghĩa tiếng Anh như bài 11.
 - **Pinyin:** file nguồn không có pinyin, từ điển nhúng trong file không có 211 chữ Hán khác nhau (634 lần xuất hiện, chẳng hạn 摸 嫩 芽 煤 魂…). Những chữ này để trống pinyin, không tự sinh âm đọc. 32.132 chữ còn lại có pinyin. Nếu bạn muốn bổ sung pinyin cho 211 chữ này thì cần bạn duyệt nguồn pinyin.
@@ -77,3 +77,9 @@ Nguồn: `tools/dong-nhat-ui/nguon/kho-tu-vung-obsidian.csv` (14.697 từ). Mã:
 - **Từ điển pinyin:** thêm 65 chữ đơn, 509 từ ghép và 60 từ vựng bài 9–14 từ kho, chỉ cho chữ trước đó chưa có pinyin. Chữ Hán thiếu pinyin ở bài 9–14 giảm từ 625 xuống 323 lần xuất hiện (103 chữ khác nhau). Lỗi pinyin của KY bài 2 giảm từ 3 chữ xuống 2.
 - **Khác biệt cần biết:** kho ghi 一时 là *yīshí*, ảnh sách ghi *yìshí* → giữ theo sách. Kho có hai cách đọc cho 调 (*diào*, *tiáo*) → bài 11 giữ *tiáo* theo sách.
 - Các từ ghép thêm vào từ điển có thể đổi cách đọc ở những chỗ khác trong file nếu từ đó xuất hiện (chỉ với từ chứa chữ trước đó chưa có pinyin).
+
+## Bổ sung bài 11 tr.182 và tr.184 từ ảnh sách
+- Tab Luyện tập bài 11 đã có các bài tập 四 (chọn từ điền chỗ trống, kèm bảng từ), 五 (câu 1–7), các câu 4–8 của bài tập viết lại câu (tr.184), 八, 九 (bảng gợi ý và đoạn đầu hội thoại). Đoạn hội thoại tr.185 đã có từ trước nối tiếp ngay sau bài 九.
+- Chỗ trống giữ nguyên, không điền đáp án. **Bản dịch tiếng Việt do mình dịch thêm, cần duyệt.**
+- Các câu 4–8 (tr.184) nằm dưới tiêu đề trung tính “（续）”, vì tiêu đề bài tập chứa các câu đầu ở tr.183 chưa có nên mình không ghi.
+- Thứ tự và khóa lưu bài làm của các bài khác không bị ảnh hưởng.

@@ -152,6 +152,49 @@ def l11_front():
         rows.append('| %d | %s | %s | %s | %s | %s |'%(n,w,py,POS[pos],vi,en))
     return [('h',2,'题解 — Giới thiệu chủ đề'),('p',[L11_JIETI_ZH]),('p',[L11_JIETI_VI]),('h',2,'词语学习 — Học từ vựng'),('table',rows)]
 
+# ---- Bài 11 bài tập tr.182 và tr.184 (từ ảnh sách); bản dịch tiếng Việt do người biên soạn dịch thêm, cần duyệt ----
+B8='＿＿＿＿＿＿'
+def _ol(items): return ('ol',[(i+1,[z,v]) for i,(z,v) in enumerate(items)])
+def l11_exercises():
+    b=[]
+    b+=[('h',3,'四、选择合适的词语填空'),('p',['Chọn từ ngữ thích hợp điền vào chỗ trống'])]
+    b+=[('p',['浮躁　于　导致　浏览　调　强迫　专注　出于　干扰　不由得　刷']),
+        ('p',['Nôn nóng · Ở, vào (giới từ) · Dẫn đến · Duyệt, lướt xem · Điều chỉnh · Ép buộc · Tập trung · Xuất phát từ · Quấy nhiễu · Không kìm được · Quẹt, lướt (màn hình).'])]
+    b+=[('p',['随着手机功能的增加，人们使用手机的场景日渐增多，使用手机的时间更是成倍增长。很多人%s发出这样的感叹：手机打败了电视，打败了电脑，打败了游戏机……'%B8]),
+        ('p',['Cùng với việc chức năng của điện thoại ngày càng nhiều, các tình huống con người dùng điện thoại ngày càng tăng, thời gian dùng điện thoại lại càng tăng gấp bội. Rất nhiều người %s thốt lên rằng: điện thoại đã đánh bại ti vi, đánh bại máy tính, đánh bại máy chơi game……'%B8]),
+        ('p',['手机的确给我们带来了很多便利，但同时也带来了害处。首先，手机大大改变了我们的阅读习惯，很多人不再习惯%s专心阅读，而是变成了%s，这一习惯的改变%s我们整个人都变了样子。我们变得心生%s，做事不再%s，被那个什么都不是的手机搞得失魂落魄，三心二意。其次，我无数次看到开车的、骑车的，一路走一路%s手机，弄得马路上险象环生。我还看到过，边走边看手机，一头撞在电线杆子上的事。当然，医生给病人看病，抽空还要“关照”一下手机的情况也是屡见不鲜，%s对自己负责，也是对他人负责，这些现象真的不应该再存在了。'%((B8,)*7)]),
+        ('p',['Điện thoại quả thực mang lại cho chúng ta rất nhiều tiện lợi, nhưng đồng thời cũng mang đến tác hại. Trước hết, điện thoại đã thay đổi rất nhiều thói quen đọc của chúng ta: nhiều người không còn quen %s đọc tập trung nữa mà trở thành %s; sự thay đổi thói quen này %s cả con người chúng ta đều đổi khác. Chúng ta trở nên %s trong lòng, làm việc không còn %s nữa, bị chiếc điện thoại chẳng là gì ấy làm cho thẫn thờ, mất hồn, ba lòng hai ý. Tiếp theo, tôi đã vô số lần thấy người lái xe, người đạp xe vừa đi vừa %s điện thoại, khiến trên đường nguy hiểm rình rập. Tôi còn từng thấy người vừa đi vừa xem điện thoại rồi đâm đầu vào cột điện. Dĩ nhiên, bác sĩ khám bệnh cho bệnh nhân mà tranh thủ còn “để mắt” xem tình hình điện thoại cũng là chuyện thường thấy; %s chịu trách nhiệm với bản thân, cũng là chịu trách nhiệm với người khác. Những hiện tượng này thật sự không nên tồn tại nữa.'%((B8,)*7)]),
+        ('p',['说句时髦的话，请%s你自己把手机%s成飞行模式或者干脆关机，这样才能免去外界的%s，一心一意做事。你觉得对吗？'%((B8,)*3)]),
+        ('p',['Nói một câu thời thượng, xin hãy %s bạn tự chuyển điện thoại %s thành chế độ máy bay hoặc dứt khoát tắt máy, như vậy mới tránh được %s từ thế giới bên ngoài và một lòng một dạ làm việc. Bạn thấy đúng không?'%((B8,)*3)])]
+    b+=[('h',3,'五、用指定词语完成句子'),('p',['Hoàn thành câu bằng từ ngữ được chỉ định'])]
+    b+=[_ol([
+      ('据说这种花草的香味具有%s。（安抚）'%B8,'Nghe nói hương thơm của loài hoa cỏ này có tác dụng %s. (安抚 — trấn an)'%B8),
+      ('三层玻璃就能有效地%s，让我们免受干扰吗？（隔绝）'%B8,'Chỉ cần kính ba lớp là có thể %s một cách hiệu quả, giúp chúng ta khỏi bị quấy nhiễu phải không? (隔绝 — cách ly)'%B8),
+      ('%s，不妨听一听轻音乐，让心静下来。（浮躁）'%B8,'%s, bạn thử nghe một chút nhạc nhẹ để lòng tĩnh lại. (浮躁 — nôn nóng)'%B8),
+      ('有人说，你常%s，你就会变成什么样的人。（打交道）'%B8,'Có người nói, bạn thường %s, bạn sẽ trở thành kiểu người như thế. (打交道 — giao thiệp)'%B8),
+      ('咱们出去旅游别住%s，据说民宿又便宜又舒服。（高档）'%B8,'Chúng ta đi du lịch đừng ở %s, nghe nói nhà dân vừa rẻ vừa thoải mái. (高档 — cao cấp)'%B8),
+      ('我好像感冒了，发烧，流鼻涕，还%s。（浑身）'%B8,'Hình như tôi bị cảm, sốt, sổ mũi, lại còn %s. (浑身 — toàn thân)'%B8),
+      ('她的%s，现在正在为实现理想而努力呢。（理想）'%B8,'Cái %s của cô ấy, hiện giờ cô ấy đang nỗ lực để thực hiện lý tưởng đấy. (理想 — lý tưởng)'%B8)])]
+    # tr.184: các câu 4–8 của mục dùng từ chỉ định để viết lại câu (các câu đầu ở tr.183 chưa có)
+    b+=[('h',3,'（续）'),_ol([
+      ('你想事情不能总往不好的方面想，要多想它好的一面。%s（悲观）'%B8,'Bạn nghĩ sự việc không thể lúc nào cũng nghĩ theo hướng xấu, hãy nghĩ nhiều hơn đến mặt tốt của nó. %s (悲观 — bi quan)'%B8),
+      ('你把时间安排得太紧了吧，减轻点儿压力，留出点儿娱乐的时间吧。%s（负担）'%B8,'Bạn sắp xếp thời gian quá sát rồi, hãy giảm bớt áp lực, chừa chút thời gian giải trí đi. %s (负担 — gánh nặng)'%B8),
+      ('他第一次看到海底世界有那么多奇形怪状的生物，感到吃惊又好奇。%s（惊奇）'%B8,'Lần đầu tiên anh ấy thấy thế giới dưới đáy biển có nhiều sinh vật hình dạng kỳ quái như vậy, cảm thấy vừa kinh ngạc vừa tò mò. %s (惊奇 — ngạc nhiên)'%B8),
+      ('我这么做完全是善意，谁让咱们是朋友呢！%s（出于）'%B8,'Tôi làm như vậy hoàn toàn là thiện ý, ai bảo chúng ta là bạn bè chứ! %s (出于 — xuất phát từ)'%B8),
+      ('张教授实在是太忙了，这场报告还是经过一次又一次请求，他才答应的。%s（再三）'%B8,'Giáo sư Trương thật sự quá bận, bài báo cáo này vẫn là sau khi được thỉnh cầu hết lần này đến lần khác ông mới nhận lời. %s (再三 — nhiều lần)'%B8)])]
+    b[-1]=('ol',[(i+4,p) for i,(n,p) in enumerate(b[-1][1])])
+    b+=[('h',3,'八、在理解课文的基础上，回答下面的问题'),('p',['Dựa trên sự hiểu bài khóa, trả lời các câu hỏi sau']),
+        _ol([('飞机颠簸后，“我”看见一位老人在看书，老人把书递给“我”，让“我”看。请以“我”的口气说说当时的情况和想法。','Sau khi máy bay xóc nảy, “tôi” nhìn thấy một cụ già đang đọc sách, cụ đưa cuốn sách cho “tôi”, bảo “tôi” xem. Hãy dùng giọng của “tôi” để kể lại tình huống và suy nghĩ lúc đó.'),
+             ('畅想一下：如果你接受课文中的建议，把生活设置成“飞行模式”，你打算在什么时候设置，设置成什么样？','Hãy tưởng tượng: nếu bạn tiếp nhận lời khuyên trong bài khóa, thiết lập cuộc sống của mình sang “chế độ máy bay”, bạn dự định thiết lập vào lúc nào, thiết lập như thế nào?')])]
+    b+=[('h',3,'九、参考提示词语、格式和对话中的特殊要求，完成对话'),('p',['Tham khảo các từ ngữ gợi ý, cấu trúc và yêu cầu đặc biệt trong hội thoại để hoàn thành hội thoại']),
+        ('table',['| 表示目的 — Biểu thị mục đích | 出于 — Xuất phát từ　为了 — Để　为的是 — Vì để　目的是 — Mục đích là |','| :-- | :-- |','| 表示假设 — Biểu thị giả thiết | 要不是A — Nếu không phải A　假设 — Giả sử　假如 — Giả như　要是 — Nếu |','| 表示担心 — Biểu thị lo ngại | 恐怕 — E rằng　怕是 — Sợ là |']),
+        ('p',['A：毕业后，你想留在大城市，还是回家乡？']),('p',['A: Sau khi tốt nghiệp, bạn muốn ở lại thành phố lớn hay về quê?']),
+        ('p',['B：我肯定是要回去的。']),('p',['B: Tôi chắc chắn là sẽ về.']),
+        ('p',['A：为什么这么坚决？']),('p',['A: Sao lại kiên quyết như vậy?']),
+        ('p',['B：%s：第一，我不习惯北方的气候，太干了；第二，家乡生活节奏慢，压力小，更适合我这种懒人。你呢？（表示目的）'%B8]),
+        ('p',['B: %s: Thứ nhất, tôi không quen khí hậu miền Bắc, quá khô; thứ hai, nhịp sống ở quê chậm, áp lực nhỏ, phù hợp hơn với người lười như tôi. Còn bạn? (Yêu cầu: Thể hiện mục đích.)'%B8])]
+    return b
+
 def lessons():
     md=open(SRC,encoding='utf-8').read()
     lines=clean(md)
@@ -173,6 +216,10 @@ def lessons():
     for c in L:
         if c['n']==11 and not any(b[0]=='h' and b[2].startswith('词语学习') for b in c['blocks']):
             c['blocks']=l11_front()+c['blocks']
+        if c['n']==11:
+            bl=c['blocks']; k=[i for i,x in enumerate(bl) if x[0]=='h' and x[2].startswith('对话片段')]
+            if k and not any(x[0]=='h' and x[2].startswith('四、') for x in bl):
+                bl[k[0]:k[0]+1]=l11_exercises()+[('h',3,bl[k[0]][2])]
     return L
 
 def vocab_table(rows):
