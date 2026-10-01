@@ -10,7 +10,24 @@ def must_replace(s,old,new,count=1,label=''):
     return s.replace(old,new,count)
 
 t=open(SRC,encoding='utf-8').read()
-toc=json.loads(re.search(r'id="toc-data">(.*?)</script>',t,re.S).group(1))
+import md2fz
+# ---- bổ sung D2 bài 9–14 (từ file bản dịch song ngữ) ----
+_m=re.search(r'(id="toc-data">)(.*?)(</script>)',t,re.S)
+toc=json.loads(_m.group(2))
+_new=md2fz.toc_items()
+for _p in toc['parts']:
+    for _g in _p['groups']:
+        if _g.get('book')=='fz' and _g['items'] and _g['items'][0]['key'].startswith('fz:l'):
+            _g['items']+= [i for i in _new if i['key'] not in [x['key'] for x in _g['items']]]
+            _g['sub']='Bài 1–%d'%len(_g['items'])
+    if _p['name']=='Bài học':
+        _p['sub']=re.sub(r'^\d+',str(int(re.match(r'\d+',_p['sub']).group(0))+len(_new)),_p['sub'])
+t=t[:_m.start(2)]+json.dumps(toc,ensure_ascii=False).replace('<','\\u003c')+t[_m.end(2):]
+_fm=re.search(r'(<script type="application/json" id="src-fz">)(.*?)(</script>)',t,re.S)
+_fz=json.loads(_fm.group(2))
+_fz=must_replace(_fz,'</main>',md2fz.sections_html()+'\n</main>',label='fz sections')
+_fz=must_replace(_fz,'<button class="b" data-l="8">第8课</button>','<button class="b" data-l="8">第8课</button>'+''.join('<button class="b" data-l="%d">第%d课</button>'%(i['n'],i['n']) for i in [{'n':int(x['key'].split('l')[1])} for x in _new]),label='fz bar')
+t=t[:_fm.start(2)]+json.dumps(_fz,ensure_ascii=False).replace('<','\\u003c')+t[_fm.end(2):]
 NAMES=toc['books']
 LES={'fz':{},'ky':{},'ld':{}}
 for p in toc['parts']:
