@@ -6,6 +6,8 @@ OUT = os.path.join(os.path.dirname(__file__), '..', 'assets', 'audio', 'manifest
 SUP = '¹²³⁴⁵⁶⁷⁸⁹⁰①②③④⑤⑥⑦⑧⑨⑩'
 
 def clean(s):
+    s = re.sub(r'<a [^>]*class="[^"]*\bkb[mg]\b[^"]*"[^>]*>.*?</a>', '', s, flags=re.S)      # bỏ ký hiệu ghi chú 📝 và mã họ ngữ pháp (A1, E3…)
+    s = re.sub(r'<a [^>]*class="[^"]*\bxl\b[^"]*"[^>]*>.*?</a>', '', s, flags=re.S)
     s = re.sub(r'<rt[^>]*>.*?</rt>', '', s, flags=re.S)
     s = re.sub(r'<sup[^>]*>.*?</sup>', '', s, flags=re.S)
     s = html.unescape(re.sub(r'<[^>]+>', '', s))
