@@ -44,6 +44,7 @@ var og=go;go=function(){og.apply(this,arguments);try{
     var bar=document.createElement('p');bar.className='kykbar';
     bar.innerHTML='📖 <b>Mở trong sách (汉语口语)</b>: <a href="#" class="kyl" data-ky="s'+n+'">第'+n+'课 · toàn bài</a>'+SEC.map(function(x){return ' · <a href="#" class="kyl" data-ky="s'+n+'::s'+n+'-'+x[0]+'">'+x[1]+'</a>'}).join('');
     var h1=d.querySelector('h1');if(h1)h1.after(bar);else d.prepend(bar)}
+  if(/^categories\//.test(CUR||'')){d.querySelectorAll('h2,h3').forEach(function(h){var mm=/^Bài\s*0?(\d+)\b/.exec(h.textContent.trim());if(mm&&+mm[1]>=1&&+mm[1]<=12&&!h.querySelector('.kyi')){var l=document.createElement('a');l.href='#';l.className='kyl kyi';l.setAttribute('data-ky','s'+mm[1]);l.title='Mở bài '+mm[1]+' trong sách';l.textContent='📖';h.appendChild(document.createTextNode(' '));h.appendChild(l)}})}
   if(m){var n2=+m[1],mp=KYMAP[String(n2)]||{},ctx='',pad=function(x){return x};
     d.querySelectorAll('h1,h2,h3,h4,h5,h6,table').forEach(function(el){
       if(el.tagName!=='TABLE'){ctx=el.textContent;return}

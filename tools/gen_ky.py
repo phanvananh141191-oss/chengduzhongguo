@@ -166,9 +166,12 @@ def add_hv_column(src):
                     new = ' ' + hv_pick(wc, cells[vi_] if vi_ < len(cells) else '') + ' '
                 hw = re.sub(r'[^\u4e00-\u9fff]', '', wc); L = CUR_LESSON[0]
                 kw = next((x for x in KBI.get(L, {}).get('w', []) if re.sub(r'[^\u4e00-\u9fff]', '', x) == hw), None) if hw else None
-                if kw:
-                    new = new.rstrip() + ' <a id="s%d-w-%s" class="kbl" href="#" data-kb="lessons/%02d.md::kbw-%s" title="Mở mục từ trong KB">🔗</a> ' % (L, kw, L, kw)
-                    KYMAP.setdefault(L, {}).setdefault('kbw-' + kw, 's%d-w-%s' % (L, kw))
+                if hw:
+                    if kw:
+                        new = new.rstrip() + ' <a id="s%d-w-%s" class="kbl" href="#" data-kb="lessons/%02d.md::kbw-%s" title="Mở mục từ trong KB">🔗</a> ' % (L, hw, L, kw)
+                        KYMAP.setdefault(L, {}).setdefault('kbw-' + kw, 's%d-w-%s' % (L, hw))
+                    else:
+                        new = new.rstrip() + ' <a id="s%d-w-%s" class="kbx"></a> ' % (L, hw)
         cells.insert(vi_, new)
         out.append('|' + '|'.join(cells) + '|')
     return '\n'.join(out)
@@ -177,7 +180,7 @@ KBH = {}      # n -> {tên: chỉ số heading trong trang KB của bài}
 def load_kb(html_text):
     m = re.search(r'<script id="kb" type="application/json">(.*?)</script>', json.loads(re.search(r'id="src-kb">(.*?)</script>', html_text, re.S).group(1).replace('\\u003c', '<')), re.S)
     K = json.loads(m.group(1).replace('<\\/', '</'))
-    _kb_items(K)
+    _kb_items(K); _kb_cats(K)
     for n in range(1, 13):
         hs = []; fence = False
         for l in K['lessons/%02d.md' % n].split('\n'):
@@ -190,6 +193,33 @@ def load_kb(html_text):
         KBH[n] = dict(muctieu=f(r'^1\. '), tuvung=f(r'^3\.1 '), dichlech=f(r'^3\.1\.4'), nguphap=f(r'^3\.3 '), cautruc=f(r'^3\.4 '), chucnang=f(r'^3\.5'), plb=plb, pla=f(r'^Phụ lục A'),
                       prepare=f(r'^PREPARE', plb), dialog=f(r'促成 · 对话|对话', plb), ext=f(r'拓展', plb), produce=f(r'^PRODUCE', plb), eval=f(r'^评价', plb), appx=f(r'^附录', plb))
 
+KBCAT = {}   # n -> [(nhãn, file, chỉ số heading)]
+CAT_FILES = [('Từ vựng tổng', 'categories/02-vocabulary/01-master-list.md'), ('Từ vựng theo chức năng', 'categories/02-vocabulary/02-by-communicative-function.md'),
+             ('Kho từ nhỏ', 'categories/02-vocabulary/06-small-wordbank.md'), ('Chức năng giao tiếp', 'categories/05-communication/01-functions.md'),
+             ('Nhiệm vụ PRODUCE', 'categories/05-communication/02-task-types.md'), ('Tự đánh giá', 'categories/05-communication/03-self-assessment.md'),
+             ('Văn bản', 'categories/06-texts/README.md'), ('Văn hóa', 'categories/07-culture/README.md'), ('Dịch lệch theo bài', 'categories/08-translation-notes/02-by-lesson-index.md'),
+             ('Ôn tập', 'categories/09-review/README.md'), ('Nhân vật', 'categories/01-foundation/01-characters.md')]
+GRAM_FILES = [('A', 'categories/03-grammar/01-dieu-kien-nguyen-nhan-nhuong-bo.md'), ('B', 'categories/03-grammar/02-tang-tien-liet-ke-song-hanh.md'), ('C', 'categories/03-grammar/03-pho-tu-ngu-khi-cau-hoi-tu-tu.md'),
+              ('D', 'categories/03-grammar/04-so-sanh-muc-do.md'), ('E', 'categories/03-grammar/05-thoi-gian-tien-trinh.md'), ('F', 'categories/03-grammar/06-gioi-tu-cau-truc-doi-tuong.md'),
+              ('G', 'categories/03-grammar/07-bo-ngu-ket-cau-dong-tu.md'), ('H', 'categories/03-grammar/08-chuc-nang-dien-ngon-lap-luan.md')]
+def _heading_idx(md_text, pat):
+    fence = False; i = 0
+    for l in md_text.split('\n'):
+        if re.match(r'^```', l): fence = not fence
+        if fence: continue
+        mm = re.match(r'^(#{1,6})\s+(.*)', l)
+        if mm:
+            if re.search(pat, mm.group(2)): return i
+            i += 1
+    return None
+def _kb_cats(K):
+    for n in range(1, 13):
+        out = []
+        for lab, f in CAT_FILES:
+            if f in K:
+                i = _heading_idx(K[f], r'^Bài\s*0?%d\b' % n)
+                if i is not None: out.append((lab, f, i))
+        KBCAT[n] = out
 KBI = {}   # n -> dict(w=[từ], d=[từ], s=[(chỉ số, cụm Hán)])
 KYMAP = {}  # n -> {id mục KB: id phần tử ky}
 def _kb_items(K):
@@ -521,6 +551,9 @@ def gen_lesson(n):
     out = ['<h1>%s</h1>' % ruby_html(html.escape(zh_title)), '<p><em>%s</em></p>' % html.escape(vi_title)]
     row = ' · '.join(x for x in (kbl(n, 'muctieu', 'Mục tiêu'), kbl(n, 'tuvung', 'Từ vựng'), kbl(n, 'nguphap', 'Ngữ pháp'), kbl(n, 'cautruc', 'Cấu trúc câu'), kbl(n, 'chucnang', 'Chức năng giao tiếp'), kbl(n, 'plb', 'Toàn văn song ngữ'), kbl(n, 'pla', 'Lưu ý văn bản')) if x)
     if row: out.append('<p class="kbrow">📚 <b>Knowledge Base</b> của bài: %s</p>' % row)
+    cat = ' · '.join('<a class="kbl" href="#" data-kb="%s::kbh%d">%s</a>' % (f, i, lab) for lab, f, i in KBCAT.get(n, []))
+    gram = ' '.join('<a class="kbl" href="#" data-kb="%s">%s</a>' % (f, a) for a, f in GRAM_FILES)
+    if cat: out.append('<p class="kbrow">📚 <b>Chuyên đề KB</b> (xuyên các bài): %s · Ngữ pháp theo họ: %s · <a class="kbl" href="#" data-kb="categories/03-grammar/09-progression-matrix.md">Ma trận tiến trình</a></p>' % (cat, gram))
     box = None; nnote = 0; k = 1; cur_sec = ['prepare']
     def close_box():
         nonlocal box, nnote
@@ -563,7 +596,7 @@ CSS = '''/*ky-gen*/
 .ex-zh{font-size:.95em;color:var(--fg);line-height:2.1} .ex-zh mark{background:var(--hl);color:inherit;border-radius:3px;padding:0 1px}
 .ex-vi{font-size:.85em;color:var(--mut)}
 .ex-src{font-size:.68em;color:var(--ac);opacity:.8}
-.kbrow{font-size:.85em;color:var(--mut);margin:.4em 0 1em} a.kbl{color:var(--ac);text-decoration:none;border-bottom:1px dotted var(--ac)} a.kbl:hover{background:var(--hl)}
+.kbrow{font-size:.85em;color:var(--mut);margin:.4em 0 1em} a.kbl{color:var(--ac);text-decoration:none;border-bottom:1px dotted var(--ac)} a.kbl:hover{background:var(--hl)} a.kbx{display:inline}
 .kbm{font-size:.7em;vertical-align:super;margin-left:.2em;text-decoration:none;border:0}
 a.kbw{border-bottom:1px dotted var(--ac);color:inherit;text-decoration:none}
 .kblinks{font-size:.82em;color:var(--mut);padding-bottom:.6em}
