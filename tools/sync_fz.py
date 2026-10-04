@@ -139,8 +139,57 @@ def restructure(sec, n):
         out.append(emit(find('三、连线'), 3, '三、连线'))
         out.append(emit(find('四、选词填空'), 3, '四、选词填空（登、赶忙、迫切、意识、出行、纷纷、打量）') + BANNER)
     r = ''.join(out)
+    for a, b in [('<th>词语</th>', '<th>词</th>'), ('<th>Loại từ</th>', '<th>词性</th>'), ('<th>Hán Việt</th>', '<th>Hán-Việt</th>')]:
+        r = r.replace(a, b, 1)          # tiêu đề cột bảng từ (bảng đầu tiên)
     assert bal(r) == bal(sec), (n, bal(r), bal(sec))
     assert len(re.findall(r'class="ans"', r)) == len(re.findall(r'class="ans"', sec))
+    return r
+
+
+VT = json.load(open(__import__('os').path.join(__import__('os').path.dirname(__file__), 'vt_baked.json'), encoding='utf8'))
+HDR = {'<th>词</th>': '<th>词</th>', '<th>Hán Việt</th>': '<th>Hán-Việt</th>', '<th>Nghĩa</th>': '<th>Nghĩa tiếng Việt</th>'}
+def bake_vt(n):
+    """Bảng từ bài 1–2: ghi sẵn vào HTML (M6), thêm cột #, chuẩn tên cột; cột English chỉ có ở bài 1 (nguồn có dữ liệu)."""
+    t = VT['l%d' % n].replace(' class="u-pyc"', '')
+    for a, b in HDR.items(): t = t.replace(a, b)
+    rows = re.findall(r'<tr>.*?</tr>', t, re.S)
+    out = ['<tr><th>#</th>' + rows[0][4:]]
+    for i, r in enumerate(rows[1:], 1): out.append('<tr><td>%d</td>' % i + r[4:])
+    return '<table class="vt">' + ''.join(out) + '</table>'
+
+def restructure12(sec, n):
+    def bal(x): return len(re.findall(r'<div\b', x)) - len(re.findall(r'</div>', x))
+    r = sec
+    # bảng từ: ghi sẵn
+    assert '<table class="vt"></table>' in r
+    r = r.replace('<table class="vt"></table>', bake_vt(n), 1)
+    if n == 1:
+        sub = [('<h2>题解 · Giới thiệu</h2>', '<h2>题解 · Giới thiệu chủ đề</h2>'),
+               ('<h2>词语学习 · Từ vựng</h2>', '<h2>词语学习 · Học từ vựng</h2>'),
+               ('<h2>走进课文 · Bài khóa</h2>', '<h2>走进课文 · Tìm hiểu bài đọc</h2>'),
+               ('<h2>综合注释 · Chú thích ngữ pháp</h2>', '<h2>综合注释 · Chú giải tổng hợp</h2>'),
+               ('<h2>综合注释 · Ví dụ &amp; bài tập</h2>', '<h3>Ví dụ &amp; bài tập</h3>'),
+               ('<h2>综合练习 · Bài tập (có đáp án)</h2>', '<h2>综合练习 · Luyện tập tổng hợp</h2>')]
+        for a, b in sub:
+            assert r.count(a) == 1, a; r = r.replace(a, b)
+        # 课文问题与注释补充 → hai h3 trong 走进课文
+        h = '<h2>课文问题与注释补充</h2>'; i = r.index(h); j = r.index('<h2>', i + len(h))
+        body = r[i + len(h):j]; k = body.index('<div class="card l1n">')
+        a, b = body[:k], body[k:]
+        assert bal(a) == 0 and bal(b) == 0, (bal(a), bal(b))
+        r = r[:i] + H(3, '课文旁问题 · Câu hỏi bên lề') + a + H(3, '注释 · Chú thích') + b + r[j:]
+    else:
+        r = r.replace('<h1>第2课 ', '<h1>第2课　', 1)
+        # 题解: thiếu nguồn
+        h = '<h2>词语学习 · Từ vựng</h2>'; assert r.count(h) == 1
+        r = r.replace(h, '<h2>题解 · Giới thiệu chủ đề</h2>' + BANNER + '<h2>词语学习 · Học từ vựng</h2>')
+        sub = [('<h2>课文 · Bài khóa (kèm ghi chú của cô)</h2>', '<h2>走进课文 · Tìm hiểu bài đọc</h2>'),
+               ('<h2>Ghi chú của cô (lời giảng trên lớp)</h2>', '<h3>Lời cô · Ghi chú của cô (lời giảng trên lớp)</h3>'),
+               ('<h2>综合注释 · Chú thích ngữ pháp</h2>', '<h2>综合注释 · Chú giải tổng hợp</h2>'),
+               ('<h2>综合练习 · Bài tập (có đáp án)</h2>', '<h2>综合练习 · Luyện tập tổng hợp</h2>')]
+        for a, b in sub:
+            assert r.count(a) == 1, a; r = r.replace(a, b)
+    assert bal(r) == bal(sec) , (n, bal(r), bal(sec))
     return r
 
 def fix_lesson(sec, n):
@@ -188,9 +237,14 @@ def fix_lesson(sec, n):
 def sub(mm):
     n = int(mm.group(2))
     if n in (3, 4): return mm.group(1) + restructure(mm.group(3), n)
+    if n in (1, 2):
+        r, added = add_inputs(restructure12(mm.group(3), n), n); ADDED[n] = added
+        return mm.group(1) + r
     return mm.group(1) + fix_lesson(mm.group(3), n) if 5 <= n <= 14 else mm.group(0)
 doc = re.sub(r'(<section class="les[^"]*" id="l(\d+)">)(.*?)(?=</section>)', sub, doc, flags=re.S)
 
+i0 = doc.index('{const t=$("#l1 .vt");tb(t,'); j0 = doc.index('tb($("#l2 .vt")'); j1 = doc.index('\n', j0)
+doc = doc[:i0] + doc[j1:]   # bảng bài 1–2 đã ghi sẵn vào HTML
 new = json.dumps(doc, ensure_ascii=False).replace('<', '\\u003c')
 open(dst, 'w', encoding='utf8').write(s[:m.start(2)] + new + s[m.end(2):])
 
