@@ -32,8 +32,8 @@ def fz(h):
         e = re.search(r'<h2[ >]', body[10:]); body = body[: 10 + e.start()] if e else body
         e = re.search(r'<h3[^>]*>[^<]*(?:注释|课文旁问题|Đáp án|Chú thích)', body)
         if e: body = body[:e.start()]
-        for p in re.findall(r'<div class="ln lz">(.*?)</div>|<p>(.*?)</p>', body, re.S):
-            p = clean(p[0] or p[1])
+        for p in re.findall(r'<div class="ln lz">(.*?)</div>|<p>(.*?)</p>|<div class="zu">(.*?)</div>', body, re.S):
+            p = clean(p[0] or p[1] or p[2])
             if hz(p) > 4: out.append((n, 't', p))
     return out
 
@@ -73,8 +73,8 @@ def ld(h):
     return out
 
 LONG = 8                      # câu bài khoá chỉ gọi là «trùng» khi dài hơn 8 chữ Hán
-WORD_VOICES = ['danyu', 'beijing', 'amy', 'anson', 'bobo']   # từ vựng: xoay vòng nhiều giọng
-TEXT_VOICES = ['danyu', 'beijing', 'amy', 'anson']           # bài khoá: một giọng cho mỗi bài (hoặc nhóm bài chung câu)
+WORD_VOICES = ['nam1', 'nu1', 'nam2']   # từ vựng: xoay vòng các giọng
+TEXT_VOICES = ['nu1', 'nam1', 'nam2']  # bài khoá: một giọng cho mỗi bài (hoặc nhóm bài chung câu dài)
 
 def assign_voices(items):
     par = {}

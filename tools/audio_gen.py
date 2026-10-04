@@ -10,7 +10,7 @@ from concurrent.futures import ThreadPoolExecutor
 ROOT = os.path.join(os.path.dirname(__file__), '..', 'assets', 'audio')
 MAN = os.path.join(ROOT, 'manifest.json'); IDX = os.path.join(ROOT, 'index.json')
 API = 'https://api.elevenlabs.io/v1'
-VOICES = {'danyu': 'BWN0mOtkGHghA3CYFzFK', 'beijing': '2I36mEahS1u7ZnTKUoaB', 'amy': 'bhJUNIXWQQ94l8eI2VUf', 'anson': 'xh2OInDk4GEYuYRtHx4M', 'bobo': 's2LjOZIlsH2Yu4p6MtAK'}
+VOICES = {'nam1': 'BWN0mOtkGHghA3CYFzFK', 'nam2': 'MI36FIkp9wRP7cpWKPTl', 'nu1': 'bhJUNIXWQQ94l8eI2VUf'}   # nam trẻ ×2, nữ trẻ ×1
 FMT = 'mp3_22050_32'            # ~4 KB/giây, đủ rõ cho giọng đọc; đổi mp3_44100_64 nếu muốn chất lượng cao
 
 def call(path, key, body=None):
@@ -34,7 +34,7 @@ def one(it, key, voice_unused, model, idx):
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--dry', action='store_true'); ap.add_argument('--voices', action='store_true')
-    ap.add_argument('--only', default=''); ap.add_argument('--limit', type=int, default=0); ap.add_argument('--model', default='eleven_multilingual_v2')
+    ap.add_argument('--only', default=''); ap.add_argument('--limit', type=int, default=0); ap.add_argument('--model', default='eleven_v4')
     ap.add_argument('--workers', type=int, default=3); a = ap.parse_args()
     key = os.environ.get('ELEVENLABS_API_KEY', '')
     if a.voices:
