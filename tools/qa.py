@@ -64,7 +64,7 @@ BN = []
 def parse(html, mode):
     p = Doc(mode); p.feed(html); BN.extend(p.bn) if mode == 'fz' else None; return p.d
 def norm(x): return re.sub(r'\s+', '', x)
-def hz(L): return ''.join(CJK.findall(''.join(L['text'])))
+def hz(L): return ''.join(CJK.findall(''.join(L['text']) + ''.join(L.get('text_h', []))))
 
 out = []
 def P(*a): out.append(' '.join(str(x) for x in a))
@@ -81,7 +81,7 @@ verdict = {}
 P('# QA S1–S12 · bản v4\n')
 P('## S1 · hash-text (chữ Hán/Việt không đổi so với v3)\n')
 P('Đo bằng so đa tập ký tự Hán và đa tập từ (chữ Việt) giữa v3 và v4 cho từng bài. «Mất» = có ở v3 mà không còn ở v4; «Thêm» = chỉ có ở v4 (banner, nhãn mới, 5 đoạn 《家庭学校》 của ld, bảng baked…).\n')
-def words(L): return collections.Counter(re.findall(r'[^\W\d_]+', ''.join(L['text']).lower()))
+def words(L): return collections.Counter(re.findall(r'[^\W\d_]+', (''.join(L['text']) + ' ' + ' '.join(L.get('text_h', []))).lower()))
 rows = []; s1bad = 0
 for k in fz3:
     a, b = fz3[k], fz4.get(k)
