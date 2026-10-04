@@ -86,8 +86,25 @@ LAB_ZH = re.compile(r'^\*\*中文[:：]\*\*\s*')
 LAB_VI = re.compile(r'^\*\*Tiếng Việt:\*\*\s*')
 PYLINE = re.compile(r'^\*[^*].*\*\s*\\?$')
 
+MARK = re.compile(r'(?:(?<=^)|(?<=[\s：:。！？；;)）”"、,，]))(\d{1,2})[\.．](?=\s|[\u4e00-\u9fffA-ZÀ-Ỹ“"(（])')
+def itemize(s):
+    """Câu có nhiều mục đánh số «1. … 2. …» hoặc bullet «•» trên cùng một dòng → xuống dòng trước mỗi mục."""
+    if '<br' in s and s.count('<br') >= 2: return s
+    ok = []; exp = 1
+    for m in MARK.finditer(s):
+        if int(m.group(1)) == exp: ok.append(m.start()); exp += 1
+    if len(ok) >= 2:
+        out = []; last = 0
+        for pos in ok:
+            out.append(s[last:pos].rstrip())
+            if pos > 0: out.append('<br>')
+            last = pos
+        out.append(s[last:]); s = ''.join(out)
+    s = re.sub(r'(?<=\S)\s*[•●▪]\s*', '<br>• ', s)
+    return s
+
 def inline(s):
-    return md.renderInline(s)
+    return md.renderInline(itemize(s))
 
 def split_blocks(text):
     """Chia thân thành khối cấp cao bằng markdown-it, mỗi khối giữ nguyên dòng nguồn."""
@@ -176,13 +193,13 @@ def render_blocks(blocks, in_note=False):
             out.append(ruby_para(src)); i += 1; continue
         if typ == 'table':
             out.append(render_table(src, in_note)); i += 1; continue
-        h = md.render(src)
+        h = md.render('\n'.join(itemize(l) for l in src.split('\n')) if typ == 'paragraph' else src)
         if not in_note and HAN.search(src): h = ruby_html(h)
         out.append(h); i += 1
     return '\n'.join(out)
 
 def ruby_para(src):
-    return ruby_html(md.render(src))
+    return ruby_html(md.render('\n'.join(itemize(l) for l in src.split('\n'))))
 
 PY_IN_CELL = re.compile(r'(?:<br\s*/?>)\s*\*[^*|]*\*(?=\s*(?:\||$))', re.M)
 def render_table(src, in_note):
