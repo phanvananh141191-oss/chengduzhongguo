@@ -82,7 +82,7 @@ Tổng .ans 195 · .uans 195
 | sách | <ruby> tĩnh | <rt> rỗng |
 |---|---|---|
 | fz | 0 | 0 |
-| ky | 75597 | 0 |
+| ky | 73999 | 0 |
 | ld | 0 | 0 |
 
 ky: ruby có nhiều chữ nhưng số âm tiết lệch: 0 []
@@ -93,18 +93,18 @@ ky: ruby lồng nhau: 0
 
 | bài | đoạn Hán ≥5 trong md | không thấy trong ky | ví dụ |
 |---|---|---|---|
-| 1 | 411 | 7 | 用简单的话回答问题 / 注意语音语调 |
-| 2 | 445 | 12 | 用简单的话回答问题 / 注意语音语调 |
-| 3 | 362 | 10 | 用简单的话回答问题 / 注意语音语调 |
-| 4 | 675 | 4 | 用简单的话回答问题 / 我的生育观念 |
-| 5 | 490 | 11 | 用简单的话回答问题 / 注意语音语调 |
-| 6 | 424 | 9 | 用简单的话回答问题 / 注意语音语调 |
-| 7 | 555 | 6 | 用简单的话回答问题 / 注意语音语调 |
-| 8 | 377 | 8 | 用简单的话回答问题 / 注意语音语调 |
-| 9 | 547 | 12 | 用简单的话回答问题 / 注意语音语调 |
-| 10 | 476 | 6 | 用简单的话回答问题 / 注意语音语调 |
-| 11 | 595 | 14 | 用简单的话回答问题 / 注意语音语调 |
-| 12 | 488 | 9 | 用简单的话回答问题 / 根据对话内容回答下列问题 |
+| 1 | 411 | 0 |  |
+| 2 | 445 | 0 |  |
+| 3 | 362 | 0 |  |
+| 4 | 675 | 0 |  |
+| 5 | 490 | 0 |  |
+| 6 | 424 | 0 |  |
+| 7 | 555 | 0 |  |
+| 8 | 377 | 0 |  |
+| 9 | 547 | 0 |  |
+| 10 | 476 | 0 |  |
+| 11 | 595 | 0 |  |
+| 12 | 488 | 0 |  |
 
 ## S8 · note-hash (ghi chú md chuẩn ↔ KB)
 
@@ -196,9 +196,9 @@ Lỗi JS trang: không
 
 - **S1** `fz`: «Hán mất» còn lại chỉ là nhãn đã đổi theo bảng chuẩn (cột `词语`→`词` ở bài 3, 4) và `ld` mất 实况 do thống nhất nhãn kick với mục lục; mọi thân văn bài giữ nguyên. «Thêm» lớn ở bài 1, 2 là bảng từ đã ghi sẵn vào HTML (trước do JS dựng).
 - **S4** 28 bảng từ đúng thứ tự cột, cột English/例句 ẩn khi rỗng (bài 2, 8).
-- **S6** `ruby` tĩnh của `ky`: 0 lỗi; ruby của `fz`/`ld`/`kb` do bộ gắn pinyin dựng lúc chạy (pinyin ở `data-p`): 0 `<rt>` thiếu pinyin.
+- **S6** `ruby` tĩnh của `ky`: 0 lỗi; ruby của `fz`/`ld`/`kb` do bộ gắn pinyin dựng lúc chạy (pinyin ở `data-p`): 0 thiếu pinyin.
 - **S8** ghi chú ở KB (ky chỉ liên kết sang KB nên không có hộp gập): mọi dòng ghi chú trong md chuẩn đều có trong KB.
-- **S11** 5 banner: bài 2 (题解, 走进课文), bài 4 (走进课文, mục 四 bị cắt), bài 8 (题解, 走进课文). Bài 2 và 8 khớp danh sách nguồn thiếu; bài 6 «Trang 100» không có banner (không còn trong nguồn).
+- **S11** 5 banner: bài 2 (题解, 走进课文), bài 4 (走进课文, mục 四 bị cắt), bài 8 (题解, 走进课文).
 
 ## Tổng kết
 
@@ -213,7 +213,7 @@ Lỗi JS trang: không
 | S4 | 0 |
 | S5 | 0 |
 | S6 | 0 |
-| S7 | 108 |
+| S7 | 0 |
 | S8 | 0 |
 | S9 | 0 |
 | S10 | 0 |

@@ -2,7 +2,7 @@
 
 | Bài | h2 | Dòng thân trước | Dòng thân sau | Mất | Thêm | Bỏ (Tổng kết…) | Cờ cần duyệt |
 |---|---|---|---|---|---|---|---|
-| 1 | 6 | 602 | 595 | 0 | 0 | — | 2 |
+| 1 | 6 | 602 | 595 | 0 | 0 | — | 4 |
 | 2 | 6 | 877 | 862 | 0 | 0 | Tổng kết (1199 ký tự) | 12 |
 | 3 | 6 | 608 | 599 | 0 | 0 | Tổng kết toàn bài (1228 ký tự) | 0 |
 | 4 | 6 | 932 | 925 | 0 | 0 | Tổng kết toàn bài (sau lượt cuối) (691 ký tự) | 0 |
@@ -19,7 +19,7 @@
 
 | Bài | Thiếu | Sai thứ tự |
 |---|---|---|
-| 1 | 任务支持, 任务选择 | không |
+| 1 | — | không |
 | 2 | — | không |
 | 3 | — | không |
 | 4 | — | không |
@@ -36,6 +36,8 @@
 
 **h2:** Tiêu đề bài → Bảng tên nhân vật → PREPARE · 驱动 (Khởi động) → EXPLORE · 促成 (Khám phá) → PRODUCE · 产出 (Sản xuất) → 附录 · 录音文本 (Bài nghe)
 
+- ⚠ tiêu đề «任务支持» được chèn từ nhãn Hán trong thân (nguồn không có heading) — cần duyệt
+- ⚠ tiêu đề «任务选择» được chèn từ nhãn Hán trong thân (nguồn không có heading) — cần duyệt
 - ⚠ tiêu đề «任务一 发表回帖» được chèn từ nhãn Hán trong thân (nguồn không có heading) — cần duyệt
 - ⚠ tiêu đề «任务二 角色扮演» được chèn từ nhãn Hán trong thân (nguồn không có heading) — cần duyệt
 

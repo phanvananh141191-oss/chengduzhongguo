@@ -154,6 +154,7 @@ def cand(lines, i):
         rest = _clean(ln)
     if re.match(r'^[A-H]\s+[\u4e00-\u9fff（(“‘「]', rest): return ('EX', rest.rstrip('。').strip(), j)
     if re.match(r'^任务[一二三][\s　]', rest): return ('TASK', rest, j)
+    if has_cn and rest in ('任务支持', '任务选择'): return ('TS' if rest == '任务支持' else 'TC', rest, j)
     if has_cn and rest.startswith('词语表'): return ('VOC', rest, j)
     return None
 
@@ -195,11 +196,12 @@ def explode(blocks, flags):
             mk = marker(lines, i)
             if not mk: continue
             consumed.update(range(i, mk[3] + 1))
-            if i == first_nb and r in ('EX', 'VOCAB', 'TASK'): continue
+            if i == first_nb and (r in ('EX', 'VOCAB', 'TASK') or (mk[0], r) in (('TS', 'TSUPPORT'), ('TC', 'TCHOOSE'))): continue
             cuts.append((i, mk[:3]))
         if not cuts or r in ('DROP', 'KB', 'NOTE1', 'NOTE2'):
             res.append(b); continue
         res.append(dict(lv=b['lv'], t=b['t'], body=lines[:cuts[0][0]]))
+        has_tc = any(mk[0] == 'TC' for _, mk in cuts)
         for (i, mk), nxt in zip(cuts, cuts[1:] + [(len(lines), None)]):
             kind, han, vie = mk
             if kind == 'EX':
@@ -207,10 +209,12 @@ def explode(blocks, flags):
                 t = han + (' (' + vie2 + ')' if vie2 else '')
             elif kind == 'VOC':
                 t = han + (' (' + vie + ')' if vie else '')
+            elif kind in ('TS', 'TC'):
+                t = '任务支持 (Hỗ trợ nhiệm vụ)' if kind == 'TS' else '任务选择 (Lựa chọn nhiệm vụ)'
             else:
                 t = re.sub(r'^(任务[一二三])[ 　]+', lambda m_: m_.group(1) + '　', han)
             flags.append('tiêu đề «%s» được chèn từ nhãn Hán trong thân (nguồn không có heading) — cần duyệt' % han)
-            res.append(dict(lv=b['lv'] + 1, t=t, body=lines[i:nxt[0]], synthetic=True))
+            res.append(dict(lv=b['lv'] + (2 if (has_tc and kind == 'TASK') else 1), t=t, body=lines[i:nxt[0]], synthetic=True))
     return res
 
 # ---------------------------------------------------------------- chuẩn hoá một bài

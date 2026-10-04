@@ -47,7 +47,7 @@ class Doc(HTMLParser):
     def handle_endtag(s, t):
         if s.cur is None: return
         L = s.L(s.cur)
-        if s.hb and s.hb[0] == t: L['h'].append((t, re.sub(r'\s+', ' ', s.hb[1]).strip())); s.hb = None
+        if s.hb and s.hb[0] == t: L['h'].append((t, re.sub(r'\s+', ' ', s.hb[1]).strip())); L['text_h'] = L.get('text_h', []) + [s.hb[1]]; s.hb = None
         if t == 'rt': s.inrt -= 1; (L.__setitem__('rubybad', L['rubybad'] + (0 if (s.rt_buf or '').strip() else 1)))
         if t in ('script', 'style'): s.skip -= 1
         if t == 'th' and L['tbl']: pass
@@ -231,7 +231,7 @@ def ky_lesson_text(n):
     L = ky4.get('ky#%d' % (n + 2))  # h1 mở đầu + 2 h3? tìm theo h1 chứa 第n课
     for k, L in ky4.items():
         h1 = ' '.join(x for t, x in L['h'] if t == 'h1')
-        if re.match(r'第\s*%d\s*课' % n, h1): return norm(''.join(L['text']))
+        if re.match(r'第\s*%d\s*课' % n, h1): return norm(''.join(L['text']) + ''.join(L.get('text_h', [])))
     return ''
 rows = []; tot_miss = 0
 for n in range(1, 13):

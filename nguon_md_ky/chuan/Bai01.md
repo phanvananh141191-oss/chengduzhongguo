@@ -666,6 +666,7 @@ Các giải thích dưới đây gắn với cách dùng trong chính bài này;
 
 ## PRODUCE · 产出 (Sản xuất)
 
+### 任务支持 (Hỗ trợ nhiệm vụ)
 **中文：**\
 **任务支持**\
 *Rènwu zhīchí*\
@@ -690,6 +691,7 @@ Bảng dưới đây là các từ ngữ học trong bài này, để bạn lự
 | Miêu tả quan hệ giữa hai người | nảy sinh (chuyện không hay) · người để trút giận · thân thiết · giao tiếp, chung sống · giữ, duy trì · đồng hương · con thuyền tình bạn nói lật là lật · thân thiết không còn khoảng cách · tình bạn quân tử thanh đạm như nước · khoảng cách tạo nên vẻ đẹp · ở nhà nhờ cha mẹ, ra ngoài nhờ bạn bè · có phúc cùng hưởng, có nạn cùng chịu · có gì cũng nói |
 | Khác | một đi không trở lại |
 
+### 任务选择 (Lựa chọn nhiệm vụ)
 **中文：**\
 **任务选择**\
 *Rènwu xuǎnzé*\

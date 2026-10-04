@@ -610,6 +610,14 @@ def gen_lesson(n):
             lab = {'Tiêu đề bài': 'Tiêu đề bài (bản dịch)', 'Bảng tên nhân vật': 'Bảng tên nhân vật'}[t]
             out.append('<details class="kbn"><summary>%s</summary>%s</details>' % (lab, render_blocks(split_blocks(body), True)))
             continue
+        if t.startswith('📝 参考答案'):
+            inner = [render_blocks(strip_echo(t, split_blocks(body)))] if body.strip() else []
+            while k < len(secs) and secs[k]['lv'] > s['lv']:
+                sub = secs[k]; k += 1; sb = '\n'.join(sub['body']).strip('\n'); st = html.escape(sub['t'])
+                inner.append('<h%d>%s</h%d>' % (min(sub['lv'], 6), ruby_html(st) if HAN.search(sub['t']) else st, min(sub['lv'], 6)))
+                if sb.strip(): inner.append(render_blocks(split_blocks(sb), True))
+            out.append('<details class="kbn refans" id="s%d-refans"><summary>%s</summary><div class="kbn-i">%s</div></details>' % (n, ruby_html(html.escape(t)) if HAN.search(t) else html.escape(t), ''.join(inner)))
+            continue
         lv = s['lv']
         ht = html.escape(t)
         if HAN.search(t): ht = ruby_html(ht)
@@ -641,6 +649,7 @@ details.kbn{margin:1em 0;border:1px solid var(--bd);border-radius:8px;background
 details.kbn>summary{cursor:pointer;padding:6px 12px;color:var(--ac);font-size:.92em}
 details.kbn[open]>summary{border-bottom:1px solid var(--bd)}
 details.kbn .kbn-i{padding:4px 14px}
+details.refans>summary{font-weight:600}
 details.kbn h5{margin:.8em 0 .2em;font-size:.95em;color:var(--mut)}
 details.kbn p,details.kbn li,details.kbn td,details.kbn th{font-size:.88em;line-height:1.65}
 h4{margin:1.2em 0 .3em;font-size:1em;color:var(--ac)}
