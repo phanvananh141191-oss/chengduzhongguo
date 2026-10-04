@@ -56,6 +56,93 @@ def add_inputs(sec, n):
         out.append(block); i = k
     return ''.join(out), added
 
+
+def parse_blocks(sec):
+    """Tách bài thành khối: (cấp, tiêu đề, tiền tố mở thẻ, thân). Thẻ <div class="card…"> mở ngay trước heading được gắn vào heading đó."""
+    parts = re.split(r'(<h[1-4][^>]*>.*?</h[1-4]>)', sec, flags=re.S)
+    head = parts[0]; blocks = []; pre = ''
+    OPEN = re.compile(r'<div class="card(?: ex)?">\s*$')
+    items = []
+    for i in range(1, len(parts), 2):
+        mm = re.fullmatch(r'<h([1-4])([^>]*)>(.*?)</h[1-4]>', parts[i], re.S)
+        items.append([int(mm.group(1)), mm.group(3), parts[i + 1] if i + 1 < len(parts) else ''])
+    cur_pre = [''] * len(items)
+    prev_body_owner = None
+    for k in range(len(items)):
+        body = items[k][2]
+        if k + 1 < len(items):
+            o = OPEN.search(body)
+            if o: cur_pre[k + 1] = o.group(0); items[k][2] = body[:o.start()]
+    for k, (lv, t, b) in enumerate(items):
+        blocks.append(dict(lv=lv, t=t, pre=cur_pre[k], body=b))
+    for b in blocks:
+        txt = b['pre'] + b['body']
+        assert len(re.findall(r'<div\b', txt)) - len(re.findall(r'</div>', txt)) - (1 if b['pre'] else 0) + (1 if b['pre'] else 0) in (0, -1, 1), b['t']
+    return head, blocks
+
+def emit(b, lv, title, page=None, body=True):
+    h = f'{b["pre"]}<h{lv}>{title}</h{lv}>' + (f'<p class="py pg">{page}</p>' if page else '')
+    return h + (b['body'] if body else '')
+
+def H(lv, title, page=None):
+    return f'<h{lv}>{title}</h{lv}>' + (f'<p class="py pg">{page}</p>' if page else '')
+
+def restructure(sec, n):
+    head, bl = parse_blocks(sec)
+    def find(prefix):
+        r = [b for b in bl if b['t'].startswith(prefix)]
+        assert len(r) == 1, (n, prefix, len(r)); return r[0]
+    out = [head]
+    clean = lambda t: split_page(t)[0]
+    pg = lambda t: split_page(t)[1]
+    def bal(x): return len(re.findall(r'<div\b', x)) - len(re.findall(r'</div>', x))
+    if n == 3:
+        b = bl[0]; out.append(emit(b, 1, b['t']))
+        for pre_, lab, pgx in [('题解', '题解 · Giới thiệu chủ đề', None),
+                               ('词语学习', '词语学习 · Học từ vựng', 'P35–P36'),
+                               ('走进课文', '走进课文 · Tìm hiểu bài đọc', 'P37–P39')]:
+            b = find(pre_); out.append(emit(b, 2, lab, pgx))
+        out.append(emit(find('注释'), 3, '注释 · Chú thích'))
+        out.append(emit(find('课文思考题'), 3, '课文旁问题 · Câu hỏi bên lề'))
+        out.append(emit(find('PHẦN 2'), 3, 'Đáp án câu hỏi bài khóa'))
+        out.append(emit(find('综合注释'), 2, '综合注释 · Chú giải tổng hợp', 'P39'))
+        for i, pgx in enumerate(['P40', 'P40', 'P41', 'P42', 'P43'], 1):
+            b = find('3.%d ' % i); out.append(emit(b, 3, '%d. ' % i + clean(b['t'][4:]), pgx))
+        out.append(H(2, '综合练习 · Luyện tập tổng hợp'))
+        for pre_ in ['一、字词知识', '二、理解新词语']:
+            b = find(pre_); out.append(emit(b, 3, clean(b['t']), pg(b['t'])))
+        for pre_ in ['（一）教', '（二）白']:
+            b = find(pre_); out.append(emit(b, 4, clean(b['t'])))
+        for pre_ in ['三、', '四、', '五、', '六、', '七、', '八、', '九、', '十、']:
+            b = find(pre_)
+            t = re.sub(r'[，,]?\s*gợi ý', '', b['t']); t = t.replace('（）', '').replace('()', '')
+            out.append(emit(b, 3, clean(t), pg(t)))
+        # PHẦN 3/4/5: tiêu đề rỗng, bỏ
+        for pre_ in ['PHẦN 3', 'PHẦN 4', 'PHẦN 5']:
+            assert find(pre_)['body'].strip() == ''
+    elif n == 4:
+        b = bl[0]; out.append(emit(b, 1, b['t']))
+        out.append(emit(find('题解'), 2, '题解 · Giới thiệu chủ đề'))
+        out.append(emit(find('词语学习'), 2, '词语学习 · Học từ vựng', 'P52–P53'))
+        miss = find('Ghi chú về phần còn thiếu')
+        out.append(H(2, '走进课文 · Tìm hiểu bài đọc') + BANNER + miss['body'])
+        out.append(emit(find('一、课文问答'), 3, '课文旁问题 · Câu hỏi bên lề', 'P54–P55'))
+        out.append(emit(find('二、语法练习'), 2, '综合注释 · Chú giải tổng hợp', 'P56–P60'))
+        for i, pgx in enumerate(['P56', 'P57', 'P58', 'P59', 'P60'], 1):
+            b = find('2.%d ' % i); out.append(emit(b, 3, '%d. ' % i + clean(b['t'][4:]), pgx))
+        out.append(H(2, '综合练习 · Luyện tập tổng hợp'))
+        out.append(emit(find('2.6 '), 3, '一、目字旁／目字底填空', 'P60'))
+        b3 = find('三、汉字与词语练习'); out.append(b3['body'])
+        out.append(emit(find('一、汉字'), 3, '二、汉字', 'P61–P62'))
+        for pre_ in ['（一）相', '（二）场']:
+            b = find(pre_); out.append(emit(b, 4, b['t']))
+        out.append(emit(find('三、连线'), 3, '三、连线'))
+        out.append(emit(find('四、选词填空'), 3, '四、选词填空（登、赶忙、迫切、意识、出行、纷纷、打量）') + BANNER)
+    r = ''.join(out)
+    assert bal(r) == bal(sec), (n, bal(r), bal(sec))
+    assert len(re.findall(r'class="ans"', r)) == len(re.findall(r'class="ans"', sec))
+    return r
+
 def fix_lesson(sec, n):
     parts = re.split(r'(<h[1-4][^>]*>.*?</h[1-4]>)', sec, flags=re.S)
     out = []; demote = False
@@ -100,6 +187,7 @@ def fix_lesson(sec, n):
 
 def sub(mm):
     n = int(mm.group(2))
+    if n in (3, 4): return mm.group(1) + restructure(mm.group(3), n)
     return mm.group(1) + fix_lesson(mm.group(3), n) if 5 <= n <= 14 else mm.group(0)
 doc = re.sub(r'(<section class="les[^"]*" id="l(\d+)">)(.*?)(?=</section>)', sub, doc, flags=re.S)
 
