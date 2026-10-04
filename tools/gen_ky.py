@@ -168,6 +168,34 @@ def add_hv_column(src):
         out.append('|' + '|'.join(cells) + '|')
     return '\n'.join(out)
 
+KBH = {}      # n -> {tên: chỉ số heading trong trang KB của bài}
+def load_kb(html_text):
+    m = re.search(r'<script id="kb" type="application/json">(.*?)</script>', json.loads(re.search(r'id="src-kb">(.*?)</script>', html_text, re.S).group(1).replace('\\u003c', '<')), re.S)
+    K = json.loads(m.group(1).replace('<\\/', '</'))
+    for n in range(1, 13):
+        hs = []; fence = False
+        for l in K['lessons/%02d.md' % n].split('\n'):
+            if re.match(r'^```', l): fence = not fence
+            if not fence:
+                mm = re.match(r'^(#{1,6})\s+(.*)', l)
+                if mm: hs.append(mm.group(2))
+        f = lambda pat, start=0: next((i for i in range(start, len(hs)) if re.search(pat, hs[i], re.I)), None)
+        plb = f(r'^Phụ lục B')
+        KBH[n] = dict(muctieu=f(r'^1\. '), tuvung=f(r'^3\.1 '), dichlech=f(r'^3\.1\.4'), nguphap=f(r'^3\.3 '), cautruc=f(r'^3\.4 '), chucnang=f(r'^3\.5'), plb=plb, pla=f(r'^Phụ lục A'),
+                      prepare=f(r'^PREPARE', plb), dialog=f(r'促成 · 对话|对话', plb), ext=f(r'拓展', plb), produce=f(r'^PRODUCE', plb), eval=f(r'^评价', plb), appx=f(r'^附录', plb))
+
+def kbl(n, key, label):
+    i = KBH[n].get(key)
+    if i is None and key in ('prepare', 'dialog', 'ext', 'produce', 'eval', 'appx'): i = KBH[n].get('plb')
+    if i is None: return ''
+    return '<a class="kbl" href="#" data-kb="lessons/%02d.md::kbh%d">%s</a>' % (n, i, label)
+
+SECID = {'PREPARE': 'prepare', 'EXPLORE': 'explore', '促成 · 对话': 'dialog', '促成 · 拓展': 'ext', '促成 · 段话': 'dialog', 'PRODUCE': 'produce', '评价': 'eval', '附录': 'appx'}
+def sec_key(t):
+    for k, v in SECID.items():
+        if t.startswith(k): return v
+    return None
+
 CUR_LESSON = [0]
 EX_STATS = collections.Counter()
 def add_example_column(src, lesson):
@@ -426,11 +454,14 @@ def gen_lesson(n):
     h1 = secs[0]; m = re.match(r'^(第\d+课)\s+(.*?)\s*·\s*(Bài\s*\d+:\s*.*)$', h1['t'])
     zh_title = '%s %s' % (m.group(1), m.group(2)); vi_title = m.group(3)
     out = ['<h1>%s</h1>' % ruby_html(html.escape(zh_title)), '<p><em>%s</em></p>' % html.escape(vi_title)]
-    box = None; nnote = 0; k = 1
+    row = ' · '.join(x for x in (kbl(n, 'muctieu', 'Mục tiêu'), kbl(n, 'tuvung', 'Từ vựng'), kbl(n, 'nguphap', 'Ngữ pháp'), kbl(n, 'cautruc', 'Cấu trúc câu'), kbl(n, 'chucnang', 'Chức năng giao tiếp'), kbl(n, 'plb', 'Toàn văn song ngữ'), kbl(n, 'pla', 'Lưu ý văn bản')) if x)
+    if row: out.append('<p class="kbrow">📚 <b>Knowledge Base</b> của bài: %s</p>' % row)
+    box = None; nnote = 0; k = 1; cur_sec = ['prepare']
     def close_box():
         nonlocal box, nnote
         if box is not None:
-            out.append('<details class="kbn"><summary>%s</summary>%s</details>' % (box[0] % nnote if '%d' in box[0] else box[0], ''.join(box[1])))
+            lk = ' · '.join(x for x in (kbl(n, 'cautruc', 'Cấu trúc câu (mục 3.4)'), kbl(n, 'dichlech', 'Từ dễ dịch lệch (mục 3.1.4)'), kbl(n, cur_sec[0] if cur_sec[0] in ('prepare', 'dialog', 'ext', 'produce', 'eval', 'appx') else 'plb', 'Toàn văn phần này')) if x)
+            out.append('<details class="kbn"><summary>%s</summary>%s%s</details>' % (box[0] % nnote if '%d' in box[0] else box[0], ''.join(box[1]), ('<div class="kbn-i kblinks">Mở trong KB: %s</div>' % lk) if lk else ''))
             box = None; nnote = 0
     while k < len(secs):
         s = secs[k]; k += 1; t = s['t']; body = '\n'.join(s['body']).strip('\n')
@@ -448,11 +479,13 @@ def gen_lesson(n):
         lv = s['lv']
         ht = html.escape(t)
         if HAN.search(t): ht = ruby_html(ht)
-        out.append('<h%d>%s</h%d>' % (lv, ht, lv))
+        sk = sec_key(t)
+        if sk: cur_sec[0] = sk
+        out.append('<h%d%s>%s</h%d>' % (lv, (' id="s%d-%s"' % (n, sk)) if sk else '', ht, lv))
         if body.strip(): out.append(render_blocks(strip_echo(t, split_blocks(body))))
     close_box()
     if META_BUF:
-        out.append('<details class="kbn"><summary>📝 Ghi chú của dịch giả (%d)</summary><div class="kbn-i">%s</div></details>' % (len(META_BUF), render_blocks([('paragraph', x) for x in META_BUF], True)))
+        out.append('<details class="kbn"><summary>📝 Ghi chú của dịch giả (%d)</summary><div class="kbn-i">%s</div><div class="kbn-i kblinks">Mở trong KB: %s</div></details>' % (len(META_BUF), render_blocks([('paragraph', x) for x in META_BUF], True), kbl(n, 'pla', 'Phụ lục A · Lưu ý văn bản')))
         META_BUF.clear()
     out.append('<hr/>')
     return '\n'.join(out), zh_title
@@ -465,6 +498,8 @@ CSS = '''/*ky-gen*/
 .ex-zh{font-size:.95em;color:var(--fg);line-height:2.1} .ex-zh mark{background:var(--hl);color:inherit;border-radius:3px;padding:0 1px}
 .ex-vi{font-size:.85em;color:var(--mut)}
 .ex-src{font-size:.68em;color:var(--ac);opacity:.8}
+.kbrow{font-size:.85em;color:var(--mut);margin:.4em 0 1em} a.kbl{color:var(--ac);text-decoration:none;border-bottom:1px dotted var(--ac)} a.kbl:hover{background:var(--hl)}
+.kblinks{font-size:.82em;color:var(--mut);padding-bottom:.6em}
 details.kbn{margin:1em 0;border:1px solid var(--bd);border-radius:8px;background:var(--card)}
 details.kbn>summary{cursor:pointer;padding:6px 12px;color:var(--ac);font-size:.92em}
 details.kbn[open]>summary{border-bottom:1px solid var(--bd)}
@@ -481,6 +516,7 @@ def main():
     ky = json.loads(m.group(2).replace('\\u003c', '<'))
     if '/*ky-gen*/' not in ky:
         ky = ky.replace('</style>', CSS + '</style>', 1)
+    load_kb(s)
     for n in lessons:
         body, zh = gen_lesson(n)
         pat = re.compile(r'(<section data-t="[^"]*" id="s%d">)(.*?)(</section>)' % n, re.S)
