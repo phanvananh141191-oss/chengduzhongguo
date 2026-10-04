@@ -164,6 +164,11 @@ def add_hv_column(src):
                     cells[wi] = cells[wi].replace(mp.group(0), '', 1) if mp.group(0) in cells[wi] else wc[:mp.start()]
                 else:
                     new = ' ' + hv_pick(wc, cells[vi_] if vi_ < len(cells) else '') + ' '
+                hw = re.sub(r'[^\u4e00-\u9fff]', '', wc); L = CUR_LESSON[0]
+                kw = next((x for x in KBI.get(L, {}).get('w', []) if re.sub(r'[^\u4e00-\u9fff]', '', x) == hw), None) if hw else None
+                if kw:
+                    new = new.rstrip() + ' <a id="s%d-w-%s" class="kbl" href="#" data-kb="lessons/%02d.md::kbw-%s" title="Mở mục từ trong KB">🔗</a> ' % (L, kw, L, kw)
+                    KYMAP.setdefault(L, {}).setdefault('kbw-' + kw, 's%d-w-%s' % (L, kw))
         cells.insert(vi_, new)
         out.append('|' + '|'.join(cells) + '|')
     return '\n'.join(out)
@@ -172,6 +177,7 @@ KBH = {}      # n -> {tên: chỉ số heading trong trang KB của bài}
 def load_kb(html_text):
     m = re.search(r'<script id="kb" type="application/json">(.*?)</script>', json.loads(re.search(r'id="src-kb">(.*?)</script>', html_text, re.S).group(1).replace('\\u003c', '<')), re.S)
     K = json.loads(m.group(1).replace('<\\/', '</'))
+    _kb_items(K)
     for n in range(1, 13):
         hs = []; fence = False
         for l in K['lessons/%02d.md' % n].split('\n'):
@@ -183,6 +189,34 @@ def load_kb(html_text):
         plb = f(r'^Phụ lục B')
         KBH[n] = dict(muctieu=f(r'^1\. '), tuvung=f(r'^3\.1 '), dichlech=f(r'^3\.1\.4'), nguphap=f(r'^3\.3 '), cautruc=f(r'^3\.4 '), chucnang=f(r'^3\.5'), plb=plb, pla=f(r'^Phụ lục A'),
                       prepare=f(r'^PREPARE', plb), dialog=f(r'促成 · 对话|对话', plb), ext=f(r'拓展', plb), produce=f(r'^PRODUCE', plb), eval=f(r'^评价', plb), appx=f(r'^附录', plb))
+
+KBI = {}   # n -> dict(w=[từ], d=[từ], s=[(chỉ số, cụm Hán)])
+KYMAP = {}  # n -> {id mục KB: id phần tử ky}
+def _kb_items(K):
+    for n in range(1, 13):
+        ctx = ''; w = []; d = []; st = []; rows_k = 0; in_tab = False; fence = False
+        lines = K['lessons/%02d.md' % n].split('\n')
+        for i, l in enumerate(lines):
+            if re.match(r'^```', l): fence = not fence
+            if fence: continue
+            mm = re.match(r'^(#{1,6})\s+(.*)', l)
+            if mm: ctx = mm.group(2); in_tab = False; rows_k = 0; continue
+            if not l.startswith('|'): in_tab = False; continue
+            if not in_tab:
+                in_tab = True; rows_k = 0; kind = 'd' if re.search(r'dễ dịch lệch', ctx, re.I) else 's' if re.search(r'^3\.4|Cấu trúc câu', ctx) else 'w' if re.search(r'^3\.1\.[12]|^3\.2|词语表|Cụm từ', ctx) else None
+                continue                      # dòng tiêu đề cột
+            if re.match(r'^\|\s*:?-{2,}', l): continue
+            rows_k += 1
+            cells = split_row(l)
+            if not cells or not kind: continue
+            if kind == 's':
+                st.append((rows_k, re.sub(r'[*_`]', '', cells[0]).strip())); continue
+            word = ''
+            for c in cells[:3]:
+                t = re.sub(r'[➕\s*_`]', '', c)
+                if HAN.search(t): word = t; break
+            if word: (d if kind == 'd' else w).append(word)
+        KBI[n] = dict(w=w, d=d, s=st)
 
 def kbl(n, key, label):
     i = KBH[n].get(key)
@@ -341,6 +375,32 @@ def pair_up(han, vi):
     if len(hs) > 1 and len(vs) > 1: return align(hs, vs)
     return None
 
+UCNT = [0]
+def wrap_word(h, word, cls, kb):
+    """Bọc các chữ ruby liên tiếp của `word` thành liên kết sang KB (lần xuất hiện đầu tiên)."""
+    pat = ''.join(r'<ruby>%s<rt>[^<]*</rt></ruby>' % re.escape(c) for c in word)
+    m = re.search(pat, h)
+    if not m: return h, False
+    return h[:m.start()] + '<a class="kbl %s" href="#" data-kb="%s">%s</a>' % (cls, kb, m.group(0)) + h[m.end():], True
+
+def decorate(h, plain_zh, n):
+    """Gắn liên kết KB vào câu Hán: từ dễ dịch lệch (gạch chấm) và cấu trúc có ghi chú sắc thái (📝 cuối câu)."""
+    if n not in KBI: return h, []
+    ids = []; marks = []
+    for wd in KBI[n]['d']:
+        c = re.sub(r'[^\u4e00-\u9fff]', '', wd)
+        if len(c) >= 1 and c in plain_zh:
+            h, ok = wrap_word(h, c, 'kbw', 'lessons/%02d.md::kbd-%s' % (n, wd))
+            if ok: ids.append('kbd-' + wd)
+    for idx, phrase in KBI[n]['s']:
+        segs = [x for x in re.split(r'[^\u4e00-\u9fff]+', phrase) if len(x) >= 2]
+        if not segs or sum(len(x) for x in segs) < 4: continue
+        if all(x in plain_zh for x in segs):
+            marks.append('<a class="kbl kbm" href="#" data-kb="lessons/%02d.md::kbs-%d" title="Ghi chú sắc thái trong KB: %s">📝</a>' % (n, idx, html.escape(phrase[:40], quote=True)))
+            ids.append('kbs-%d' % idx)
+        if len(marks) >= 3: break
+    return h + ''.join(marks), ids
+
 def render_pair(zh_src, vi_src=None):
     han, py, vi_in = zh_para(zh_src)
     vi = list(vi_in)
@@ -357,19 +417,24 @@ def render_pair(zh_src, vi_src=None):
     hint = hint_syllables(' '.join(py), ' '.join(han)) if py else None
     if hint is not None and len(hint) != len(HAN.findall(' '.join(han))): hint = None
     pairs = pair_up(han, vi) if vi else None
+    L = CUR_LESSON[0]; UCNT[0] += 1; uid = 's%d-u%d' % (L, UCNT[0])
+    def note(ids):
+        for i_ in ids: KYMAP.setdefault(L, {}).setdefault(i_, uid)
     if pairs is None:
         h = ruby_html('<br>'.join(inline(x) for x in han), hint)
+        h, ids = decorate(h, re.sub(r'[*_`]', '', ' '.join(han)), L); note(ids)
         if spk: h = '<strong>%s：</strong> %s' % (ruby_html(html.escape(spk)), h)
         v = '<br>'.join(inline(x) for x in vi)
-        return '<div class="u3"><div class="zh">%s</div>%s</div>' % (h, ('<div class="vi">%s</div>' % v) if v else '')
+        return '<div class="u3" id="%s"><div class="zh">%s</div>%s</div>' % (uid, h, ('<div class="vi">%s</div>' % v) if v else '')
     out = []; pos = 0; first = True
     for hz, vz in pairs:
-        n = len(HAN.findall(hz))
-        h = ruby_html(inline(hz), hint[pos:pos + n] if hint is not None else None); pos += n
+        nh = len(HAN.findall(hz))
+        h = ruby_html(inline(hz), hint[pos:pos + nh] if hint is not None else None); pos += nh
+        h, ids = decorate(h, re.sub(r'[*_`]', '', hz), L); note(ids)
         if first and spk: h = '<strong>%s：</strong> %s' % (ruby_html(html.escape(spk)), h)
         first = False
         out.append('<div class="zh">%s</div><div class="vi">%s</div>' % (h, inline(vz)))
-    return '<div class="u3">%s</div>' % ''.join(out)
+    return '<div class="u3" id="%s">%s</div>' % (uid, ''.join(out))
 
 def is_zh_para(src):
     s = src.strip()
@@ -448,7 +513,7 @@ def parse_sections(text):
     return secs
 
 def gen_lesson(n):
-    CUR_LESSON[0] = n
+    CUR_LESSON[0] = n; UCNT[0] = 0
     text = open(os.path.join(CHUAN, 'Bai%02d.md' % n), encoding='utf8').read()
     secs = parse_sections(text)
     h1 = secs[0]; m = re.match(r'^(第\d+课)\s+(.*?)\s*·\s*(Bài\s*\d+:\s*.*)$', h1['t'])
@@ -499,6 +564,8 @@ CSS = '''/*ky-gen*/
 .ex-vi{font-size:.85em;color:var(--mut)}
 .ex-src{font-size:.68em;color:var(--ac);opacity:.8}
 .kbrow{font-size:.85em;color:var(--mut);margin:.4em 0 1em} a.kbl{color:var(--ac);text-decoration:none;border-bottom:1px dotted var(--ac)} a.kbl:hover{background:var(--hl)}
+.kbm{font-size:.7em;vertical-align:super;margin-left:.2em;text-decoration:none;border:0}
+a.kbw{border-bottom:1px dotted var(--ac);color:inherit;text-decoration:none}
 .kblinks{font-size:.82em;color:var(--mut);padding-bottom:.6em}
 details.kbn{margin:1em 0;border:1px solid var(--bd);border-radius:8px;background:var(--card)}
 details.kbn>summary{cursor:pointer;padding:6px 12px;color:var(--ac);font-size:.92em}
@@ -526,6 +593,7 @@ def main():
     if HV_MISS: print('Hán-Việt: chữ chưa có trong từ điển:', ''.join(HV_MISS))
     print('Ví dụ trong bảng từ:', dict(EX_STATS))
     print('ruby: khớp pinyin md %(aligned)d khối, dùng pypinyin %(fallback)d khối' % STATS)
+    json.dump({str(k): v for k, v in KYMAP.items()}, open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '_kymap.json'), 'w', encoding='utf8'), ensure_ascii=False)
     new = json.dumps(ky, ensure_ascii=False).replace('<', '\\u003c')
     open(dst, 'w', encoding='utf8').write(s[:m.start(2)] + new + s[m.end(2):])
 

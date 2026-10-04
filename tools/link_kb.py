@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Nối ky ↔ KB hai chiều (chạy sau gen_ky): vá khung ky, khung KB và shell.
 Dùng: python3 tools/link_kb.py file.html   (ghi đè tại chỗ)"""
-import re, sys, json
+import re, sys, json, os
 f = sys.argv[1]
 s = open(f, encoding='utf8').read()
 enc = lambda d: json.dumps(d, ensure_ascii=False).replace('<', '\\u003c')
@@ -33,6 +33,7 @@ patch_doc('ky', ky_fn)
 # ------------------------------------------------------------------ khung KB
 KB_JS = r'''<script>/*kb-link*/
 (function(){
+var KYMAP=__KYMAP__;
 var SEC=[['prepare','PREPARE'],['dialog','促成 · 对话'],['ext','促成 · 拓展'],['produce','PRODUCE'],['eval','评价'],['appx','附录']];
 var og=go;go=function(){og.apply(this,arguments);try{
   var d=document.getElementById('doc');if(!d)return;
@@ -43,16 +44,29 @@ var og=go;go=function(){og.apply(this,arguments);try{
     var bar=document.createElement('p');bar.className='kykbar';
     bar.innerHTML='📖 <b>Mở trong sách (汉语口语)</b>: <a href="#" class="kyl" data-ky="s'+n+'">第'+n+'课 · toàn bài</a>'+SEC.map(function(x){return ' · <a href="#" class="kyl" data-ky="s'+n+'::s'+n+'-'+x[0]+'">'+x[1]+'</a>'}).join('');
     var h1=d.querySelector('h1');if(h1)h1.after(bar);else d.prepend(bar)}
-  if(a){var e=document.getElementById(a);if(e)e.scrollIntoView({block:'start'})}
+  if(m){var n2=+m[1],mp=KYMAP[String(n2)]||{},ctx='',pad=function(x){return x};
+    d.querySelectorAll('h1,h2,h3,h4,h5,h6,table').forEach(function(el){
+      if(el.tagName!=='TABLE'){ctx=el.textContent;return}
+      if(el.getAttribute('data-kbrows'))return;
+      var kind=/dễ dịch lệch/i.test(ctx)?'d':/^3\.4|Cấu trúc câu/.test(ctx)?'s':/^3\.1\.[12]|^3\.2|词语表|Cụm từ/.test(ctx)?'w':null;
+      if(!kind)return;el.setAttribute('data-kbrows','1');var k=0;
+      el.querySelectorAll('tbody tr').forEach(function(tr){k++;var id='',word='';
+        if(kind==='s')id='kbs-'+k;
+        else{for(var i=0;i<Math.min(tr.children.length,3);i++){var t=tr.children[i].textContent.replace(/[➕\s]/g,'');if(/[\u3400-\u9fff]/.test(t)){word=t;break}}
+          if(!word)return;id=(kind==='d'?'kbd-':'kbw-')+word}
+        if(document.getElementById(id))return;tr.id=id;
+        var tg=mp[id];if(tg){var c=tr.children[kind==='s'?0:Math.min(1,tr.children.length-1)];
+          var l=document.createElement('a');l.href='#';l.className='kyl kyi';l.setAttribute('data-ky','s'+n2+'::'+tg);l.title='Mở trong sách (bài '+n2+')';l.textContent='📖';c.appendChild(document.createTextNode(' '));c.appendChild(l)}})})}
+  if(a){var e=document.getElementById(a);if(e){e.scrollIntoView({block:'start'});e.classList.add('kbflash');setTimeout(function(){e.classList.remove('kbflash')},1800)}}
 }catch(x){}};
 document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a.kyl');if(!a)return;e.preventDefault();
   try{window.parent.postMessage({u3:1,book:'kb',t:'nav',key:'ky:'+a.getAttribute('data-ky')},'*')}catch(x){}},true);
 go();
 })();
-</script><style>.kykbar{font-size:13px;color:var(--mut);margin:.2em 0 .8em}.kykbar a{color:var(--ac);text-decoration:none;border-bottom:1px dotted var(--ac)}.kykbar a:hover{background:var(--ac2)}</style>'''
+</script><style>.kbflash{animation:kbf 1.8s ease-out}@keyframes kbf{from{background:var(--ac2);outline:2px solid var(--ac)}to{background:transparent;outline:2px solid transparent}}a.kyi{text-decoration:none}.kykbar{font-size:13px;color:var(--mut);margin:.2em 0 .8em}.kykbar a{color:var(--ac);text-decoration:none;border-bottom:1px dotted var(--ac)}.kykbar a:hover{background:var(--ac2)}</style>'''
 def kb_fn(d):
     if '/*kb-link*/' in d: return d
-    i = d.rfind('</body>'); return d[:i] + KB_JS + d[i:]
+    i = d.rfind('</body>'); return d[:i] + KB_JS.replace('__KYMAP__', open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '_kymap.json'), encoding='utf8').read()) + d[i:]
 patch_doc('kb', kb_fn)
 
 # ------------------------------------------------------------------ shell: nhận thông điệp «nav» từ khung
