@@ -14,6 +14,9 @@ sys.path.insert(0, os.path.dirname(__file__))
 from audio_voices import VOICES
 FMT = 'mp3_22050_32'            # ~4 KB/giây, đủ rõ cho giọng đọc; đổi mp3_44100_64 nếu muốn chất lượng cao
 
+def save_idx(idx):
+    tmp = IDX + '.tmp'; json.dump(dict(list(idx.items())), open(tmp, 'w'), indent=0); os.replace(tmp, IDX)
+
 def call(path, key, body=None):
     path = path.replace('/user/subscription', '/user/subscription')
     req = urllib.request.Request(API + path, data=json.dumps(body).encode() if body is not None else None,
@@ -61,7 +64,7 @@ def main():
     def run(it):
         nonlocal done
         n = one(it, key, voice, a.model, idx); done += 1
-        if done % 25 == 0: json.dump(idx, open(IDX, 'w'), indent=0); print(done, '/', len(todo), flush=True)
+        if done % 25 == 0: save_idx(idx); print(done, '/', len(todo), flush=True)
         return n
     def remaining():
         try:
@@ -74,5 +77,5 @@ def main():
             if remaining() < need + 300: stopped = k; break
             tot += sum(ex.map(run, batch))
     if stopped is not None: print('DỪNG vì sắp hết hạn mức ký tự: còn %d file chưa tạo' % (len(todo) - stopped))
-    json.dump(idx, open(IDX, 'w'), indent=0); print('Xong %d file, %.1f MB' % (done, tot / 1048576))
+    save_idx(idx); print('Xong %d file, %.1f MB' % (done, tot / 1048576))
 main()

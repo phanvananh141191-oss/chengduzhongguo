@@ -11,7 +11,7 @@ VOICES = {   # tên → voice_id   (n = nam, nu = nữ; y = trẻ, m = trung ni�
  # nam trung niên
  'anchor': '2I36mEahS1u7ZnTKUoaB', 'erich': 'fYmV8EanqZP9BI4WvpB7', 'jason': 'DowyQ68vDpgFYdWVGjc3', 'adrianm': 'i2gDhHnLj4CvKBpf3gPR', 'siqi': 'W8lBaQb9YIoddhxfQNLP', 'jordan': 'EttSxNTvxX50EUdRPQQl',
  # nữ trung niên
- 'huafeng': 'rtRocV7drsrJFSQPxlD3', 'mingyao': 'JZLpE3AGwpKYZI2X65hN', 'stella': 'BqljJjWyTnrioXPCNkCd4', 'jill': 'V3z1DARAbkkTVEx5lmEl',
+ 'huafeng': 'rtRocV7drsrJFSQPxlD3', 'mingyao': 'JZLpE3AGwpKYZI2X65hN', 'stella': 'BqljjWyTnrioXPCNkCd4', 'jill': 'V3z1DARAbkkTVEx5lmEl',
 }
 GENDER = {k: ('F' if k in ('nu1','bobo','anna','shan','xiaoxi','julia','willow','susan','sage','huafeng','mingyao','stella','jill') else 'M') for k in VOICES}
 # nhân vật ky: (giọng, mô tả tuổi/giới)
