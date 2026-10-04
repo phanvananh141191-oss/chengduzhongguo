@@ -126,6 +126,9 @@ def pair(hs, vs):
     lead_title = 0
     if H and len(H) == len(vs) + 1 and re.match(r'^\s*<b>[^<]*</b>\s*$', H[0]) and not re.search('[。！？，；]', plain(H[0])): lead_title = 1
     H2 = H[lead_title:]; idx2 = idx[lead_title:]
+    if len(H2) > len(vs):
+        vs2 = [y.strip() + (';' if k < len(x.split(';')) - 1 else '') for x in vs for k, y in enumerate(x.split(';')) if y.strip()]
+        if len(vs2) == len(H2): vs = vs2
     if len(H2) == len(vs): g = [((i, i + 1), (i, i + 1)) for i in range(len(H2))]
     else: g = align(H2, vs)
     if g is None: return None
@@ -269,7 +272,90 @@ def lvb_clean(d):
         else: pos = e
     return d, removed, moved
 
-CSS = (".zu{margin:.3em 0}.trs{background:var(--nbg);border-left:4px solid var(--note);border-radius:6px;padding:5px 10px;margin:3px 0 .7em;"
+
+# ---------------------------------------------------------------- chú thích (注释) của 走进课文
+import html as _html
+
+def _lesson_span(d, n):
+    i = d.find('id="l%d"' % n)
+    if i < 0: return None
+    s0 = d.find('<section class="les', max(0, i - 40))
+    s1 = d.find('<section class="les', s0 + 10); s1 = len(d) if s1 < 0 else s1
+    return s0, s1
+
+def _notes_region(S):
+    m = re.search(r'<h3[^>]*>\s*注释[^<]*</h3>', S)
+    if not m: return None
+    start = m.end()
+    pg = re.match(r'(?:\s*<div class="ln lv">[^<]*</div>)*\s*(?:<p class="py pg">[^<]*</p>)?', S[start:])
+    e = re.search(r'<h[23][ >]', S[start:])
+    return m, start, (start + e.start() if e else len(S))
+
+def notes_han(d):
+    """bài 5–7: dựng lại chú thích với Hán biên soạn + Việt từng câu."""
+    from fz_notes_han import NOTES
+    cnt = 0
+    for n, notes in NOTES.items():
+        sp = _lesson_span(d, n)
+        if not sp: continue
+        s0, s1 = sp; S = d[s0:s1]
+        reg = _notes_region(S)
+        if not reg: continue
+        m, start, end = reg
+        old = S[start:end]
+        heads = {int(x.group(1)): x.group(2).strip().rstrip(':：').strip() for x in re.finditer(r'<b>(\d+)\. ([^<]*?)</b>', old)}
+        out = ['<div class="ntag">ℹ️ Nguồn chỉ có bản dịch tiếng Việt kèm pinyin; phần chữ Hán của chú thích được biên soạn lại theo nghĩa tiếng Việt.</div>']
+        for num in sorted(notes):
+            head = heads.get(num, '')
+            out.append('<div class="zu nh"><b>%d. %s</b></div>' % (num, _html.escape(head, quote=False)))
+            for hz, vi in notes[num]:
+                out.append('<div class="zu">%s</div><div class="trs">%s</div>' % (_html.escape(hz, quote=False), _html.escape(vi, quote=False)))
+                cnt += 1
+        d = d[:s0] + S[:start] + ''.join(out) + S[end:] + d[s1:]
+    return d, cnt
+
+def _vi_head_split(vi):
+    m = re.match(r'^(\S*[一-鿿][^:：]{0,40}[:：])\s*(.*)$', vi)
+    if m: return m.group(1), m.group(2)
+    m = re.search(r'(?<=[a-zà-ỹ\)”])\s+(?=[A-ZÀ-Ỵ“])', vi)
+    if m and m.start() < 90: return vi[:m.start()], vi[m.end():]
+    return None, vi
+
+def notes_ol(d):
+    """bài 9–14: mỗi mục <li> gồm Hán + Việt gộp → ghép từng câu."""
+    cnt = 0
+    for n in range(9, 15):
+        sp = _lesson_span(d, n)
+        if not sp: continue
+        s0, s1 = sp; S = d[s0:s1]
+        reg = _notes_region(S)
+        if not reg: continue
+        m, start, end = reg
+        old = S[start:end]
+        def fix(mm):
+            nonlocal cnt
+            hz_html, vi_html = mm.group(1), mm.group(2)
+            vi = plain(vi_html)
+            k = hz_html.find('：')
+            if k < 0: return mm.group(0)
+            head_h, rest_h = hz_html[:k + 1], hz_html[k + 1:]
+            head_v, rest_v = _vi_head_split(vi)
+            hs = han_segments(rest_h); vs = vi_segments(rest_v)
+            g = pair(hs, vs) if hs and vs else None
+            if g is None: return mm.group(0)
+            by = {hi[-1]: v for hi, v in g}
+            out = ['<div class="zu nh">%s</div>' % head_h]
+            if head_v and re.search(r'[a-zà-ỹ]{2,}', re.sub(r'\([^)]*\)', '', head_v)): out.append('<div class="trs">%s</div>' % _html.escape(head_v, quote=False))
+            for i, sg in enumerate(hs):
+                out.append('<div class="zu">%s</div>' % sg)
+                if i in by: out.append('<div class="trs">%s</div>' % _html.escape(by[i], quote=False))
+            cnt += 1
+            return '<li>' + ''.join(out) + '</li>'
+        new = re.sub(r'<li><div class="ln lz">(.*?)</div><div class="ln lv">(.*?)</div></li>', fix, old, flags=re.S)
+        d = d[:s0] + S[:start] + new + S[end:] + d[s1:]
+    return d, cnt
+
+CSS = (".zu{margin:.3em 0}.trs{border-left:3px solid var(--bd);padding-left:8px;opacity:.92;margin:2px 0 .7em;"
        "font-size:.92rem;line-height:1.7}main.novi .trs{display:none}.xc.novi .trs{display:none!important}")
 
 def main(path):
@@ -314,6 +400,7 @@ def main(path):
         if d[end:end + 1] == ';': end += 1
         d = d[:i] + d[end:]
     d, rm, mv = lvb_clean(d); stats.append(('lvb', rm, mv))
+    d, c1 = notes_han(d); d, c2 = notes_ol(d); stats.append(('notes', c1, c2))
     if '.zu{margin' not in d: d = d.replace('</style>', CSS + '</style>', 1)
     h = h[:m.start(2)] + json.dumps(d, ensure_ascii=False).replace('<', '\\u003c') + h[m.end(2):]
     open(path, 'w', encoding='utf-8').write(h)
