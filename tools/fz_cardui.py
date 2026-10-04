@@ -17,6 +17,19 @@ CSS = """
 .xc .uxb .sc{margin-right:auto;margin-left:0}
 .xc .uin{margin:12px 0}
 .wr .wbar{height:6px;border-radius:3px;background:var(--bd);overflow:hidden;margin:6px 0}.wr .wbar>i{display:block;height:100%;width:0;background:var(--acc,#17685c);transition:width .2s}.wr .wbar>i.full{background:#1a8f4a}
+.xh .xvt{margin-left:auto;font-size:.78rem;border:1px solid var(--bd);background:transparent;color:var(--mut,#777);border-radius:99px;padding:2px 10px;cursor:pointer}
+.xh .xvt[aria-pressed=true]{background:var(--u-hl,#e8efe9);color:var(--acc,#17685c)}
+.xc.novi .lv,.xc.novi .lvb{display:none!important}
+.xbank{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 10px;padding:8px 10px;border:1px dashed var(--bd);border-radius:10px;background:var(--u-card,var(--card))}
+.xbank .xch{font:inherit;font-size:1rem;line-height:1.15;padding:5px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--card);color:inherit;cursor:pointer;text-align:center}
+.xbank .xch small{display:block;font-size:.66rem;color:var(--mut,#777);margin-top:2px}
+.xbank .xch.sel{border-color:var(--acc,#17685c);background:var(--u-hl,#e8efe9);color:var(--acc,#17685c);box-shadow:0 0 0 2px #17685c33}
+.xbank .xch.used{opacity:.4}
+.xbank .xtip{flex:1 0 100%;font-size:.78rem;color:var(--mut,#777)}
+.xbsrc{display:none!important}
+.xc.xsel input[data-a],.xc.xsel input.uw{outline:1px dashed var(--acc,#17685c);cursor:pointer}
+.xin{margin:6px 0 12px}.xin textarea{width:100%;min-height:3.2em;box-sizing:border-box;border:1px dashed var(--u-line,var(--bd));border-radius:8px;background:var(--u-card,var(--card));color:inherit;font:inherit;padding:6px 8px}
+.xc input.uw.xmir{background:transparent;border-bottom:1px dotted var(--mut,#999);pointer-events:none;color:var(--acc,#17685c);min-width:6em}
 """
 
 JS = r"""
@@ -30,6 +43,77 @@ function status(c){
   return v?'doing':'todo'}
 var LAB={todo:'Chưa làm',doing:'Đang làm',checked:'Đã kiểm tra'};
 function setSt(c,s){c.dataset.st=s;var e=c.querySelector('.xst');if(e)e.textContent=LAB[s]}
+
+var HAN=/[一-鿿]/;
+function parseComma(t){
+  t=t.replace(/^\s*(?:Bảng từ|词库|词语库)\s*[:：]\s*/,'');
+  var parts=t.split(/[,，、;；]\s*/).map(function(x){return x.trim()}).filter(Boolean);
+  if(parts.length<4)return null;var out=[];
+  for(var i=0;i<parts.length;i++){var m=parts[i].match(/^(\S*[一-鿿]\S*?)(?:\s+([^一-鿿]*))?$/);if(!m)return null;out.push([m[1],(m[2]||'').trim()])}
+  return out}
+function parseSpace(t){
+  t=t.replace(/^\s*(?:[（(][一二三四五六七八九十][）)]\s*)?/,'').replace(/^[一二三四五六七八九十]、选词填空\s+/,'').replace(/^[^：:]{0,40}[：:]\s*/,'');
+  var parts=t.trim().split(/\s+/);if(parts.length<4)return null;
+  for(var i=0;i<parts.length;i++)if(!/^[一-鿿]{1,8}$/.test(parts[i]))return null;
+  return parts.map(function(x){return [x,'']})}
+function answersOf(c){var a={};c.querySelectorAll('input[data-a]').forEach(function(i){i.dataset.a.split('|').forEach(function(x){a[x.trim()]=1})});return a}
+function mkBank(c,ents,after){
+  var ans=answersOf(c),hit=0,tot=ents.length;ents.forEach(function(e){if(ans[e[0]])hit++});
+  if(Object.keys(ans).length&&hit<Math.max(2,tot*0.3))return null;
+  var b=document.createElement('div');b.className='xbank';
+  ents.forEach(function(e){var x=document.createElement('button');x.type='button';x.className='xch';x.dataset.w=e[0];x.textContent=e[0];if(e[1]){var s=document.createElement('small');s.textContent=e[1];x.appendChild(s)}b.appendChild(x)});
+  var tip=document.createElement('div');tip.className='xtip';tip.textContent='Chạm một từ, rồi chạm ô trống để điền. Nhấp đúp ô đã điền để trả từ về khung.';b.appendChild(tip);
+  after.parentNode.insertBefore(b,after.nextSibling);return b}
+function banks(c){
+  if(c.querySelector('.bank')||c.querySelector('.xbank'))return;
+  var made=0;
+  c.querySelectorAll('.ln').forEach(function(l){
+    if(l.closest('.xbank'))return;var t=l.textContent.trim();if(t.length>1200||/—/.test(t.slice(0,40)))return;
+    var e=parseComma(t);if(!e||!/^Bảng từ|^[一-鿿]/.test(t))return;
+    var b=mkBank(c,e,l);if(b){l.classList.add('xbsrc');made++}});
+  c.querySelectorAll('.xbl').forEach(function(l){var e=l.dataset.b.split(' ').filter(Boolean).map(function(x){return [x,'']});if(e.length<3)return;var b=mkBank(c,e,l);if(b)l.classList.add('xbsrc')});
+  var w=document.createTreeWalker(c,NodeFilter.SHOW_TEXT,null),n,list=[];
+  while((n=w.nextNode())){var p=n.parentNode;if(p.closest('.xbank,.xbsrc,.ans,textarea,.uin'))continue;
+    var nx=n.nextSibling,pv=n.previousSibling;
+    if(!(nx&&nx.nodeName==='BR')||!(pv==null||pv.nodeName==='BR'))continue;
+    if(!HAN.test(n.nodeValue)||n.nodeValue.length>200)continue;
+    var e=parseSpace(n.nodeValue);if(e)list.push([n,e])}
+  list.forEach(function(x){var n=x[0],sp=document.createElement('span');sp.className='xbsrc';n.parentNode.insertBefore(sp,n);sp.appendChild(n);
+    var br=sp.nextSibling;var holder=document.createElement('span');br.parentNode.insertBefore(holder,br.nextSibling);
+    var b=mkBank(c,x[1],holder);if(!b)sp.className='';else{holder.parentNode.removeChild(holder)}});
+}
+function bindBank(c){
+  var sel=null;
+  function upd(){var vals={};c.querySelectorAll('input[data-a],input.uw').forEach(function(i){if(i.value.trim())vals[i.value.trim()]=1});
+    c.querySelectorAll('.xch').forEach(function(x){x.classList.toggle('used',!!vals[x.dataset.w])})}
+  c.addEventListener('click',function(e){
+    var ch=e.target.closest&&e.target.closest('.xch');
+    if(ch){if(sel===ch){sel.classList.remove('sel');sel=null;c.classList.remove('xsel')}else{if(sel)sel.classList.remove('sel');sel=ch;ch.classList.add('sel');c.classList.add('xsel')}return}
+    var i=e.target.closest&&e.target.closest('input[data-a],input.uw');
+    if(i&&sel){i.value=sel.dataset.w;i.dispatchEvent(new Event('input',{bubbles:true}));sel.classList.remove('sel');sel=null;c.classList.remove('xsel');upd()}});
+  c.addEventListener('dblclick',function(e){var i=e.target.closest&&e.target.closest('input[data-a],input.uw');if(i&&i.value){i.value='';i.dispatchEvent(new Event('input',{bubbles:true}));upd()}});
+  c.addEventListener('input',upd);setTimeout(upd,300)}
+var ITEM=/^\s*(?:\d+[\.、．]|[（(]\d+[）)])/;
+function frames(c,key){
+  var typ=c.querySelector('.xbd').textContent;if(!/完成对话|完成句子|改写|问答/.test(typ))return;
+  var items=[];[].slice.call(c.querySelectorAll('.ln.lz,li')).forEach(function(e){
+    if(e.closest('.ans,.uin,.xin,.xbank'))return;if(e.tagName==='LI'&&e.querySelector('.ln.lz,li'))return;
+    if(e.tagName!=='LI'&&e.querySelector('.ln.lz'))return;
+    if(ITEM.test(e.textContent))items.push(e)});
+  if(items.length<2)return;
+  items.forEach(function(it,k){
+    var last=it;while(last.nextElementSibling&&last.nextElementSibling.classList.contains('ln')&&!last.nextElementSibling.classList.contains('lz')&&!ITEM.test(last.nextElementSibling.textContent))last=last.nextElementSibling;
+    var inps=it.querySelectorAll('input.uw'),inp=inps.length===1?inps[0]:null;
+    if(inps.length>1)return;
+    var d=document.createElement('div');d.className='xin';var t=document.createElement('textarea');t.rows=2;t.placeholder='Viết câu của bạn…';
+    d.appendChild(t);last.parentNode.insertBefore(d,last.nextSibling);
+    if(inp){inp.classList.add('xmir');inp.readOnly=true;
+      t.value=inp.value||'';
+      t.addEventListener('input',function(){inp.value=t.value;inp.dispatchEvent(new Event('input',{bubbles:true}))});
+      var iv=setInterval(function(){if(!t.value&&inp.value){t.value=inp.value}},700);setTimeout(function(){clearInterval(iv)},4000)}
+    else{var kk=key+':i'+k;try{t.value=UEX.ls.getItem(kk)||''}catch(e){}
+      t.addEventListener('input',function(){try{UEX.ls.setItem(kk,t.value)}catch(e){}});
+      setTimeout(function(){try{if(!t.value)t.value=UEX.ls.getItem(kk)||''}catch(e){}},900)}})}
 function run(){
  document.querySelectorAll('.card.ex').forEach(function(c){
   if(c.classList.contains('xc'))return;
@@ -40,6 +124,10 @@ function run(){
   var hd=document.createElement('div');hd.className='xh';
   hd.innerHTML='<span class="xbd"></span><span class="xst"></span>';hd.firstChild.textContent=/综合注释/.test(sec(c))?'语法·练习':(/走进课文/.test(sec(c))?'课文·问答':typeOf(t));
   c.appendChild(hd);c.appendChild(b);c.classList.add('xc');
+  var vt=document.createElement('button');vt.type='button';vt.className='xvt';vt.textContent='🇻🇳 Dịch';vt.setAttribute('aria-pressed','true');vt.onclick=function(){var off=c.classList.toggle('novi');vt.setAttribute('aria-pressed',off?'false':'true')};hd.appendChild(vt);
+  try{banks(c);bindBank(c)}catch(e){}
+  var tk=c.querySelector('textarea.uans'),key=tk?tk.dataset.k:('ans:fz:'+((c.closest('section')||{}).id||'x')+':x'+[].indexOf.call(document.querySelectorAll('.card.ex'),c));
+  try{frames(c,key)}catch(e){}
   setSt(c,status(c));
   c.addEventListener('input',function(){if(c.dataset.st!=='checked')setSt(c,status(c))});
   c.addEventListener('click',function(e){var x=e.target.closest&&e.target.closest('.uxb .b');if(!x)return;var tx=x.textContent;
@@ -60,6 +148,19 @@ def main(path):
     h = open(path, encoding='utf-8').read()
     m = re.search(r'(<script type="application/json" id="src-fz">)(.*?)(</script>)', h, re.S)
     d = json.loads(m.group(2))
+    W = r'((?:[\u4e00-\u9fff]{1,6} ){3,}[\u4e00-\u9fff]{1,6})'
+    def wrap(m): return m.group(1) + '<span class="xbl" data-b="%s">%s</span>' % (m.group(2), m.group(2))
+    nb = 0
+    for n in (1, 2):
+        i0 = d.find('id="l%d"' % n); j0 = d.find('<section class="les', i0 + 10); j0 = len(d) if j0 < 0 else j0
+        seg = d[i0:j0]
+        if 'class="xbl"' in seg: continue
+        for pat in (r'(?<=<br/>)((?:[（(][一二三四五六七八九十][）)] )?(?:[^<：\n↔]{0,30}：)?)' + W + r'(?=<br/>)',
+                    r'(<b>[一二三四五六七八九十]、选词填空</b> )' + W + r'(?=</p>)',
+                    r'(\(词库：)' + W.replace('{3,}', '{2,}') + r'(?=\))'):
+            seg, k = re.subn(pat, wrap, seg); nb += k
+        d = d[:i0] + seg + d[j0:]
+    print('  bank dòng gắn nhãn xbl:', nb)
     if '.card.ex.xc{' not in d:
         d = d.replace('</style>', CSS + '</style>', 1)
         i = d.rfind('</body>')
