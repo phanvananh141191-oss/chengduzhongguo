@@ -169,8 +169,8 @@ L8_NOTES = [
     "Hình thức chế độ trách nhiệm sản xuất nông nghiệp, trong đó nông dân lấy hộ gia đình làm đơn vị nhận khoán đất đai và các tư liệu sản xuất khác cùng nhiệm vụ sản xuất từ tổ chức kinh tế tập thể. Nông dân có thể tự chủ sản xuất, kinh doanh theo hợp đồng, một phần thu nhập nộp lên, phần còn lại thuộc về hộ nông dân.")]),
  ("棉花", "Bông (cotton)", [("农作物，果实是重要的纺织原料。", "Cây nông nghiệp, quả của nó là nguyên liệu dệt quan trọng.")]),
  ("函授", "Đào tạo từ xa, hàm thụ", [
-   ("运用通信方式进行远距离教育。20世纪80年代中国的函授教育主要是听广播和看书相结合。",
-    "Dùng phương thức thông tin liên lạc để giáo dục từ xa. Giáo dục hàm thụ ở Trung Quốc thập niên 80 chủ yếu là kết hợp nghe đài phát thanh và đọc sách. (ảnh bị cắt mép, vài chữ cuối có thể lệch)")]),
+   ("运用通信方式进行远距离教育。20世纪80年代中国的函授教育主要是听广播和函授相结合。",
+    "Dùng phương thức thông tin liên lạc để giáo dục từ xa. Giáo dục hàm thụ ở Trung Quốc thập niên 80 chủ yếu là kết hợp nghe đài phát thanh với học hàm thụ (qua tài liệu gửi).")]),
  ("红", "Nổi tiếng, được ưa chuộng", [
    ("指受人重视或欢迎。例如：她可是学校的大红人。／这位歌手现在很红。／这部电影红了好几个演员。",
     "Chỉ việc được người ta coi trọng hoặc yêu thích. Ví dụ: Cô ấy là người nổi tiếng của trường. / Ca sĩ này bây giờ rất nổi. / Bộ phim này làm nổi mấy diễn viên.")]),

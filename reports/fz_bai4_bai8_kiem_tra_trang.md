@@ -40,6 +40,6 @@ Nguồn: PDF 35 trang ảnh chụp sách 《发展汉语（第三版）中级综
 
 ## Lưu ý đọc ảnh
 - Bản dịch Việt của phần bổ sung là biên soạn; mỗi khối có thẻ «Bổ sung từ ảnh trang sách…».
-- Tr.126 (bài 8) bị cắt mép phải: câu hỏi 5 và 6, và cuối chú thích 6 (函授) đọc theo phần nhìn thấy, đã ghi chú trong bản dịch.
+- Tr.126 (bài 8): ảnh gửi lần đầu bị cắt mép phải; ảnh chụp lại (04/10) đã xác nhận chú thích 6 (…听广播和函授相结合) và câu hỏi 8, 9, 10. Câu hỏi 5 và 6 vẫn đọc theo phần nhìn thấy, đã ghi chú.
 - Đáp án câu 6, 7 của «课文旁问题» bài 4 do tóm lược từ bài khóa (có ghi chú), không phải đáp án của sách.
 - Công cụ: `tools/fz_b4b8.py` + `tools/fz_b4b8_data.py` (chạy trong `build_v4.sh`, trước `fz_cardui.py`).
