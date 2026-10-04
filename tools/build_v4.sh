@@ -23,3 +23,4 @@ python3 tools/add_method.py Tong_hop_3_giao_trinh_D1_D2_KY_v4.html
 python3 tools/add_relations.py Tong_hop_3_giao_trinh_D1_D2_KY_v4.html
 python3 tools/add_portraits.py Tong_hop_3_giao_trinh_D1_D2_KY_v4.html
 python3 tools/add_method_inline.py Tong_hop_3_giao_trinh_D1_D2_KY_v4.html
+python3 tools/add_audio_buttons.py Tong_hop_3_giao_trinh_D1_D2_KY_v4.html
