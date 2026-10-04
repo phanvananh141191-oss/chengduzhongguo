@@ -10,12 +10,14 @@ from concurrent.futures import ThreadPoolExecutor
 ROOT = os.path.join(os.path.dirname(__file__), '..', 'assets', 'audio')
 MAN = os.path.join(ROOT, 'manifest.json'); IDX = os.path.join(ROOT, 'index.json')
 API = 'https://api.elevenlabs.io/v1'
-VOICES = {'nam1': 'BWN0mOtkGHghA3CYFzFK', 'nam2': 'MI36FIkp9wRP7cpWKPTl', 'nu1': 'bhJUNIXWQQ94l8eI2VUf'}   # nam trẻ ×2, nữ trẻ ×1
+sys.path.insert(0, os.path.dirname(__file__))
+from audio_voices import VOICES
 FMT = 'mp3_22050_32'            # ~4 KB/giây, đủ rõ cho giọng đọc; đổi mp3_44100_64 nếu muốn chất lượng cao
 
 def call(path, key, body=None):
+    path = path.replace('/user/subscription', '/user/subscription')
     req = urllib.request.Request(API + path, data=json.dumps(body).encode() if body is not None else None,
-                                 headers={'xi-api-key': key, 'Content-Type': 'application/json', 'Accept': 'audio/mpeg'})
+                                 headers={'xi-api-key': key, 'Content-Type': 'application/json', 'Accept': 'audio/mpeg' if body is not None else 'application/json'})
     return urllib.request.urlopen(req, timeout=120).read()
 
 def one(it, key, voice_unused, model, idx):
@@ -47,6 +49,8 @@ def main():
         if not i['id'].startswith(a.only) or (a.kind and i['kind'] != a.kind) or i['file'] in seen: continue
         seen.add(i['file'])
         if idx.get(i['file']) != i['hash'] or not os.path.exists(os.path.join(ROOT, i['file'] + '.mp3')): todo.append(i)
+    prio = lambda i: 0 if i['kind'] == 'w' else (0 if i['book'] != 'ky' else (1 if i.get('speaker') else 2))
+    todo.sort(key=prio)                     # fz, ld → hội thoại ky → phần còn lại của ky
     if a.limit: todo = todo[:a.limit]
     chars = sum(len(i['text']) for i in todo)
     print('Cần tạo: %d file · %d ký tự · ước tính ~%.0f MB, ~%.1f giờ audio' % (len(todo), chars, chars / 4.5 * 4 / 1024, chars / 4.5 / 3600))
@@ -59,6 +63,16 @@ def main():
         n = one(it, key, voice, a.model, idx); done += 1
         if done % 25 == 0: json.dump(idx, open(IDX, 'w'), indent=0); print(done, '/', len(todo), flush=True)
         return n
-    with ThreadPoolExecutor(a.workers) as ex: tot = sum(ex.map(run, todo))
+    def remaining():
+        try:
+            d = json.loads(call('/user/subscription', key)); return d['character_limit'] - d['character_count']
+        except Exception: return 10 ** 9
+    tot = 0; stopped = None
+    with ThreadPoolExecutor(a.workers) as ex:
+        for k in range(0, len(todo), 60):          # từng lô 60 file; dừng khi sắp hết hạn mức ký tự
+            batch = todo[k:k + 60]; need = sum(len(i['text']) for i in batch)
+            if remaining() < need + 300: stopped = k; break
+            tot += sum(ex.map(run, batch))
+    if stopped is not None: print('DỪNG vì sắp hết hạn mức ký tự: còn %d file chưa tạo' % (len(todo) - stopped))
     json.dump(idx, open(IDX, 'w'), indent=0); print('Xong %d file, %.1f MB' % (done, tot / 1048576))
 main()

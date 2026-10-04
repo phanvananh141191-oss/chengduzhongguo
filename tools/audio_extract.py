@@ -51,10 +51,11 @@ def ky(h):
                 if len(tds) > 1:
                     w = clean(tds[1])
                     if hz(w) and w not in seen: seen.add(w); out.append((n, 'w', w))
-        seen = set()
-        for z in re.findall(r'<div class="zh">(.*?)</div>', s, re.S):
-            z = clean(z)
-            if hz(z) > 2 and z not in seen: seen.add(z); out.append((n, 't', z))
+        seen = set(); starts = [x.start() for x in re.finditer(r'<div class="u3"', s)]
+        import bisect
+        for zm in re.finditer(r'<div class="zh">(.*?)</div>', s, re.S):
+            z = clean(zm.group(1))
+            if hz(z) > 2 and z not in seen: seen.add(z); out.append((n, 't', z, bisect.bisect_right(starts, zm.start())))
     return out
 
 def ld(h):
@@ -77,36 +78,22 @@ WORD_VOICES = ['nam1', 'nu1', 'nam2']   # từ vựng: xoay vòng các giọng
 TEXT_VOICES = ['nu1', 'nam1', 'nam2']  # bài khoá: một giọng cho mỗi bài (hoặc nhóm bài chung câu dài)
 
 def assign_voices(items):
-    par = {}
-    def f(x):
-        par.setdefault(x, x)
-        while par[x] != x: par[x] = par[par[x]]; x = par[x]
-        return x
-    unit = lambda i: (i['book'], i['lesson'])
-    first = {}
+    sys.path.insert(0, os.path.dirname(__file__))
+    import audio_voices
     for i in items:
-        if i['kind'] != 't': continue
-        f(unit(i))
-        if i['file'].startswith('sents/'):          # cùng câu dài xuất hiện ở nhiều bài → các bài đó phải chung giọng
-            if i['file'] in first: par[f(unit(i))] = f(first[i['file']])
-            else: first[i['file']] = unit(i)
-    comps = {}
-    for u in sorted(par): comps.setdefault(f(u), []).append(u)
-    voice = {}
-    for n, (r, us) in enumerate(sorted(comps.items(), key=lambda kv: sorted(kv[1])[0])):
-        for u in us: voice[u] = TEXT_VOICES[n % len(TEXT_VOICES)]
-    for i in items:
-        i['voice'] = WORD_VOICES[int(i['hash'], 16) % len(WORD_VOICES)] if i['kind'] == 'w' else voice[unit(i)]
-    return [us for us in comps.values() if len(us) > 1]
+        if i['kind'] == 'w': i['voice'] = WORD_VOICES[int(i['hash'], 16) % len(WORD_VOICES)]
+    audio_voices.assign(items)          # bài khoá: nam + nữ trong mỗi bài, hội thoại ghép theo nhân vật
+    return []
 
 def main():
     h = open(HTML, encoding='utf-8').read(); items = []; stat = {}
     for b, f in (('fz', fz), ('ky', ky), ('ld', ld)):
         cnt = {}
-        for n, k, txt in f(h):
+        for row in f(h):
+            n, k, txt = row[:3]; blk = row[3] if len(row) > 3 else 0
             key = (b, n, k); cnt[key] = cnt.get(key, 0) + 1
             items.append({'id': '%s/l%02d/%s%03d' % (b, n, k, cnt[key]), 'book': b, 'lesson': n, 'kind': k, 'text': txt,
-                          'hash': hashlib.sha1(txt.encode()).hexdigest()[:10]})
+                          'hash': hashlib.sha1(txt.encode()).hexdigest()[:10], 'blk': blk})
             it = items[-1]
             if k == 'w': it['file'] = 'words/' + it['hash']                       # từ trùng → dùng chung một file mp3
             elif hz(txt) > LONG: it['file'] = 'sents/' + it['hash']               # câu dài (>8 chữ Hán) trùng → dùng chung
@@ -126,7 +113,6 @@ def main():
     for i in items:
         if i['kind'] == 'w': w.setdefault(i['text'], set()).add(i['book'])
     print('từ có ở ≥2 giáo trình: %d (3 giáo trình: %d)' % (sum(len(v) > 1 for v in w.values()), sum(len(v) == 3 for v in w.values())))
-    for g in groups: print('nhóm bài chung câu dài → chung giọng:', ', '.join('%s b%d' % u for u in sorted(g)))
     import collections
     print('giọng bài khoá:', dict(collections.Counter(i['voice'] for i in uniq.values() if i['kind'] == 't')), '· giọng từ vựng:', dict(collections.Counter(i['voice'] for i in uniq.values() if i['kind'] == 'w')))
     print('Tổng duy nhất: %d file · %d ký tự' % (len(uniq), sum(len(i['text']) for i in uniq.values())))
