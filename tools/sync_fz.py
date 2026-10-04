@@ -31,7 +31,29 @@ H2MAP = [  # (regex, nhãn chuẩn, cấp mới)
     (r'^综合练习', '综合练习 · Luyện tập tổng hợp', 2),
     (r'^附录', '附录 · Phụ lục', 2),
 ]
+ADDED = {}
 BANNER = '<div class="note"><b>Chưa có trong nguồn.</b> Tài liệu gốc không có phần này; không tự bổ sung.</div>'
+
+
+UANS = '<div class="ansh">✍️ Ô nhập của bạn</div><textarea class="uans" data-k="%s" placeholder="Nhập bài làm của bạn — tự lưu trên trình duyệt."></textarea>'
+def add_inputs(sec, n):
+    """Mỗi khối .ans chưa có ô nhập → thêm đúng một textarea.uans (khoá mới nối tiếp, không đụng khoá cũ)."""
+    keys = [int(x) for x in re.findall(r'ans:fz:l%d:e(\d+)' % n, sec)]
+    nxt = (max(keys) + 1) if keys else 0
+    out = []; i = 0; added = 0
+    while True:
+        j = sec.find('<div class="ans"', i)
+        if j < 0: out.append(sec[i:]); break
+        depth = 0; k = j
+        for mm in re.finditer(r'<div\b|</div>', sec[j:]):
+            depth += 1 if mm.group(0) == '<div' else -1
+            if depth == 0: k = j + mm.start(); break
+        block = sec[j:k]
+        out.append(sec[i:j])
+        if 'class="uans"' not in block:
+            block += UANS % ('ans:fz:l%d:e%d' % (n, nxt)); nxt += 1; added += 1
+        out.append(block); i = k
+    return ''.join(out), added
 
 def fix_lesson(sec, n):
     parts = re.split(r'(<h[1-4][^>]*>.*?</h[1-4]>)', sec, flags=re.S)
@@ -60,6 +82,7 @@ def fix_lesson(sec, n):
         nl, lab, pg = new
         out.append(f'<h{nl}{attr}>{lab}</h{nl}>' + (f'<p class="py pg">{pg}</p>' if pg else ''))
     r = ''.join(out)
+    r, added = add_inputs(r, n); ADDED[n] = added
     if n == 8:  # thiếu nguồn: 题解, 走进课文 (D2)
         r = r.replace('<h2>词语学习 · Học từ vựng</h2>', '<h2>题解 · Giới thiệu chủ đề</h2>' + BANNER + '<h2>词语学习 · Học từ vựng</h2>', 1)
         r = r.replace('<h2>综合注释 · Chú giải tổng hợp</h2>', '<h2>走进课文 · Tìm hiểu bài đọc</h2>' + BANNER + '<h2>综合注释 · Chú giải tổng hợp</h2>', 1)
@@ -72,3 +95,5 @@ doc = re.sub(r'(<section class="les[^"]*" id="l(\d+)">)(.*?)(?=</section>)', sub
 
 new = json.dumps(doc, ensure_ascii=False).replace('<', '\\u003c')
 open(dst, 'w', encoding='utf8').write(s[:m.start(2)] + new + s[m.end(2):])
+
+print('Ô nhập thêm:', {k: v for k, v in sorted(ADDED.items()) if v})
