@@ -32,6 +32,7 @@ H2MAP = [  # (regex, nhãn chuẩn, cấp mới)
     (r'^附录', '附录 · Phụ lục', 2),
 ]
 ADDED = {}
+DUP = []
 BANNER = '<div class="note"><b>Chưa có trong nguồn.</b> Tài liệu gốc không có phần này; không tự bổ sung.</div>'
 
 
@@ -83,6 +84,15 @@ def fix_lesson(sec, n):
         out.append(f'<h{nl}{attr}>{lab}</h{nl}>' + (f'<p class="py pg">{pg}</p>' if pg else ''))
     r = ''.join(out)
     r, added = add_inputs(r, n); ADDED[n] = added
+    seen = set()   # khoá trùng có sẵn (l5:k5, l6:k5): tách khoá của ô thứ hai trở đi
+    def uniq(mm):
+        k = mm.group(1)
+        if k in seen:
+            i = 2
+            while '%s_%d' % (k, i) in seen: i += 1
+            k = '%s_%d' % (k, i); DUP.append(k)
+        seen.add(k); return 'data-k="%s"' % k
+    r = re.sub(r'data-k="(ans:fz:[^"]+)"', uniq, r)
     if n == 8:  # thiếu nguồn: 题解, 走进课文 (D2)
         r = r.replace('<h2>词语学习 · Học từ vựng</h2>', '<h2>题解 · Giới thiệu chủ đề</h2>' + BANNER + '<h2>词语学习 · Học từ vựng</h2>', 1)
         r = r.replace('<h2>综合注释 · Chú giải tổng hợp</h2>', '<h2>走进课文 · Tìm hiểu bài đọc</h2>' + BANNER + '<h2>综合注释 · Chú giải tổng hợp</h2>', 1)
@@ -97,3 +107,4 @@ new = json.dumps(doc, ensure_ascii=False).replace('<', '\\u003c')
 open(dst, 'w', encoding='utf8').write(s[:m.start(2)] + new + s[m.end(2):])
 
 print('Ô nhập thêm:', {k: v for k, v in sorted(ADDED.items()) if v})
+print('Khoá trùng đã tách:', DUP)
