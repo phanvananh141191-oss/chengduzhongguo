@@ -16,7 +16,7 @@ for(const [vn,w,h] of views)for(const th of themes){
     await p.screenshot({path:'reports/anh/qa/'+name});
     const shell=await p.evaluate(()=>({sw:document.documentElement.scrollWidth,cw:document.documentElement.clientWidth,theme:document.documentElement.getAttribute('data-u-theme')}));
     let fr=null;for(const f of p.frames()){if(f===p.mainFrame())continue;
-      const r=await f.evaluate(()=>({vis:document.body&&document.body.offsetWidth>0&&innerHeight>0,sw:document.documentElement.scrollWidth,cw:document.documentElement.clientWidth,ruby:document.querySelectorAll('ruby').length,rt0:[...document.querySelectorAll('ruby')].filter(r=>{const t=r.querySelector('rt');return !t||!t.textContent.trim()}).length,theme:document.documentElement.getAttribute('data-u-theme')})).catch(()=>null);
+      const r=await f.evaluate(()=>({vis:document.body&&document.body.offsetWidth>0&&innerHeight>0,sw:document.documentElement.scrollWidth,cw:document.documentElement.clientWidth,ruby:document.querySelectorAll('ruby').length,rt0:[...document.querySelectorAll('ruby')].filter(r=>{const t=r.querySelector('rt');return !t||!(t.textContent.trim()||(t.dataset.p||'').trim())}).length,theme:document.documentElement.getAttribute('data-u-theme')})).catch(()=>null);
       const on=await f.frameElement().then(e=>e.evaluate(x=>x.classList.contains('on'))).catch(()=>false);
       if(r&&on)fr=r}
     rows.push({k,vn,th,shell,fr,name})}

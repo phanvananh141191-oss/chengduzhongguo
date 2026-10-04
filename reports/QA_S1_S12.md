@@ -158,6 +158,48 @@ Mọi `localStorage.*` ở khung ngoài: `u3-set`, `u3-last`, `u3xb:*` (đã mig
 
 Số banner: 5. Theo mục 3.9 dự kiến: bài 2 题解, bài 4 走进课文, bài 8 题解/走进课文, bài 6 «Trang 100».
 
+
+## S12 · layout-snapshot và S6 (ruby lúc chạy)
+
+Ảnh: `reports/anh/qa/` (6 trang × desktop/mobile × sáng/tối = 24 ảnh).
+
+| trang | khung | giao diện | tràn ngang shell | tràn ngang khung | ruby | `<rt>` rỗng | theme shell/khung |
+|---|---|---|---|---|---|---|---|
+| fz:l05 | desktop | light | không | không | 80583 | 0 | light/light |
+| fz:l08 | desktop | light | không | không | 80583 | 0 | light/light |
+| ky:l04 | desktop | light | không | không | 91827 | 0 | light/light |
+| ky:l08 | desktop | light | không | không | 91827 | 0 | light/light |
+| ld:l01 | desktop | light | không | không | 4357 | 0 | light/light |
+| kb:l04 | desktop | light | không | không | 11429 | 0 | light/light |
+| fz:l05 | desktop | dark | không | không | 80583 | 0 | dark/dark |
+| fz:l08 | desktop | dark | không | không | 80583 | 0 | dark/dark |
+| ky:l04 | desktop | dark | không | không | 91827 | 0 | dark/dark |
+| ky:l08 | desktop | dark | không | không | 91827 | 0 | dark/dark |
+| ld:l01 | desktop | dark | không | không | 4357 | 0 | dark/dark |
+| kb:l04 | desktop | dark | không | không | 11429 | 0 | dark/dark |
+| fz:l05 | mobile | light | không | không | 80583 | 0 | light/light |
+| fz:l08 | mobile | light | không | không | 80583 | 0 | light/light |
+| ky:l04 | mobile | light | không | không | 91827 | 0 | light/light |
+| ky:l08 | mobile | light | không | không | 91827 | 0 | light/light |
+| ld:l01 | mobile | light | không | không | 4357 | 0 | light/light |
+| kb:l04 | mobile | light | không | không | 11429 | 0 | light/light |
+| fz:l05 | mobile | dark | không | không | 80583 | 0 | dark/dark |
+| fz:l08 | mobile | dark | không | không | 80583 | 0 | dark/dark |
+| ky:l04 | mobile | dark | không | không | 91827 | 0 | dark/dark |
+| ky:l08 | mobile | dark | không | không | 91827 | 0 | dark/dark |
+| ld:l01 | mobile | dark | không | không | 4357 | 0 | dark/dark |
+| kb:l04 | mobile | dark | không | không | 11429 | 0 | dark/dark |
+
+Lỗi JS trang: không
+
+### Ghi chú đọc kết quả
+
+- **S1** `fz`: «Hán mất» còn lại chỉ là nhãn đã đổi theo bảng chuẩn (cột `词语`→`词` ở bài 3, 4) và `ld` mất 实况 do thống nhất nhãn kick với mục lục; mọi thân văn bài giữ nguyên. «Thêm» lớn ở bài 1, 2 là bảng từ đã ghi sẵn vào HTML (trước do JS dựng).
+- **S4** 28 bảng từ đúng thứ tự cột, cột English/例句 ẩn khi rỗng (bài 2, 8).
+- **S6** `ruby` tĩnh của `ky`: 0 lỗi; ruby của `fz`/`ld`/`kb` do bộ gắn pinyin dựng lúc chạy (pinyin ở `data-p`): 0 `<rt>` thiếu pinyin.
+- **S8** ghi chú ở KB (ky chỉ liên kết sang KB nên không có hộp gập): mọi dòng ghi chú trong md chuẩn đều có trong KB.
+- **S11** 5 banner: bài 2 (题解, 走进课文), bài 4 (走进课文, mục 四 bị cắt), bài 8 (题解, 走进课文). Bài 2 và 8 khớp danh sách nguồn thiếu; bài 6 «Trang 100» không có banner (không còn trong nguồn).
+
 ## Tổng kết
 
 | mã | kết quả |
