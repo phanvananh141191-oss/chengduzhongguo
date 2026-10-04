@@ -145,7 +145,7 @@ def add_hv_column(src):
     lines = src.split('\n')
     hd = split_row(lines[0]) if lines else None
     if not hd: return src
-    names = [x.strip() for x in hd]
+    names = [x.strip().strip('*').strip() for x in hd]
     wi = next((i for i, x in enumerate(names) if x in ('词语', '词')), None)
     vi_ = next((i for i, x in enumerate(names) if x.startswith('Nghĩa')), None)
     if wi is None or vi_ is None or 'Hán Việt' in names or 'Hán-Việt' in names: return src
@@ -155,7 +155,15 @@ def add_hv_column(src):
         if not cells: out.append(l); continue
         if k == 0: new = ' Hán Việt '
         elif k == 1: new = ' :-- '
-        else: new = ' ' + hv_pick(re.sub(r'🔊|\*\*', '', cells[wi]), cells[vi_] if vi_ < len(cells) else '') + ' ' if wi < len(cells) else ' '
+        else:
+            new = ' '
+            if wi < len(cells):
+                wc = re.sub(r'🔊|\*\*', '', cells[wi]); mp = re.search(r'\s*\(([^()\u4e00-\u9fff]+)\)\s*$', wc)
+                if mp and re.search(r'[A-Za-zÀ-ỹ]', mp.group(1)):       # «欣欣向荣 (hân hân hướng vinh)»: lấy âm Hán-Việt người dịch ghi, bỏ khỏi ô từ
+                    new = ' ' + mp.group(1).strip() + ' '
+                    cells[wi] = cells[wi].replace(mp.group(0), '', 1) if mp.group(0) in cells[wi] else wc[:mp.start()]
+                else:
+                    new = ' ' + hv_pick(wc, cells[vi_] if vi_ < len(cells) else '') + ' '
         cells.insert(vi_, new)
         out.append('|' + '|'.join(cells) + '|')
     return '\n'.join(out)
@@ -168,7 +176,7 @@ def add_example_column(src, lesson):
     vi_du.init()
     lines = src.split('\n'); hd = split_row(lines[0]) if lines else None
     if not hd: return src
-    names = [x.strip() for x in hd]
+    names = [x.strip().strip('*').strip() for x in hd]
     wi = next((i for i, x in enumerate(names) if x in ('词语', '词')), None)
     if wi is None or 'Ví dụ' in names: return src
     out = []; used = set()
@@ -454,8 +462,7 @@ CSS = '''/*ky-gen*/
 .u3 .zh{font-size:1.02em}
 .u3 .vi{color:var(--mut);font-size:.9em;line-height:1.6;margin-top:.15em}
 .u3 .vi+.zh{margin-top:.55em}
-.ex-zh{font-size:.95em;color:var(--fg)} .ex-zh mark{background:var(--hl);color:inherit;border-radius:3px;padding:0 1px}
-.ex-py{font-size:.78em;color:var(--mut);line-height:1.4;display:inline-block}
+.ex-zh{font-size:.95em;color:var(--fg);line-height:2.1} .ex-zh mark{background:var(--hl);color:inherit;border-radius:3px;padding:0 1px}
 .ex-vi{font-size:.85em;color:var(--mut)}
 .ex-src{font-size:.68em;color:var(--ac);opacity:.8}
 details.kbn{margin:1em 0;border:1px solid var(--bd);border-radius:8px;background:var(--card)}

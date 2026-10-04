@@ -150,16 +150,29 @@ def find_example(word, lesson, used=None):
             return 'self', c, z, py_text(z, override=(ov[0] if ov else None)), vi, 0
     return None
 
+def ruby_sentence(z, py, word):
+    """Hán có pinyin nằm trên từng chữ (ruby); từ đang học được tô nền."""
+    han = HAN.findall(z)
+    toks = [re.sub(r'[^A-Za-zāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜü]', '', x) for x in py.split()]
+    toks = [x for x in toks if x]
+    if len(toks) != len(han):
+        toks = G.sandhi(han, [p[0] for p in pinyin(''.join(han), style=Style.TONE)])
+    it = iter(toks); out = []
+    pos = z.find(word) if word else -1
+    for i, ch in enumerate(z):
+        if pos >= 0 and i == pos: out.append('<mark>')
+        if HAN.match(ch): out.append('<ruby>%s<rt>%s</rt></ruby>' % (ch, html.escape(next(it, ''))))
+        else: out.append(html.escape(ch))
+        if pos >= 0 and i == pos + len(word) - 1: out.append('</mark>')
+    return ''.join(out)
+
 def example_cell(word, lesson, used=None):
     r = find_example(word, lesson, used)
     if not r: return '', None
     label, c, z, py, vi, n = r
-    z = re.sub(r'^\d+[\.．]\s*', '', z); vi = re.sub(r'^\d+[\.．]\s*', '', vi)
-    if label != 'self': py = py_text(z)
-    zh = html.escape(z).replace(c, '<mark>%s</mark>' % c, 1)
     tag = {'ky-same': 'trong bài', 'ky-other': 'ky bài %d' % n, 'fz': '发展汉语 bài %d' % n, 'ld': '乐读 5', 'self': 'tự soạn'}[label]
-    cell = ('<span class="ex-zh" data-nopy>%s</span><br><span class="ex-py">%s</span><br><span class="ex-vi">%s</span>'
-            '<br><span class="ex-src">%s</span>') % (zh, html.escape(py), html.escape(vi), tag)
+    cell = ('<span class="ex-zh" data-nopy>%s</span><br><span class="ex-vi">%s</span>'
+            '<br><span class="ex-src">%s</span>') % (ruby_sentence(z, py, c), html.escape(vi), tag)
     return cell, label
 
 def init():

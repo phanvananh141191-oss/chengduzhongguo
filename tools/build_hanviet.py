@@ -44,5 +44,6 @@ for w, h in W.items():
     if len(sy) == len(w) and all(HAN.match(c) for c in w):
         for c, y in zip(w, sy): cnt[c][y] += 1
 for c, cc in cnt.items(): C.setdefault(c, cc.most_common(1)[0][0])
+C.update(json.load(open(os.path.join(ROOT, 'tools', 'hanviet_bosung.json'), encoding='utf8')))   # chữ bổ sung tay
 json.dump({'W': W, 'C': C}, open(os.path.join(ROOT, 'tools', 'hanviet.json'), 'w', encoding='utf8'), ensure_ascii=False)
 print('từ:', len(W), 'chữ:', len(C), dict(src))
