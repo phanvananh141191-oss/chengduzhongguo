@@ -180,7 +180,8 @@ KBH = {}      # n -> {tên: chỉ số heading trong trang KB của bài}
 def load_kb(html_text):
     m = re.search(r'<script id="kb" type="application/json">(.*?)</script>', json.loads(re.search(r'id="src-kb">(.*?)</script>', html_text, re.S).group(1).replace('\\u003c', '<')), re.S)
     K = json.loads(m.group(1).replace('<\\/', '</'))
-    _kb_items(K); _kb_cats(K)
+    GRAM_BY_LETTER.update({a: f for a, f in GRAM_FILES})
+    _kb_items(K); _kb_cats(K); _fam_rows(K)
     for n in range(1, 13):
         hs = []; fence = False
         for l in K['lessons/%02d.md' % n].split('\n'):
@@ -202,6 +203,7 @@ CAT_FILES = [('Từ vựng tổng', 'categories/02-vocabulary/01-master-list.md'
 GRAM_FILES = [('A', 'categories/03-grammar/01-dieu-kien-nguyen-nhan-nhuong-bo.md'), ('B', 'categories/03-grammar/02-tang-tien-liet-ke-song-hanh.md'), ('C', 'categories/03-grammar/03-pho-tu-ngu-khi-cau-hoi-tu-tu.md'),
               ('D', 'categories/03-grammar/04-so-sanh-muc-do.md'), ('E', 'categories/03-grammar/05-thoi-gian-tien-trinh.md'), ('F', 'categories/03-grammar/06-gioi-tu-cau-truc-doi-tuong.md'),
               ('G', 'categories/03-grammar/07-bo-ngu-ket-cau-dong-tu.md'), ('H', 'categories/03-grammar/08-chuc-nang-dien-ngon-lap-luan.md')]
+GRAM_BY_LETTER = {}
 def _heading_idx(md_text, pat):
     fence = False; i = 0
     for l in md_text.split('\n'):
@@ -220,6 +222,34 @@ def _kb_cats(K):
                 i = _heading_idx(K[f], r'^Bài\s*0?%d\b' % n)
                 if i is not None: out.append((lab, f, i))
         KBCAT[n] = out
+FAMROWS = []   # (file, mã, k, bài, cụm Hán)
+def _fam_rows(K):
+    for letter, f in GRAM_FILES:
+        code = None; in_tab = False; k = 0; fence = False; kind = None
+        for l in K[f].split('\n'):
+            if re.match(r'^```', l): fence = not fence
+            if fence: continue
+            mm = re.match(r'^(#{1,6})\s+(.*)', l)
+            if mm:
+                cm = re.match(r'^([A-H]\d+)\s+—', mm.group(2)); code = cm.group(1) if cm else None; in_tab = False; continue
+            if not l.startswith('|'): in_tab = False; continue
+            cells = split_row(l)
+            if not in_tab:
+                in_tab = True; k = 0; kind = cells and cells[0].strip() == 'Bài'; continue
+            if re.match(r'^\|\s*:?-{2,}', l): continue
+            k += 1
+            if code and kind and cells:
+                bm = re.match(r'^B(\d\d)$', cells[0].strip())
+                if bm and len(cells) > 1: FAMROWS.append((f, code, k, int(bm.group(1)), re.sub(r'[*_`]', '', cells[1]).strip()))
+
+def build_fammap():
+    for f, code, k, n, phrase in FAMROWS:
+        segs = [x for x in re.split(r'[^\u4e00-\u9fff]+', phrase) if len(x) >= 2]
+        if not segs or sum(len(x) for x in segs) < 4: continue
+        for uid, txt in KYU.get(n, []):
+            if all(x in txt for x in segs):
+                FAMMAP['kbr-%s-%d' % (code, k)] = 's%d::%s' % (n, uid); break
+
 KBI = {}   # n -> dict(w=[từ], d=[từ], s=[(chỉ số, cụm Hán)])
 KYMAP = {}  # n -> {id mục KB: id phần tử ky}
 def _kb_items(K):
@@ -240,7 +270,7 @@ def _kb_items(K):
             cells = split_row(l)
             if not cells or not kind: continue
             if kind == 's':
-                st.append((rows_k, re.sub(r'[*_`]', '', cells[0]).strip())); continue
+                st.append((rows_k, re.sub(r'[*_`]', '', cells[0]).strip(), re.findall(r'[A-H]\d{1,2}', cells[-1]))); continue
             word = ''
             for c in cells[:3]:
                 t = re.sub(r'[➕\s*_`]', '', c)
@@ -406,6 +436,8 @@ def pair_up(han, vi):
     return None
 
 UCNT = [0]
+KYU = {}   # n -> [(uid, văn bản Hán)]
+FAMMAP = {}  # id hàng bảng họ ngữ pháp (kbr-<mã>-<k>) -> id khối câu ky
 def wrap_word(h, word, cls, kb):
     """Bọc các chữ ruby liên tiếp của `word` thành liên kết sang KB (lần xuất hiện đầu tiên)."""
     pat = ''.join(r'<ruby>%s<rt>[^<]*</rt></ruby>' % re.escape(c) for c in word)
@@ -422,11 +454,13 @@ def decorate(h, plain_zh, n):
         if len(c) >= 1 and c in plain_zh:
             h, ok = wrap_word(h, c, 'kbw', 'lessons/%02d.md::kbd-%s' % (n, wd))
             if ok: ids.append('kbd-' + wd)
-    for idx, phrase in KBI[n]['s']:
+    for idx, phrase, codes in KBI[n]['s']:
         segs = [x for x in re.split(r'[^\u4e00-\u9fff]+', phrase) if len(x) >= 2]
         if not segs or sum(len(x) for x in segs) < 4: continue
         if all(x in plain_zh for x in segs):
             marks.append('<a class="kbl kbm" href="#" data-kb="lessons/%02d.md::kbs-%d" title="Ghi chú sắc thái trong KB: %s">📝</a>' % (n, idx, html.escape(phrase[:40], quote=True)))
+            for cd in codes[:3]:
+                if cd[0] in GRAM_BY_LETTER: marks.append('<a class="kbl kbg" href="#" data-kb="%s::%s" title="Họ ngữ pháp %s trong KB">%s</a>' % (GRAM_BY_LETTER[cd[0]], cd, cd, cd))
             ids.append('kbs-%d' % idx)
         if len(marks) >= 3: break
     return h + ''.join(marks), ids
@@ -448,6 +482,7 @@ def render_pair(zh_src, vi_src=None):
     if hint is not None and len(hint) != len(HAN.findall(' '.join(han))): hint = None
     pairs = pair_up(han, vi) if vi else None
     L = CUR_LESSON[0]; UCNT[0] += 1; uid = 's%d-u%d' % (L, UCNT[0])
+    KYU.setdefault(L, []).append((uid, re.sub(r'[*_`]', '', ' '.join(han))))
     def note(ids):
         for i_ in ids: KYMAP.setdefault(L, {}).setdefault(i_, uid)
     if pairs is None:
@@ -552,7 +587,8 @@ def gen_lesson(n):
     row = ' · '.join(x for x in (kbl(n, 'muctieu', 'Mục tiêu'), kbl(n, 'tuvung', 'Từ vựng'), kbl(n, 'nguphap', 'Ngữ pháp'), kbl(n, 'cautruc', 'Cấu trúc câu'), kbl(n, 'chucnang', 'Chức năng giao tiếp'), kbl(n, 'plb', 'Toàn văn song ngữ'), kbl(n, 'pla', 'Lưu ý văn bản')) if x)
     if row: out.append('<p class="kbrow">📚 <b>Knowledge Base</b> của bài: %s</p>' % row)
     cat = ' · '.join('<a class="kbl" href="#" data-kb="%s::kbh%d">%s</a>' % (f, i, lab) for lab, f, i in KBCAT.get(n, []))
-    gram = ' '.join('<a class="kbl" href="#" data-kb="%s">%s</a>' % (f, a) for a, f in GRAM_FILES)
+    codes = sorted({cd for _, _, cs in KBI.get(n, {}).get('s', []) for cd in cs}, key=lambda x: (x[0], int(x[1:])))
+    gram = ' · '.join('<b>%s</b>: %s' % (a, ' '.join('<a class="kbl kbg" href="#" data-kb="%s::%s">%s</a>' % (GRAM_BY_LETTER[a], c_, c_) for c_ in codes if c_[0] == a)) for a, _ in GRAM_FILES if any(c_[0] == a for c_ in codes))
     if cat: out.append('<p class="kbrow">📚 <b>Chuyên đề KB</b> (xuyên các bài): %s · Ngữ pháp theo họ: %s · <a class="kbl" href="#" data-kb="categories/03-grammar/09-progression-matrix.md">Ma trận tiến trình</a></p>' % (cat, gram))
     box = None; nnote = 0; k = 1; cur_sec = ['prepare']
     def close_box():
@@ -598,6 +634,7 @@ CSS = '''/*ky-gen*/
 .ex-src{font-size:.68em;color:var(--ac);opacity:.8}
 .kbrow{font-size:.85em;color:var(--mut);margin:.4em 0 1em} a.kbl{color:var(--ac);text-decoration:none;border-bottom:1px dotted var(--ac)} a.kbl:hover{background:var(--hl)} a.kbx{display:inline}
 .kbm{font-size:.7em;vertical-align:super;margin-left:.2em;text-decoration:none;border:0}
+a.kbg{font-size:.72em;vertical-align:super;margin-left:.15em;text-decoration:none;border:0;color:var(--ac)}
 a.kbw{border-bottom:1px dotted var(--ac);color:inherit;text-decoration:none}
 .kblinks{font-size:.82em;color:var(--mut);padding-bottom:.6em}
 details.kbn{margin:1em 0;border:1px solid var(--bd);border-radius:8px;background:var(--card)}
@@ -626,6 +663,7 @@ def main():
     if HV_MISS: print('Hán-Việt: chữ chưa có trong từ điển:', ''.join(HV_MISS))
     print('Ví dụ trong bảng từ:', dict(EX_STATS))
     print('ruby: khớp pinyin md %(aligned)d khối, dùng pypinyin %(fallback)d khối' % STATS)
+    build_fammap(); KYMAP['fam'] = FAMMAP; KYMAP['gram'] = GRAM_BY_LETTER
     json.dump({str(k): v for k, v in KYMAP.items()}, open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '_kymap.json'), 'w', encoding='utf8'), ensure_ascii=False)
     new = json.dumps(ky, ensure_ascii=False).replace('<', '\\u003c')
     open(dst, 'w', encoding='utf8').write(s[:m.start(2)] + new + s[m.end(2):])
