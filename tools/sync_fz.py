@@ -239,6 +239,12 @@ def sub(mm):
     if n in (3, 4): return mm.group(1) + restructure(mm.group(3), n)
     if n in (1, 2):
         r, added = add_inputs(restructure12(mm.group(3), n), n); ADDED[n] = added
+        # 综合练习: «一、…» đầu mỗi thẻ → h3 (liên tục như bài 9–14)
+        i0 = r.find('综合练习 · Luyện tập tổng hợp</h2>')
+        if i0 >= 0:
+            r = r[:i0] + re.sub(r'(?<=</div>)<b>([一二三四五六七八九十]+、[^<]*)</b>', r'<h3>\1</h3>', r[i0:]) if n == 1 else r
+            i0 = r.find('综合练习 · Luyện tập tổng hợp</h2>')
+            r = r[:i0] + re.sub(r'<div class="card( ex)?"><b>([一二三四五六七八九十]+、[^<]*)</b>(?:<br/>)?', lambda m_: '<h3>%s</h3><div class="card%s">' % (m_.group(2), m_.group(1) or ''), r[i0:])
         return mm.group(1) + r
     return mm.group(1) + fix_lesson(mm.group(3), n) if 5 <= n <= 14 else mm.group(0)
 doc = re.sub(r'(<section class="les[^"]*" id="l(\d+)">)(.*?)(?=</section>)', sub, doc, flags=re.S)
