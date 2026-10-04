@@ -1,0 +1,51 @@
+# -*- coding: utf-8 -*-
+"""Chú thích (注释) của 走进课文 ở fz bài 5–7: nguồn chỉ có tiếng Việt (kèm pinyin), thiếu câu Hán gốc.
+Hán biên soạn lại theo nghĩa tiếng Việt (nhãn «Hán biên soạn lại»); Việt giữ nguyên bản dịch có sẵn, ghép từng câu.
+Mỗi mục: số -> list[(Hán, Việt)]"""
+NOTES = {
+5: {
+1: [("表示否定。", "Biểu thị phủ định."), ("“非+×”表示不属于某一范围。", "\"非+×\" nghĩa là không thuộc phạm vi nào đó."), ("例如：非会员、非卖品、非正常情况。", "Ví dụ: không phải hội viên, hàng không bán, tình huống bất bình thường.")],
+2: [("“非物质文化遗产”简称“非遗”。", "Di sản văn hóa phi vật thể, gọi tắt là \"非遗\"."), ("它记录着人类社会生产生活方式、风俗习惯、文化观念等重要特征，蕴含着世界各民族的文化基因、独特精神、价值观念、心理结构和情感气质等，是全人类共同的宝贵财富。", "Nó ghi chép các đặc tính quan trọng như phương thức sản xuất và sinh hoạt, phong tục tập quán, quan niệm văn hóa của xã hội loài người; chứa đựng gen văn hóa, tinh thần đặc trưng, giá trị quan, cấu trúc tâm lý, khí chất tình cảm… của các dân tộc trên thế giới; là tài sản quý chung của toàn nhân loại.")],
+3: [("这是一句俗语，原句是“外行看热闹，内行看门道”。", "Tục ngữ, nguyên câu là \"外行看热闹,内行看门道\"."), ("内行：对某件事或某种工作很有经验、很了解的人；外行是它的反义词。", "内行 (nèiháng): người rất có kinh nghiệm, rất hiểu về một việc hay công việc; 外行 là từ trái nghĩa."), ("门道：做事的方法、窍门。", "门道 (méndào): cách làm việc, bí quyết."), ("意思是：外行人只看表面热闹，内行人主要看做事的方法。", "Nghĩa là: người ngoài nghề chỉ xem bề ngoài cho vui, còn người trong nghề xem chủ yếu là phương pháp làm việc.")],
+4: [("“祸”和“福”是反义词，分别理解为“坏事”和“好事”；“倚”和“伏”是近义词，意思是“隐藏、依附”。", "\"祸\" và \"福\" là từ trái nghĩa, hiểu lần lượt là \"việc xấu\" và \"việc tốt\"; \"倚\" và \"伏\" là từ đồng nghĩa, nghĩa là \"ẩn giấu, đi kèm\"."), ("这句话指祸与福互相依存，比喻坏事和好事互相依存。", "Câu này chỉ họa phúc nương tựa nhau, ví việc xấu và việc tốt nương tựa lẫn nhau."), ("也可以说“祸福倚伏”。", "Cũng có thể nói \"祸福倚伏\".")],
+5: [("例如走路时，左脚着地、左脚用力，左脚就是“实”；右脚抬起、右脚借力，右脚就是“虚”。", "Ví dụ khi đi bộ, chân trái chạm đất thì chân trái dùng lực, chân trái là \"thực\"; chân phải nhấc lên, chân phải đỡ sức, chân phải là \"hư\"."), ("太极拳注重手和脚动作的虚实变化。", "Thái cực quyền chú trọng sự biến đổi hư thực của động tác tay và chân.")],
+6: [("“刚”在这里指动作快、猛、力量大；“柔”指动作慢、轻、柔和。", "刚 ở đây chỉ động tác nhanh, mạnh, lực lớn; 柔 (róu) chỉ động tác chậm, nhẹ, mềm mại."), ("太极拳注重柔中有刚、刚中有柔，刚柔并存、互相转化。", "Thái cực quyền chú trọng trong nhu có cương, trong cương có nhu, cương nhu cùng tồn tại và chuyển hóa lẫn nhau.")],
+7: [("拳击（boxing）、泰拳（Thai boxing）、空手道、跆拳道、柔道。", "quyền anh (boxing), quyền Thái (Thai boxing), karate, taekwondo, judo.")],
+8: [("介词，用来介绍结论的来源。", "according to — giới từ, giới thiệu nguồn gốc của một kết luận."), ("例如：据我看／据她说／据了解／据说，这部小说是根据真实事件改写的。", "Ví dụ: 据我看 (theo tôi thấy) / 据她说 (theo cô ấy nói) / 据了解 (theo tìm hiểu) / 据说,这部小说是根据真实事件改写的 (nghe nói, tiểu thuyết này được cải biên từ sự kiện có thật).")],
+9: [("连词，和“而且”一样，用于书面语。", "liên từ, giống \"而且\", dùng trong văn viết."), ("例如：聪明且努力／这篇文章字字句句十分真诚，且令人受益。", "Ví dụ: 聪明且努力 (thông minh mà lại chăm chỉ) / 这篇文章字字句句十分真诚,且令人受益 (bài viết này từng câu từng chữ rất chân thành, lại còn bổ ích).")],
+10: [("非常着急、担心。", "rất sốt ruột, lo lắng."), ("例如：焦虑症／他看起来十分焦虑。", "Ví dụ: 焦虑症 (chứng lo âu) / 他看起来十分焦虑 (anh ấy trông rất lo lắng).")],
+11: [("心情低落，不高兴，对什么都没有兴趣。", "tâm trạng sa sút, không vui, chẳng hứng thú với gì."), ("例如：最近碰到那么多不顺的事，我觉得我都快抑郁了。", "Ví dụ: 最近碰到那么多不顺的事,我觉得我都快抑郁了 (dạo này gặp quá nhiều chuyện không suôn sẻ, tôi thấy mình sắp trầm cảm rồi).")],
+12: [("“朝”是早晨，“夕”是晚上；“一朝一夕”指很短的时间。", "朝 là buổi sáng, 夕 là buổi tối; \"một sớm một chiều\" chỉ thời gian ngắn."), ("例如：学好什么，都不是一朝一夕的事情。", "Ví dụ: 学好什么,都不是一朝一夕的事情 (học giỏi cái gì cũng không phải chuyện một sớm một chiều).")],
+},
+6: {
+1: [("对联。", "câu đối."), ("写在纸上或刻在柱子上的两句话，字数相等，读起来像两句对称的诗。", "Hai câu viết trên giấy hoặc khắc trên cột; có số chữ bằng nhau, đọc cân đối như hai câu thơ."), ("春节时，中国人有在门前贴春联的习惯。", "Vào Tết, người Trung Quốc có tập quán dán câu đối xuân trước cửa nhà.")],
+2: [("“忠厚”指做人真诚、待人厚道；“诗书”泛指书籍。", "忠厚 chỉ làm người chân thành, đối đãi hậu đạo; 诗书 chỉ chung sách vở."), ("全句的意思是：诚实、厚道、爱读书、爱学知识的传统要一代一代传下去。", "Nghĩa toàn câu: truyền thống sống thành thật, hậu đạo, yêu thích đọc sách và học tri thức cần được truyền từ đời này sang đời khác.")],
+3: [("量词，指用平房围成的院子；一层院子叫“一进”。", "lượng từ chỉ sân nhà xây bằng nhà một tầng; một lớp sân gọi là “一进”."), ("例如，“五进院子”就是由五个四合院前后相连组成的大院子。", "Ví dụ, “五进院子” là sân lớn tạo bởi năm tứ hợp viện nối trước sau.")],
+4: [("四合院是中国传统住宅的一种：四面有房子，中间围着一块没有房子的院子。", "tứ hợp viện, một loại nhà ở truyền thống Trung Quốc: bốn mặt có nhà, quây quanh khoảng sân giữa không có nhà.")],
+5: [("量词，用于住户。", "lượng từ dùng cho hộ gia đình."), ("例如：一户人家。", "Ví dụ: 一户人家 (một hộ gia đình).")],
+6: [("槐树的花。", "hoa cây hòe.")],
+7: [("蜻蜓：身体细长，有两对透明的翅膀，吃蚊子和其他小虫子。", "chuồn chuồn; thân dài mảnh, có hai đôi cánh trong, ăn muỗi và các côn trùng nhỏ.")],
+8: [("像一阵风一样，形容动作非常快。", "như một cơn gió; hình dung động tác rất nhanh."), ("例如：这孩子一阵风似的跑了出去。", "Ví dụ: Đứa trẻ chạy vù ra ngoài như gió.")],
+9: [("很短的时间。", "trong chớp mắt."), ("“转眼”是动词，意思是眼珠一转，形容时间极短。", "转眼 là động từ “chuyển nhãn cầu”, hình dung thời gian cực ngắn."), ("例如：转眼就不见了。", "Ví dụ: Chớp mắt đã không thấy nữa."), ("“转眼间”也指转眼的工夫，形容时间非常短。", "Cũng chỉ khoảng chớp mắt, hình dung thời gian rất ngắn.")],
+10: [("自杀。", "tự sát, tự vẫn.")],
+11: [("“远亲不如近邻”的意思是：遇到困难时，住得远的亲人不如住得近的邻居帮忙及时。", "họ hàng xa không bằng láng giềng gần. Khi gặp khó khăn, người thân ở xa không giúp kịp bằng láng giềng ở gần;"), ("这句话表示邻里关系很重要。", "biểu thị quan hệ láng giềng tốt rất quan trọng.")],
+12: [("指经常见面。", "chỉ thường xuyên gặp mặt."), ("例如：一个院里住着，天天抬头不见低头见的，帮这点儿忙还不应该嘛！", "Ví dụ: Cùng sống một sân, ngày nào cũng gặp nhau, giúp chút việc này mà không nên sao?")],
+},
+7: {
+1: [("公元581—618年，中国的隋朝。", "581–618, nhà Tùy."), ("赵州桥建于公元595—605年。", "Cầu Triệu Châu được xây từ năm 595–605.")],
+2: [("用来建桥、雕刻的石头。", "đá dùng để làm cầu, điêu khắc…")],
+3: [("发生洪水；因为下大雨或大雪融化，河水上涨，形成水灾。", "lũ lớn; do mưa lớn hoặc tuyết lớn tan làm nước sông dâng, tạo thành lũ lụt.")],
+4: [("重要的道路。", "con đường/tuyến đường quan trọng."), ("例如：这里是南来北往的交通要道。", "Ví dụ: Đây là tuyến giao thông quan trọng cho người đi từ nam lên bắc, từ bắc xuống nam.")],
+5: [("中国的金朝，公元1115—1234年。", "nhà Kim, 1115–1234.")],
+6: [("围在桥边或台边起保护作用的板状栏杆；用石头做的叫石栏板。", "lan can dạng tấm dùng để bao quanh; làm bằng đá thì gọi là lan can đá.")],
+7: [("做事时心情很高兴。", "làm việc với tâm trạng cao hứng."), ("例如：干得欢、吃得欢、谈得欢；他上课睡觉，下课玩儿得可欢了。", "Ví dụ: 干得欢 (làm hăng), 吃得欢 (ăn ngon lành/hào hứng), 谈得欢 (nói chuyện hào hứng); Anh ấy ngủ trong giờ, nhưng ra chơi lại chơi rất hăng.")],
+8: [("意大利人，约生于1254年，卒于1324年，1275年来到中国。", "Marco Polo (khoảng 1254–1324), người Ý, đến Trung Quốc năm 1275."), ("他的《马可·波罗游记》介绍了他在东方的所见所闻。", "Tác phẩm 《马可·波罗游记》 giới thiệu những điều ông thấy nghe ở phương Đông.")],
+9: [("用来运送人和货物过河的船。", "phà, thuyền chở người và hàng hóa qua sông.")],
+10: [("名词，意思是“从……到现在”，用在表示时间的词语后面。", "danh từ, nghĩa “từ… đến nay”, đứng sau từ chỉ thời gian."), ("例如：五千年来的文化、一百年来的历史、三个月来的努力。", "Ví dụ: 五千年来的文化 (nền văn hóa 5.000 năm qua), 一百年来的历史 (lịch sử 100 năm qua), 三个月来的努力 (nỗ lực ba tháng qua).")],
+11: [("“可以说是”的意思，用于书面语。", "“có thể nói là”, dùng trong văn viết."), ("例如：打太极拳可谓好处多多。", "Ví dụ: Tập Thái cực quyền có thể nói lợi ích rất nhiều."), ("中国的桥梁可谓多如牛毛。", "Cầu ở Trung Quốc có thể nói nhiều như lông bò.")],
+12: [("毛泽东（1893—1976）的诗句。", "câu thơ của Mao Trạch Đông (1893–1976)."), ("1956年，他考察武汉长江大桥工程并畅游长江后，写下了《水调歌头·游泳》。", "Năm 1956, sau khi khảo sát công trình cầu Trường Giang Vũ Hán và bơi trên sông Trường Giang, ông viết bài 《水调歌头·游泳》."), ("“一桥”指当时正在修建的武汉长江大桥；“天堑”意思是天然的大壕沟，这里指长江。", "“一桥” là cầu Trường Giang Vũ Hán lúc đó đang xây; “天堑” nghĩa là hào/rãnh lớn, ở đây chỉ Trường Giang."), ("全句的意思是：武汉大桥连接南北，从此人们可以自由往来于长江两岸。", "Cả câu nghĩa là cầu Vũ Hán nối nam bắc, từ đó mọi người có thể tự do đi lại trên sông Trường Giang.")],
+13: [("书面语中的介词，意思是“把”。", "giới từ trong văn viết, nghĩa là “把” (đem, đưa)."), ("例如：他将钱和药方交给了我，我立刻就去买药了。", "Ví dụ: Anh ấy giao tiền và đơn thuốc cho tôi, tôi lập tức đi mua thuốc.")],
+14: [("两个地区或国家被海隔开，远远地互相看着。", "hai khu vực hoặc quốc gia bị biển ngăn cách và nhìn nhau từ xa.")],
+15: [("世界最高的山峰，即珠峰（Everest）。", "núi Everest, đỉnh núi cao nhất thế giới.")],
+},
+}
