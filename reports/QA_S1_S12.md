@@ -23,7 +23,7 @@
 | lg | Hán −0/+0 | từ −0/+0 |  |
 | lv | Hán −0/+0 | từ −0/+0 |  |
 
-ld toàn khối: Hán mất 2, Hán thêm 256 (chủ yếu 5 đoạn 《家庭学校》 biên soạn).
+ld toàn khối: Hán mất 0, Hán thêm 18118 (chủ yếu 5 đoạn 《家庭学校》 biên soạn).
 
 fz toàn khối: Hán mất **12**, thêm 9670.
 
@@ -220,3 +220,9 @@ Lỗi JS trang: không
 | S10 | 0 |
 | S11 | 5 banner (xem bảng) |
 
+
+## Bổ sung · ld bài đọc theo câu
+
+- 148 đoạn bài đọc của 12 bài → 503 khối câu: mỗi câu Hán kèm pinyin và Việt ngay bên dưới (ghép bằng quy hoạch động theo độ dài + neo số/tên riêng/《》); 9 khối gộp 2–3 câu Hán vì bản dịch gộp câu.
+- Các đoạn diễn đàn bài 11 có dòng tên·ngày riêng (`.phd`), không cần dịch.
+- Ví dụ họ formal còn thiếu Việt: 24 câu → đã bổ sung (`tools/ld_vi_bosung.json`).
