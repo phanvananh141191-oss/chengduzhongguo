@@ -7,7 +7,7 @@ Dùng: python3 tools/gen_ky.py vào.html ra.html 4 [5 6 ...]
 - Khối «Ghi chú sắc thái cấu trúc» / «Những từ dễ dịch lệch» gom thành hộp gập «📝 Ghi chú KB (n)».
 - Bảng tên nhân vật và Tiêu đề bài thành hộp gập.
 """
-import re, sys, os, json, html
+import re, sys, os, json, html, collections
 from markdown_it import MarkdownIt
 from pypinyin import pinyin, Style
 from pypinyin.pinyin_dict import pinyin_dict
@@ -81,6 +81,65 @@ def ruby_html(h, hint=None):
         out.append(re.sub(r'[\u4e00-\u9fff]', rep, p))
     return ''.join(out)
 
+# ---------------------------------------------------------------- Hán-Việt
+HV = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'hanviet.json'), encoding='utf8'))
+HV_MISS = collections.Counter()
+def hv_of(word):
+    w = re.sub(r'[^\u4e00-\u9fff]', '', word)
+    if not w: return ''
+    out = []; i = 0
+    while i < len(w):
+        L = min(8, len(w) - i)
+        while L > 1 and w[i:i + L] not in HV['W']: L -= 1
+        t = w[i:i + L]
+        if t in HV['W']: out.append(HV['W'][t])
+        else:
+            for c in t:
+                if c in HV['C']: out.append(HV['C'][c])
+                else: out.append(c); HV_MISS[c] += 1
+        i += L
+    return ' '.join(out)
+
+def hv_pick(word, meaning):
+    """Ưu tiên âm Hán-Việt do người dịch ghi ở đầu ô nghĩa («Âm thị (ám thị): …»), không thì tra từ điển."""
+    w = re.sub(r'[^\u4e00-\u9fff]', '', word); d = hv_of(word)
+    m = re.sub(r'\*\*', '', meaning).strip()
+    mm = re.match(r'^([^:：]{1,40}?)\s*[:：]', m)
+    if mm and w:
+        head = mm.group(1); cands = []
+        pm = re.match(r'^(.*?)\s*\(([^)]*)\)\s*$', head)
+        parts = [pm.group(1), pm.group(2)] if pm else [head]
+        for x in parts:
+            x = x.strip().lower()
+            if x and len(x.split()) == len(w) and not re.search(r'[\d,;/]', x): cands.append(x)
+        if d in cands: return d
+        if cands: return cands[0]
+    return d
+
+def split_row(line):
+    cells = re.split(r'(?<!\\)\|', line.strip())
+    return cells[1:-1] if len(cells) >= 3 else None
+
+def add_hv_column(src):
+    """Bảng từ vựng (cột 词语 và Nghĩa): thêm cột Hán Việt đứng ngay trước cột nghĩa."""
+    lines = src.split('\n')
+    hd = split_row(lines[0]) if lines else None
+    if not hd: return src
+    names = [x.strip() for x in hd]
+    wi = next((i for i, x in enumerate(names) if x in ('词语', '词')), None)
+    vi_ = next((i for i, x in enumerate(names) if x.startswith('Nghĩa')), None)
+    if wi is None or vi_ is None or 'Hán Việt' in names or 'Hán-Việt' in names: return src
+    out = []
+    for k, l in enumerate(lines):
+        cells = split_row(l)
+        if not cells: out.append(l); continue
+        if k == 0: new = ' Hán Việt '
+        elif k == 1: new = ' :-- '
+        else: new = ' ' + hv_pick(re.sub(r'🔊|\*\*', '', cells[wi]), cells[vi_] if vi_ < len(cells) else '') + ' ' if wi < len(cells) else ' '
+        cells.insert(vi_, new)
+        out.append('|' + '|'.join(cells) + '|')
+    return '\n'.join(out)
+
 # ---------------------------------------------------------------- md → khối
 LAB_ZH = re.compile(r'^\*\*中文[:：]\*\*\s*')
 LAB_VI = re.compile(r'^\*\*Tiếng Việt:\*\*\s*')
@@ -134,6 +193,72 @@ def zh_para(src):
         han.append(l2)
     return han, py, vi
 
+SPLIT_ZH = re.compile(r'(?<=[。！？!?])(?=[^”’」』）)\s])')
+SPLIT_VI = re.compile(r'(?<=[.!?…])\s+(?=[A-ZÀÁẢÃẠĂẮẰẲẴẶÂẤẦẨẪẬĐÈÉẺẼẸÊẾỀỂỄỆÌÍỈĨỊÒÓỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÙÚỦŨỤƯỨỪỬỮỰỲÝỶỸỴ“"(\d])')
+
+def _merge_unbalanced(parts):
+    out = []
+    for x in parts:
+        if out and (out[-1].count('**') % 2 or out[-1].count('*') % 2 and False): out[-1] += ' ' + x
+        else: out.append(x)
+    return out
+
+def sent_zh(t):
+    return _merge_unbalanced([x for x in SPLIT_ZH.split(t) if x.strip()]) or [t]
+
+def sent_vi(t):
+    return _merge_unbalanced([x for x in SPLIT_VI.split(t) if x.strip()]) or [t]
+
+def items_of(lines):
+    out = []
+    for l in lines: out += [x for x in itemize(l).split('<br>') if x.strip()]
+    return out
+
+def _len_h(x): return len(HAN.findall(x)) or len(re.sub(r'\W', '', x))
+def _len_v(x): return len(re.sub(r'\W', '', x))
+
+def align(hs, vs):
+    """Ghép các câu Hán và câu Việt khi số câu khác nhau: quy hoạch động theo tỉ lệ độ dài, cho phép gộp 1–3 câu."""
+    n, m = len(hs), len(vs)
+    r = max(sum(_len_v(x) for x in vs) / max(sum(_len_h(x) for x in hs), 1), .1)
+    INF = 1e9; best = [[INF] * (m + 1) for _ in range(n + 1)]; back = {}
+    best[0][0] = 0
+    moves = [(1, 1), (1, 2), (2, 1), (2, 2), (1, 3), (3, 1)]
+    for i in range(n + 1):
+        for j in range(m + 1):
+            if best[i][j] >= INF: continue
+            for di, dj in moves:
+                ni, nj = i + di, j + dj
+                if ni > n or nj > m: continue
+                H = ''.join(hs[i:ni]); V = ''.join(vs[j:nj])
+                lh, lv = _len_h(H) * r, _len_v(V)
+                cost = abs(__import__('math').log((lv + 6) / (lh + 6))) + (0.25 if (di, dj) != (1, 1) else 0)
+                if H.count('？') + H.count('?') != V.count('?'): cost += 0.7
+                c = best[i][j] + cost
+                if c < best[ni][nj]: best[ni][nj] = c; back[(ni, nj)] = (i, j)
+    if best[n][m] >= INF: return None
+    out = []; i, j = n, m
+    while (i, j) != (0, 0):
+        pi, pj = back[(i, j)]
+        out.append((''.join(hs[pi:i]), ' '.join(vs[pj:j]))); i, j = pi, pj
+    return out[::-1]
+
+def pair_up(han, vi):
+    """Ghép Hán–Việt ở mức nhỏ nhất khớp được: câu → mục → khối. Trả list (hán, việt) hoặc None."""
+    hi, vv = items_of(han), items_of(vi)
+    if hi and vv and len(hi) == len(vv):
+        out = []
+        for h, v in zip(hi, vv):
+            hs, vs = sent_zh(h), sent_vi(v)
+            if len(hs) == len(vs) and len(hs) > 1: out += list(zip(hs, vs))
+            elif len(hs) > 1 and len(vs) > 1 and (al := align(hs, vs)): out += al
+            else: out.append((h, v))
+        return out
+    hs = [x for h in hi for x in sent_zh(h)]; vs = [x for v in vv for x in sent_vi(v)]
+    if hs and len(hs) == len(vs): return list(zip(hs, vs))
+    if len(hs) > 1 and len(vs) > 1: return align(hs, vs)
+    return None
+
 def render_pair(zh_src, vi_src=None):
     han, py, vi_in = zh_para(zh_src)
     vi = list(vi_in)
@@ -141,16 +266,28 @@ def render_pair(zh_src, vi_src=None):
         for l in vi_src.split('\n'):
             l2 = LAB_VI.sub('', l.strip().rstrip('\\').rstrip())
             if l2.strip(): vi.append(l2)
+    if len(vi) > 1 and re.match(r'^\*\*[^*]{1,40}[:：]\*\*$', vi[0].strip()):   # nhãn người nói đứng riêng một dòng → dính với dòng sau
+        vi = [vi[0].strip() + ' ' + vi[1].strip()] + vi[2:]
     spk = ''
     if han:
         ms = re.match(r'^\*\*(.+?)[：:]\*\*\s*(.*)$', han[0].strip())
         if ms: spk = ms.group(1); han = ([ms.group(2)] if ms.group(2).strip() else []) + han[1:]
     hint = hint_syllables(' '.join(py), ' '.join(han)) if py else None
-    zh_html = '<br>'.join(inline(x) for x in han)
-    h = ruby_html(zh_html, hint)
-    if spk: h = '<strong>%s：</strong> %s' % (ruby_html(html.escape(spk)), h)
-    v = '<br>'.join(inline(x) for x in vi)
-    return '<div class="u3"><div class="zh">%s</div>%s</div>' % (h, ('<div class="vi">%s</div>' % v) if v else '')
+    if hint is not None and len(hint) != len(HAN.findall(' '.join(han))): hint = None
+    pairs = pair_up(han, vi) if vi else None
+    if pairs is None:
+        h = ruby_html('<br>'.join(inline(x) for x in han), hint)
+        if spk: h = '<strong>%s：</strong> %s' % (ruby_html(html.escape(spk)), h)
+        v = '<br>'.join(inline(x) for x in vi)
+        return '<div class="u3"><div class="zh">%s</div>%s</div>' % (h, ('<div class="vi">%s</div>' % v) if v else '')
+    out = []; pos = 0; first = True
+    for hz, vz in pairs:
+        n = len(HAN.findall(hz))
+        h = ruby_html(inline(hz), hint[pos:pos + n] if hint is not None else None); pos += n
+        if first and spk: h = '<strong>%s：</strong> %s' % (ruby_html(html.escape(spk)), h)
+        first = False
+        out.append('<div class="zh">%s</div><div class="vi">%s</div>' % (h, inline(vz)))
+    return '<div class="u3">%s</div>' % ''.join(out)
 
 def is_zh_para(src):
     s = src.strip()
@@ -203,7 +340,7 @@ def ruby_para(src):
 
 PY_IN_CELL = re.compile(r'(?:<br\s*/?>)\s*\*[^*|]*\*(?=\s*(?:\||$))', re.M)
 def render_table(src, in_note):
-    if not in_note: src = PY_IN_CELL.sub('', src)      # pinyin trong ô đã có ruby → bỏ dòng pinyin
+    if not in_note: src = add_hv_column(PY_IN_CELL.sub('', src))      # pinyin trong ô đã có ruby → bỏ dòng pinyin; thêm cột Hán Việt
     h = md.render(src)
     if in_note: return '<div class="tw">%s</div>' % h
     # không gắn ruby cho cột pinyin
@@ -269,6 +406,7 @@ CSS = '''/*ky-gen*/
 .u3{margin:.7em 0;padding:.1em 0 .1em .8em;border-left:3px solid var(--bd)}
 .u3 .zh{font-size:1.02em}
 .u3 .vi{color:var(--mut);font-size:.9em;line-height:1.6;margin-top:.15em}
+.u3 .vi+.zh{margin-top:.55em}
 details.kbn{margin:1em 0;border:1px solid var(--bd);border-radius:8px;background:var(--card)}
 details.kbn>summary{cursor:pointer;padding:6px 12px;color:var(--ac);font-size:.92em}
 details.kbn[open]>summary{border-bottom:1px solid var(--bd)}
@@ -291,6 +429,7 @@ def main():
         assert pat.search(ky), n
         ky = pat.sub(lambda mm: mm.group(1) + body + mm.group(3), ky, count=1)
         print('bài %d: %d ký tự HTML' % (n, len(body)))
+    if HV_MISS: print('Hán-Việt: chữ chưa có trong từ điển:', ''.join(HV_MISS))
     print('ruby: khớp pinyin md %(aligned)d khối, dùng pypinyin %(fallback)d khối' % STATS)
     new = json.dumps(ky, ensure_ascii=False).replace('<', '\\u003c')
     open(dst, 'w', encoding='utf8').write(s[:m.start(2)] + new + s[m.end(2):])
