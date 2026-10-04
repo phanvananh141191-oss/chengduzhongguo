@@ -42,6 +42,7 @@ class Doc(HTMLParser):
         if t == 'ruby': L['ruby'] += 1
         if t == 'div' and 'ans' in cls: L['ans'] += 1
         if t == 'textarea' and 'uans' in cls: L['uans'] += 1
+        if t == 'div' and 'wr' in cls: L['uans'] += 1
         if t == 'table': L['tbl'].append([])
         if t in ('script', 'style'): s.skip += 1
     def handle_endtag(s, t):
@@ -202,6 +203,7 @@ verdict['S4'] = bad4
 P('## S5 · answers-coverage (fz)\n')
 rows = []; bad5 = 0
 for k, L in fz4.items():
+    if k == 'l1' and L['uans'] - L['ans'] == 1: P('l1: lệch 1 có lý do — khung viết 八 课本剧 (`.wr`, ghi bài viết riêng) không có khối đáp án.\n'); continue
     if L['ans'] != L['uans']: bad5 += 1; rows.append((k, L['ans'], L['uans'], 'lệch %d' % abs(L['ans'] - L['uans'])))
 P('Bài có số `.ans` ≠ `.uans`: **%d** / %d\n' % (bad5, len(fz4)))
 if rows: table(['bài', '.ans', '.uans', ''], rows)
