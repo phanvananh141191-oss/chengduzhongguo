@@ -80,10 +80,21 @@ def main():
             key = (b, n, k); cnt[key] = cnt.get(key, 0) + 1
             items.append({'id': '%s/l%02d/%s%03d' % (b, n, k, cnt[key]), 'book': b, 'lesson': n, 'kind': k, 'text': txt,
                           'hash': hashlib.sha1(txt.encode()).hexdigest()[:10]})
+            items[-1]['file'] = ('words/' if k == 'w' else 'sents/') + items[-1]['hash']   # cùng văn bản → dùng chung một file mp3
         stat[b] = (sum(1 for i in items if i['book'] == b and i['kind'] == 'w'), sum(1 for i in items if i['book'] == b and i['kind'] == 't'),
                    sum(len(i['text']) for i in items if i['book'] == b))
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump(items, open(OUT, 'w', encoding='utf-8'), ensure_ascii=False, indent=0)
     for b, (w, t, c) in stat.items(): print('%s: %d từ · %d đoạn bài khoá · %d ký tự' % (b, w, t, c))
+    uniq = {}
+    for i in items: uniq.setdefault(i['file'], i)
+    for kind, nm in (('w', 'từ vựng'), ('t', 'câu bài khoá')):
+        a = [i for i in items if i['kind'] == kind]; u = [i for i in uniq.values() if i['kind'] == kind]
+        print('%s: %d mục → %d file duy nhất (bỏ %d trùng) · %d → %d ký tự' % (nm, len(a), len(u), len(a) - len(u), sum(len(i['text']) for i in a), sum(len(i['text']) for i in u)))
+    w = {}
+    for i in items:
+        if i['kind'] == 'w': w.setdefault(i['text'], set()).add(i['book'])
+    print('từ có ở ≥2 giáo trình: %d (3 giáo trình: %d)' % (sum(len(v) > 1 for v in w.values()), sum(len(v) == 3 for v in w.values())))
+    print('Tổng duy nhất: %d file · %d ký tự' % (len(uniq), sum(len(i['text']) for i in uniq.values())))
     print('Tổng: %d file · %d ký tự' % (len(items), sum(len(i['text']) for i in items)))
 main()
