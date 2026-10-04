@@ -53,6 +53,25 @@ def hint_syllables(pyline, han_text=''):
         out += seg
     return out
 
+TONE4 = set('àèìòùǜ'); TONE_ANY = set('āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ')
+def _tone_of(py):
+    for c in py:
+        if c in TONE4: return 4
+        if c in TONE_ANY: return 1
+    return 0
+def sandhi(chars, pys):
+    """Biến điệu 不 (bù→bú trước thanh 4) và 一 (yī→yí trước thanh 4 / yì trước thanh khác); giữ nguyên khi là số thứ tự/cuối từ."""
+    out = list(pys)
+    for i, c in enumerate(chars):
+        nxt = out[i + 1] if i + 1 < len(out) else ''
+        if c == '不' and out[i] == 'bù' and nxt and _tone_of(nxt) == 4: out[i] = 'bú'
+        if c == '一' and out[i] == 'yī' and nxt:
+            prev = chars[i - 1] if i else ''
+            if prev in '第十零二三四五六七八九' and prev: continue
+            if i + 1 < len(chars) and chars[i + 1] in '月号日年': continue
+            out[i] = 'yí' if _tone_of(nxt) in (4, 0) else 'yì'
+    return out
+
 def py_list(text, hint=None):
     """Trả danh sách pinyin cho từng chữ Hán trong text (theo thứ tự)."""
     han = HAN.findall(text)
@@ -60,7 +79,8 @@ def py_list(text, hint=None):
         return hint, True
     res = []
     for seg in re.finditer(r'[\u4e00-\u9fff]+', text):
-        res += [x[0] for x in pinyin(seg.group(0), style=Style.TONE, errors='default')]
+        ps = [x[0] for x in pinyin(seg.group(0), style=Style.TONE, errors='default')]
+        res += sandhi(seg.group(0), ps)
     return res, False
 
 STATS = dict(aligned=0, fallback=0)
@@ -140,6 +160,30 @@ def add_hv_column(src):
         out.append('|' + '|'.join(cells) + '|')
     return '\n'.join(out)
 
+CUR_LESSON = [0]
+EX_STATS = collections.Counter()
+def add_example_column(src, lesson):
+    """Thêm cột «Ví dụ»: mỗi ô có đủ câu Hán, pinyin, tiếng Việt (ưu tiên trong bài → ky khác → giáo trình khác → tự soạn)."""
+    import vi_du
+    vi_du.init()
+    lines = src.split('\n'); hd = split_row(lines[0]) if lines else None
+    if not hd: return src
+    names = [x.strip() for x in hd]
+    wi = next((i for i, x in enumerate(names) if x in ('词语', '词')), None)
+    if wi is None or 'Ví dụ' in names: return src
+    out = []; used = set()
+    for k, l in enumerate(lines):
+        cells = split_row(l)
+        if not cells: out.append(l); continue
+        if k == 0: cells.append(' Ví dụ ')
+        elif k == 1: cells.append(' :-- ')
+        else:
+            cell, lab = vi_du.example_cell(re.sub(r'🔊|\*\*', '', cells[wi]), lesson, used) if wi < len(cells) and HAN.search(cells[wi]) else ('', None)
+            EX_STATS[lab or 'none'] += 1
+            cells.append(' ' + cell + ' ')
+        out.append('|' + '|'.join(cells) + '|')
+    return '\n'.join(out)
+
 # ---------------------------------------------------------------- md → khối
 LAB_ZH = re.compile(r'^\*\*中文[:：]\*\*\s*')
 LAB_VI = re.compile(r'^\*\*Tiếng Việt:\*\*\s*')
@@ -184,6 +228,8 @@ def zh_para(src):
         l2 = l.rstrip().rstrip('\\').rstrip()
         if LAB_VI.match(l2.strip()):
             mode = 'vi'; l2 = LAB_VI.sub('', l2.strip())
+        elif mode == 'zh' and han and re.match(r'^\*\*[^*]{1,40}[:：]\*\*\s*\S', l2.strip()) and not HAN.search(l2):
+            mode = 'vi'                    # «**Tên người nói:** lời dịch» nằm cùng đoạn với lời Hán
         if mode == 'vi':
             if l2.strip(): vi.append(l2)
             continue
@@ -340,7 +386,7 @@ def ruby_para(src):
 
 PY_IN_CELL = re.compile(r'(?:<br\s*/?>)\s*\*[^*|]*\*(?=\s*(?:\||$))', re.M)
 def render_table(src, in_note):
-    if not in_note: src = add_hv_column(PY_IN_CELL.sub('', src))      # pinyin trong ô đã có ruby → bỏ dòng pinyin; thêm cột Hán Việt
+    if not in_note: src = add_example_column(add_hv_column(PY_IN_CELL.sub('', src)), CUR_LESSON[0])      # pinyin trong ô đã có ruby → bỏ dòng pinyin; thêm cột Hán Việt
     h = md.render(src)
     if in_note: return '<div class="tw">%s</div>' % h
     # không gắn ruby cho cột pinyin
@@ -349,7 +395,7 @@ def render_table(src, in_note):
         cells = re.split(r'(<t[dh][^>]*>.*?</t[dh]>)', r, flags=re.S); o = []
         for c in cells:
             m = re.match(r'(<t[dh][^>]*>)(.*?)(</t[dh]>)', c, re.S)
-            if m and HAN.search(m.group(2)): c = m.group(1) + ruby_html(m.group(2)) + m.group(3)
+            if m and HAN.search(m.group(2)) and 'ex-zh' not in m.group(2): c = m.group(1) + ruby_html(m.group(2)) + m.group(3)
             o.append(c)
         out.append(''.join(o))
     return '<div class="tw">%s</div>' % ''.join(out)
@@ -366,6 +412,7 @@ def parse_sections(text):
     return secs
 
 def gen_lesson(n):
+    CUR_LESSON[0] = n
     text = open(os.path.join(CHUAN, 'Bai%02d.md' % n), encoding='utf8').read()
     secs = parse_sections(text)
     h1 = secs[0]; m = re.match(r'^(第\d+课)\s+(.*?)\s*·\s*(Bài\s*\d+:\s*.*)$', h1['t'])
@@ -407,6 +454,10 @@ CSS = '''/*ky-gen*/
 .u3 .zh{font-size:1.02em}
 .u3 .vi{color:var(--mut);font-size:.9em;line-height:1.6;margin-top:.15em}
 .u3 .vi+.zh{margin-top:.55em}
+.ex-zh{font-size:.95em;color:var(--fg)} .ex-zh mark{background:var(--hl);color:inherit;border-radius:3px;padding:0 1px}
+.ex-py{font-size:.78em;color:var(--mut);line-height:1.4;display:inline-block}
+.ex-vi{font-size:.85em;color:var(--mut)}
+.ex-src{font-size:.68em;color:var(--ac);opacity:.8}
 details.kbn{margin:1em 0;border:1px solid var(--bd);border-radius:8px;background:var(--card)}
 details.kbn>summary{cursor:pointer;padding:6px 12px;color:var(--ac);font-size:.92em}
 details.kbn[open]>summary{border-bottom:1px solid var(--bd)}
@@ -430,6 +481,7 @@ def main():
         ky = pat.sub(lambda mm: mm.group(1) + body + mm.group(3), ky, count=1)
         print('bài %d: %d ký tự HTML' % (n, len(body)))
     if HV_MISS: print('Hán-Việt: chữ chưa có trong từ điển:', ''.join(HV_MISS))
+    print('Ví dụ trong bảng từ:', dict(EX_STATS))
     print('ruby: khớp pinyin md %(aligned)d khối, dùng pypinyin %(fallback)d khối' % STATS)
     new = json.dumps(ky, ensure_ascii=False).replace('<', '\\u003c')
     open(dst, 'w', encoding='utf8').write(s[:m.start(2)] + new + s[m.end(2):])
