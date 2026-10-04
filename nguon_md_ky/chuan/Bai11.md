@@ -769,7 +769,7 @@ Bảng dưới đây là các từ ngữ đã học trong bài, để bạn lự
 
 ### 任务选择 (Lựa chọn nhiệm vụ)
 
-#### 任务一 我是演说家
+#### 任务一　我是演说家
 **中文：**\
 **任务一 我是演说家**  
 *Rènwu yī wǒ shì yǎnshuōjiā*
@@ -791,7 +791,7 @@ Hãy xem một video phỏng vấn, nội dung là quan điểm của một số
 **Tiếng Việt:**\
 Yêu cầu: 1. Thời gian khoảng hai phút. 2. Dùng ít nhất năm từ ngữ đã học trong bài.
 
-#### 任务二 角色扮演
+#### 任务二　角色扮演
 **中文：**\
 **任务二 角色扮演**  
 *Rènwu èr juésèbànyǎn*
@@ -822,7 +822,7 @@ Yêu cầu: mỗi người dùng ít nhất năm từ ngữ đã học trong bà
 **Các từ ngữ của tôi**\
 1. ______　2. ______　3. ______　4. ______　5. ______
 
-#### 任务三 实地调查
+#### 任务三　实地调查
 **中文：**\
 **任务三 实地调查**  
 *Rènwu sān shídìdiàochá*

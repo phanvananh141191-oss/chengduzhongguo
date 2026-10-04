@@ -842,7 +842,7 @@ Bảng dưới đây là các từ ngữ đã học trong bài này, để bạn
 
 ### 任务选择 (Lựa chọn nhiệm vụ)
 
-#### 任务一 实地调查
+#### 任务一　实地调查
 **中文：**\
 **任务一 实地调查**\
 *Rènwu yī shídìdiàochá*
@@ -887,7 +887,7 @@ Yêu cầu: 1. Khảo sát ít nhất bốn người. 2. Hoàn thành một bài
 3. Bạn có thích xem người khác khoe đồ không? (Nếu không, vì sao?)\
 4. Bạn thích xem người khác khoe gì? Không thích xem người khác khoe gì?
 
-#### 任务二 “心理咨询”互助交流会
+#### 任务二　“心理咨询”互助交流会
 **中文：**\
 **任务二 “心理咨询”互助交流会**\
 *Rènwu èr “xīnlǐzīxún” hùzhù jiāoliúhuì*
@@ -933,7 +933,7 @@ Sắp xếp những điều mình sẽ tâm sự hoặc những lời tâm sự 
 
 *Lưu ý văn bản:* Bảng gốc có hai cột “倾诉” và “回应或建议”; hai dòng “例” nằm ở hai ô đầu của hai cột (mỗi cột một ví dụ), dưới đó là bốn dòng trống để điền. Bản dịch trình bày các ô theo thứ tự đọc nên bố cục có thể khác bảng gốc; ví dụ ở cột “回应或建议” là câu đáp lại cho ví dụ ở cột “倾诉”.
 
-#### 任务三 文化对比
+#### 任务三　文化对比
 **中文：**\
 **任务三 文化对比**\
 *Rènwu sān wénhuà duìbǐ*

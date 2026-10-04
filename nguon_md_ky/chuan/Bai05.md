@@ -455,7 +455,7 @@ F. Làm theo cặp, dựa vào các từ khóa trong bảng dưới đây, nói 
 | Ông Tiền | Chó | (Không) vận động | Dắt chó đi dạo, ngủ sớm dậy sớm | Cuộc sống điều độ, cân nặng, huyết áp, tình trạng sức khỏe |
 | Con gái bà Lý | Mèo | Trầm cảm, thẫn thờ | Cho ăn, dọn dẹp, bỏ thời gian, làm đồ ăn vặt | Bệnh tình giảm nhẹ, (không) nghĩ ngợi lung tung |
 
-#### G 三至四人一组，根据对话内容举例说明养宠物的好处，还可以补充对话中未提到的其他好处。请尽量使用小词库中的词语。用了哪个，请画“√” (Làm theo nhóm ba đến bốn người, dựa vào nội dung hội thoại để nêu ví dụ minh họa lợi ích của việc nuôi thú cưng; cũng có thể bổ sung những lợi ích khác không được nhắc đến trong hội thoại. Hãy cố gắng dùng các từ trong kho từ nhỏ. Dùng từ nào thì đánh dấu “√”.)
+#### G 三至四人一组，根据对话内容举例说明养宠物的好处，还可以补充对话中未提到的其他好处 (Làm theo nhóm ba đến bốn người, dựa vào nội dung hội thoại để nêu ví dụ minh họa lợi ích của việc nuôi thú cưng; cũng có thể bổ sung những lợi ích khác không được nhắc đến trong hội thoại.)
 
 **中文：**\
 G 三至四人一组，根据对话内容举例说明养宠物的好处，还可以补充对话中未提到的其他好处。请尽量使用小词库中的词语。用了哪个，请画“√”。  

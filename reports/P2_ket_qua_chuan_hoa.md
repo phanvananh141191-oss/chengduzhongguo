@@ -2,9 +2,9 @@
 
 | Bài | h2 | Dòng thân trước | Dòng thân sau | Mất | Thêm | Bỏ (Tổng kết…) | Cờ cần duyệt |
 |---|---|---|---|---|---|---|---|
-| 1 | 6 | 602 | 595 | 0 | 0 | — | 3 |
+| 1 | 6 | 602 | 595 | 0 | 0 | — | 2 |
 | 2 | 6 | 877 | 862 | 0 | 0 | Tổng kết (1199 ký tự) | 12 |
-| 3 | 6 | 608 | 599 | 0 | 0 | Tổng kết toàn bài (1228 ký tự) | 1 |
+| 3 | 6 | 608 | 599 | 0 | 0 | Tổng kết toàn bài (1228 ký tự) | 0 |
 | 4 | 6 | 932 | 925 | 0 | 0 | Tổng kết toàn bài (sau lượt cuối) (691 ký tự) | 0 |
 | 5 | 6 | 831 | 819 | 0 | 0 | Tổng kết Bài 5 (1355 ký tự) | 0 |
 | 6 | 6 | 819 | 808 | 0 | 0 | Tổng kết toàn bài (822 ký tự) | 4 |
@@ -38,7 +38,6 @@
 
 - ⚠ tiêu đề «任务一 发表回帖» được chèn từ nhãn Hán trong thân (nguồn không có heading) — cần duyệt
 - ⚠ tiêu đề «任务二 角色扮演» được chèn từ nhãn Hán trong thân (nguồn không có heading) — cần duyệt
-- ⚠ «E. Trả lời câu hỏi bằng từ cho sẵn»: không thấy nhãn Hán trong thân, giữ nhãn Việt — cần duyệt
 
 ## Bài 2
 
@@ -61,7 +60,6 @@
 
 **h2:** Tiêu đề bài → Bảng tên nhân vật → PREPARE · 驱动 (Khởi động) → EXPLORE · 促成 (Khám phá) → PRODUCE · 产出 (Sản xuất) → 附录 · 录音文本 (Bài nghe)
 
-- ⚠ «Bài tập B: Bàn về lợi và hại của xem mắt»: không thấy nhãn Hán trong thân, giữ nhãn Việt — cần duyệt
 
 ## Bài 4
 
@@ -112,7 +110,7 @@
 - ⚠ tiêu đề «C 词语练习» được chèn từ nhãn Hán trong thân (nguồn không có heading) — cần duyệt
 - ⚠ tiêu đề «D 根据对话内容回答下列问题，注意加点词语的用法» được chèn từ nhãn Hán trong thân (nguồn không có heading) — cần duyệt
 - ⚠ tiêu đề «E 两人一组，用指定的词语回答问题» được chèn từ nhãn Hán trong thân (nguồn không có heading) — cần duyệt
-- ⚠ tiêu đề «F 三人一组讨论，根据对话内容并借助下图，说说李岩一家三口难以自控的“瘾”。请尽量使用小词库中的词语。用了哪个，请画“√”» được chèn từ nhãn Hán trong thân (nguồn không có heading) — cần duyệt
+- ⚠ tiêu đề «F 三人一组讨论，根据对话内容并借助下图，说说李岩一家三口难以自控的“瘾”» được chèn từ nhãn Hán trong thân (nguồn không có heading) — cần duyệt
 - ⚠ tiêu đề «G 角色扮演：三人一组，把李岩一家戒“瘾”的故事表演出来» được chèn từ nhãn Hán trong thân (nguồn không có heading) — cần duyệt
 - ⚠ tiêu đề «词语表 🔊 8-3» được chèn từ nhãn Hán trong thân (nguồn không có heading) — cần duyệt
 - ⚠ tiêu đề «A 头脑风暴» được chèn từ nhãn Hán trong thân (nguồn không có heading) — cần duyệt
@@ -161,7 +159,7 @@
 - ⚠ tiêu đề «B 朗读对话，注意语音语调。 🔊 12-2» được chèn từ nhãn Hán trong thân (nguồn không có heading) — cần duyệt
 - ⚠ tiêu đề «D 根据对话内容回答下列问题，注意加点词语的用法» được chèn từ nhãn Hán trong thân (nguồn không có heading) — cần duyệt
 - ⚠ tiêu đề «E 两人一组，用指定的词语回答问题» được chèn từ nhãn Hán trong thân (nguồn không có heading) — cần duyệt
-- ⚠ tiêu đề «F 假设你也去了对话里这家 24 小时书店，要在“中国社会”课上为大家介绍书店的情况，并简单谈谈自己对 24 小时书店及夜间经济活动的看法。根据提示和小词库，三至四人一组，讨论后选一人在全班发言» được chèn từ nhãn Hán trong thân (nguồn không có heading) — cần duyệt
-- ⚠ tiêu đề «G 角色扮演：两人一组，一人扮演来自小城镇的学生，一人扮演来自大城市的学生。互相介绍各自家乡的夜生活情况，并说明自己是否喜欢夜生活。请尽量使用小词库中的词语。用了哪个，请画“√”» được chèn từ nhãn Hán trong thân (nguồn không có heading) — cần duyệt
+- ⚠ tiêu đề «F 假设你也去了对话里这家 24 小时书店，要在“中国社会”课上为大家介绍书店的情况，并简单谈谈自己对 24 小时书店及夜间经济活动的看法» được chèn từ nhãn Hán trong thân (nguồn không có heading) — cần duyệt
+- ⚠ tiêu đề «G 角色扮演：两人一组，一人扮演来自小城镇的学生，一人扮演来自大城市的学生» được chèn từ nhãn Hán trong thân (nguồn không có heading) — cần duyệt
 - ⚠ tiêu đề «B 城市发展。 🔊 12-4» được chèn từ nhãn Hán trong thân (nguồn không có heading) — cần duyệt
 - ⚠ tiêu đề «C 同一个夜晚，不同的夜空» được chèn từ nhãn Hán trong thân (nguồn không có heading) — cần duyệt

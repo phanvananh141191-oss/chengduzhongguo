@@ -462,7 +462,7 @@ Dưới mỗi câu hỏi, các dòng bắt đầu bằng “>” là những c�
 > → “kế hoạch dễ thao tác; khá dễ thao tác; thao tác thì gặp khó khăn”
 >
 
-#### F 三人一组讨论，根据对话内容并借助下图，说说李岩一家三口难以自控的“瘾”。请尽量使用小词库中的词语。用了哪个，请画“√” (Làm theo nhóm ba người, dựa vào nội dung hội thoại và hình bên dưới, hãy nói về những “cơn nghiện” mà cả nhà ba người Lý Nham khó tự kiểm soát. Hãy cố gắng dùng các từ trong “kho từ nhỏ”. Dùng được từ nào thì đánh dấu “√”.)
+#### F 三人一组讨论，根据对话内容并借助下图，说说李岩一家三口难以自控的“瘾” (Làm theo nhóm ba người, dựa vào nội dung hội thoại và hình bên dưới, hãy nói về những “cơn nghiện” mà cả nhà ba người Lý Nham khó tự kiểm soát.)
 **中文：** F 三人一组讨论，根据对话内容并借助下图，说说李岩一家三口难以自控的“瘾”。请尽量使用小词库中的词语。用了哪个，请画“√”。\
 *F sān rén yìzǔ tǎolùn, gēnjù duìhuà nèiróng bìng jièzhù xiàtú, shuō shuō Lǐ Yán yìjiā sānkǒu nányǐ zìkòng de “yǐn”. Qǐng jǐnliàng shǐyòng xiǎocíkù zhōng de cíyǔ. Yòng le nǎge, qǐng huà “√”.*\
 **Tiếng Việt:** F. Làm theo nhóm ba người, dựa vào nội dung hội thoại và hình bên dưới, hãy nói về những “cơn nghiện” mà cả nhà ba người Lý Nham khó tự kiểm soát. Hãy cố gắng dùng các từ trong “kho từ nhỏ”. Dùng được từ nào thì đánh dấu “√”.
@@ -770,7 +770,7 @@ Bảng gốc có hai cột (“điều cần diễn đạt” và “công cụ 
 
 ### 任务选择 (Lựa chọn nhiệm vụ)
 
-#### 任务一 我为他们出主意
+#### 任务一　我为他们出主意
 **中文：** 任务一 我为他们出主意\
 *Rènwu yī wǒ wèi tāmen chū zhǔyi*\
 **Tiếng Việt:** Nhiệm vụ 1: Tôi góp ý cho họ
@@ -791,7 +791,7 @@ Yêu cầu: 1. Thời gian khoảng hai phút. 2. Dùng ít nhất năm từ ng�
 
 *Lưu ý văn bản:* (1) Pinyin “bùliángyǐngxiǎng” (不良影响) viết liền, đúng ra nên tách “bùliáng yǐngxiǎng”; bản dịch giữ nguyên pinyin như nguồn. (2) Tên tác phẩm 《家有儿女》 được ghi âm Hán–Việt là “Gia hữu nhi nữ” kèm chữ Hán; nguồn không cho thông tin thêm. (3) Đề bài nhắc “烟瘾” (nghiện thuốc) và “糖瘾” (nghiện đường) nhưng không nói rõ bà ngoại hay Tiểu Vũ nghiện thứ nào, nên bản dịch cũng không gán riêng.
 
-#### 任务二 角色扮演
+#### 任务二　角色扮演
 **中文：** 任务二 角色扮演\
 *Rènwu èr juésèbànyǎn*\
 **Tiếng Việt:** Nhiệm vụ 2: Đóng vai
@@ -803,7 +803,7 @@ Yêu cầu: 1. Thời gian khoảng hai phút. 2. Dùng ít nhất năm từ ng�
 **Tiếng Việt:**\
 Làm theo cặp: một người đóng vai người nghiện, giới thiệu tình trạng mình nghiện một thứ gì đó; người còn lại đóng vai chuyên gia, dựa vào tình hình cụ thể của người nghiện để đưa ra lời khuyên.
 
-#### 任务三 实地调查
+#### 任务三　实地调查
 **中文：** 任务三 实地调查\
 *Rènwu sān shídìdiàochá*\
 **Tiếng Việt:** Nhiệm vụ 3: Điều tra thực tế

@@ -414,7 +414,7 @@ Trong nguồn, dưới mỗi câu hỏi là các dòng cụm từ gợi ý (theo
 | 生活理念；环保理念；共享理念<br>*Shēnghuó lǐniàn; huánbǎo lǐniàn; gòngxiǎng lǐniàn* | Quan niệm sống; quan niệm bảo vệ môi trường; quan niệm chia sẻ |
 | 得到利用；最大化利用；利用闲置物品<br>*Dédào lìyòng; zuìdàhuà lìyòng; lìyòng xiánzhì wùpǐn* | Được tận dụng; tận dụng tối đa; tận dụng đồ vật bỏ không |
 
-#### F 三至四人一组，说一说共享理念给出行、旅游、购物等方面带来的变化，以及共享理念的好处。请尽量使用小词库中的词语。用了哪个，请画“√” (Thảo luận theo nhóm ba đến bốn người, nói về những thay đổi mà quan niệm chia sẻ mang lại cho việc đi lại, du lịch, mua sắm…, cùng với lợi ích của quan niệm chia sẻ. Hãy cố gắng dùng các từ trong “kho từ nhỏ”. Dùng từ nào thì đánh dấu “√” vào từ đó.)
+#### F 三至四人一组，说一说共享理念给出行、旅游、购物等方面带来的变化，以及共享理念的好处 (Thảo luận theo nhóm ba đến bốn người, nói về những thay đổi mà quan niệm chia sẻ mang lại cho việc đi lại, du lịch, mua sắm…, cùng với lợi ích của quan niệm chia sẻ.)
 
 **中文：**\
 F 三至四人一组，说一说共享理念给出行、旅游、购物等方面带来的变化，以及共享理念的好处。请尽量使用小词库中的词语。用了哪个，请画“√”。  
@@ -439,7 +439,7 @@ F. Thảo luận theo nhóm ba đến bốn người, nói về những thay đ�
 **Tiếng Việt:**\
 **Kho từ nhỏ** tải xuống　ứng dụng　đặt đơn　tiền thuê　giao dịch　bỏ không　tận dụng　tận hưởng　tiết kiệm tiền　bảo vệ môi trường　vừa…… vừa……　không những…… mà còn……
 
-#### G 角色扮演：你们的一个朋友刚来中国，你们给他 / 她介绍一些在中国生活的小妙招儿，这些妙招儿都是和共享理念有关系的 (Đóng vai: một người bạn của các bạn vừa mới đến Trung Quốc, các bạn giới thiệu cho bạn ấy một số mẹo nhỏ khi sống ở Trung Quốc; những mẹo này đều liên quan đến quan niệm chia sẻ.)
+#### G 角色扮演：你们的一个朋友刚来中国 (Đóng vai: một người bạn của các bạn vừa mới đến Trung Quốc, các bạn giới thiệu cho bạn ấy một số mẹo nhỏ khi sống ở Trung Quốc; những mẹo này đều liên quan đến quan niệm chia sẻ.)
 
 **中文：**\
 G 角色扮演：你们的一个朋友刚来中国，你们给他 / 她介绍一些在中国生活的小妙招儿，这些妙招儿都是和共享理念有关系的。  

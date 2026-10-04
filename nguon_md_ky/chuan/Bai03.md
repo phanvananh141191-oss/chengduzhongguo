@@ -496,7 +496,7 @@ A. Động não: Tôi nhìn “xem mắt” như thế nào.
 
 *Lưu ý bản dịch:* bảng gốc là bảng trống để học viên ghi chép, có hai cột tiêu đề (chấp nhận hay không; lý do) và ba hàng tương ứng ba bạn cùng nhóm. Tôi dịch tiêu đề cột và nhãn hàng, không điền nội dung.
 
-#### Bài tập B: Bàn về lợi và hại của xem mắt
+#### B “相亲”利弊谈。🔊 3-4 (Bàn về lợi và hại của “xem mắt”. 🔊 3-4)
 
 **中文：**\
 B “相亲”利弊谈。🔊 3-4  

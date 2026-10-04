@@ -388,7 +388,7 @@ Tất nhiên rồi! Người ta thường nói “khoảng cách tạo nên vẻ
 
 8. “**Khoảng cách tạo nên vẻ đẹp**” có nghĩa là gì?
 
-#### E. Trả lời câu hỏi bằng từ cho sẵn
+#### E 两人一组，用指定的词语回答问题 (Làm theo cặp, dùng các từ cho sẵn để trả lời câu hỏi)
 
 | **中文** | **Tiếng Việt** |
 | :-- | :-- |
@@ -407,7 +407,7 @@ Tất nhiên rồi! Người ta thường nói “khoảng cách tạo nên vẻ
 | 做事随心所欲；太随心所欲；随心所欲地提出要求 *Zuòshì suíxīnsuǒyù; tài suíxīnsuǒyù; suíxīnsuǒyù dì tíchū yāoqiú* | làm việc tùy tiện, muốn gì làm nấy; quá tùy tiện; đưa ra yêu cầu một cách tùy tiện theo ý mình |
 | 自私的人；太自私了 *Zìsī de rén; tài zīsī liǎo* | người ích kỷ; ích kỷ quá |
 
-#### F 四人一组讨论，根据对话内容说一说：朋友之间哪些事不应该做？和朋友在一起还应该注意什么？请尽量使用小词库中的词语。用哪个，请画“√”
+#### F 四人一组讨论，根据对话内容说一说：朋友之间哪些事不应该做？
 
 **中文：**\
 **F 四人一组讨论，根据对话内容说一说：朋友之间哪些事不应该做？和朋友在一起还应该注意什么？请尽量使用小词库中的词语。用哪个，请画“√”。**\
@@ -693,7 +693,7 @@ Bảng dưới đây là các từ ngữ học trong bài này, để bạn lự
 **中文：**\
 **任务选择**\
 *Rènwu xuǎnzé*\
-#### 任务一 发表回帖
+#### 任务一　发表回帖
 **任务一 发表回帖**\
 *Rènwu yī fābiǎo huítiē*\
 请你为“驱动”环节的那位网友回帖。先分析网友朋友的做法，然后为网友提出建议。\
@@ -704,7 +704,7 @@ Bảng dưới đây là các từ ngữ học trong bài này, để bạn lự
 **Nhiệm vụ 1: Đăng bài trả lời**\
 Hãy viết bài trả lời cho người đăng bài ở phần “驱动” (Khởi động). Trước hết hãy phân tích cách làm của người bạn của người đăng bài, sau đó đưa ra lời khuyên cho họ.
 
-#### 任务二 角色扮演
+#### 任务二　角色扮演
 **中文：**\
 **任务二 角色扮演**\
 *Rènwu èr juésèbànyǎn*\

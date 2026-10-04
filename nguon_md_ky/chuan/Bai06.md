@@ -510,7 +510,7 @@ E. Làm theo cặp, dùng những từ ngữ được chỉ định để trả 
 > *Kào… Tíshén; wèile tíshén*  
 > Dựa vào… để tỉnh táo; để cho tỉnh táo
 
-#### F 三至四人一组说一说：对话里提到许欣然、周雪松、王晴晴表哥的哪些不健康的生活方式？分别是什么原因造成的？ (Làm nhóm ba đến bốn người, thảo luận: hội thoại nhắc đến những lối sống không lành mạnh nào của Hứa Hân Nhiên, Châu Tuyết Tùng và anh họ của Vương Tình Tình? Mỗi lối sống ấy do nguyên nhân nào gây ra?)
+#### F 三至四人一组说一说：对话里提到许欣然、周雪松、王晴晴表哥的哪些不健康的生活方式？ (Làm nhóm ba đến bốn người, thảo luận: hội thoại nhắc đến những lối sống không lành mạnh nào của Hứa Hân Nhiên, Châu Tuyết Tùng và anh họ của Vương Tình Tình?)
 
 **中文：**\
 F 三至四人一组说一说：对话里提到许欣然、周雪松、王晴晴表哥的哪些不健康的生活方式？分别是什么原因造成的？  
@@ -538,7 +538,7 @@ Bảng gốc có 4 cột (nhân vật | lối sống không lành mạnh | kết
 
 *Lưu ý văn bản:* Vì bảng gốc là ma trận 4 cột nên bản dịch tách thành các hàng theo từng ô; nhãn (lối sống / kết quả / nguyên nhân) do người dịch thêm để dễ đối chiếu, nội dung các ô giữ nguyên như nguồn.
 
-#### G 角色扮演：两人一组，选择一个场景，表演场景中的内容。请尽量使用小词库中的词语。用了哪个，请画“√” (Đóng vai: làm theo cặp, chọn một tình huống và diễn lại nội dung của tình huống đó. Hãy cố gắng dùng các từ trong “kho từ nhỏ”. Dùng từ nào thì đánh dấu “√”.)
+#### G 角色扮演：两人一组，选择一个场景，表演场景中的内容。请尽量使用小词库中的词语。用了哪个，请画“√” (Đóng vai: làm theo cặp, chọn một tình huống và diễn lại nội dung của tình huống đó.)
 
 **中文：**\
 G 角色扮演：两人一组，选择一个场景，表演场景中的内容。请尽量使用小词库中的词语。用了哪个，请画“√”。  

@@ -352,7 +352,7 @@ Các giải thích dưới đây gắn với cách dùng trong chính bài này;
 | 物质生活、文化生活等方面的设施和服务一应俱全<br>*Wùzhì shēnghuó, wénhuà shēnghuó děng fāngmiàn de shèshī hé fúwù yìyīng jùquán* | Cơ sở vật chất và dịch vụ về đời sống vật chất, đời sống văn hóa… đầy đủ mọi thứ |
 | 让……欣欣向荣；使……欣欣向荣<br>*Ràng… Xīnxīn-xiàngróng; shǐ… Xīnxīn-xiàngróng* | Làm cho … hưng thịnh, đầy sức sống; khiến … hưng thịnh, đầy sức sống |
 
-#### F 假设你也去了对话里这家 24 小时书店，要在“中国社会”课上为大家介绍书店的情况，并简单谈谈自己对 24 小时书店及夜间经济活动的看法。根据提示和小词库，三至四人一组，讨论后选一人在全班发言 (Giả sử bạn cũng đã đến hiệu sách 24 giờ trong hội thoại, và cần giới thiệu tình hình hiệu sách cho cả lớp trong giờ “Xã hội Trung Quốc”, đồng thời nói ngắn gọn quan điểm của mình về hiệu sách 24 giờ và các hoạt động kinh tế đêm. Dựa vào gợi ý và kho từ nhỏ, làm theo nhóm 3–4 người; sau khi thảo luận, chọn một người phát biểu trước cả lớp.)
+#### F 假设你也去了对话里这家 24 小时书店，要在“中国社会”课上为大家介绍书店的情况，并简单谈谈自己对 24 小时书店及夜间经济活动的看法 (Giả sử bạn cũng đã đến hiệu sách 24 giờ trong hội thoại, và cần giới thiệu tình hình hiệu sách cho cả lớp trong giờ “Xã hội Trung Quốc”, đồng thời nói ngắn gọn quan điểm của mình về hiệu sách 24 giờ và các hoạt động kinh tế đêm.)
 **F 假设你也去了对话里这家 24 小时书店，要在“中国社会”课上为大家介绍书店的情况，并简单谈谈自己对 24 小时书店及夜间经济活动的看法。根据提示和小词库，三至四人一组，讨论后选一人在全班发言。**  
 *F jiǎshè nǐ yě qù le duìhuà lǐ zhèjiā 24 xiǎoshí shūdiàn, yào zài “Zhōngguó shèhuì” kè shàng wèi dàjiā jièshào shūdiàn de qíngkuàng, bìng jiǎndān tántán zìjǐ duì 24 xiǎoshí shūdiàn jí yèjiān jīngjì huódòng de kànfǎ. Gēnjù tíshì hé xiǎocíkù, sān zhì sìrényīzǔ, tǎolùn hòu xuǎn yì rén zài quánbān fāyán.*
 
@@ -366,7 +366,7 @@ Các giải thích dưới đây gắn với cách dùng trong chính bài này;
 > *Xiǎocíkù liánsuǒ pèitào shèshī tōngxiāo guòyǐn cùjìn fēngfù jīngshén wùzhì gù luòyì bù jué yìyīng jùquán*  
 > **Kho từ nhỏ:** chuỗi; đi kèm, đồng bộ; cơ sở vật chất; thâu đêm; đã, thỏa thích; thúc đẩy; phong phú, làm phong phú; tinh thần; vật chất; thuê (nhân công); nườm nượp không ngớt; đầy đủ mọi thứ
 
-#### G 角色扮演：两人一组，一人扮演来自小城镇的学生，一人扮演来自大城市的学生。互相介绍各自家乡的夜生活情况，并说明自己是否喜欢夜生活。请尽量使用小词库中的词语。用了哪个，请画“√” (Đóng vai: làm theo cặp, một người đóng vai học sinh đến từ thị trấn nhỏ, một người đóng vai học sinh đến từ thành phố lớn. Hai bên giới thiệu cho nhau tình hình cuộc sống về đêm ở quê mình, và nói rõ bản thân có thích cuộc sống về đêm hay không. Hãy cố gắng dùng các từ trong kho từ nhỏ. Dùng từ nào thì đánh dấu “√”.)
+#### G 角色扮演：两人一组，一人扮演来自小城镇的学生，一人扮演来自大城市的学生 (Đóng vai: làm theo cặp, một người đóng vai học sinh đến từ thị trấn nhỏ, một người đóng vai học sinh đến từ thành phố lớn.)
 **G 角色扮演：两人一组，一人扮演来自小城镇的学生，一人扮演来自大城市的学生。互相介绍各自家乡的夜生活情况，并说明自己是否喜欢夜生活。请尽量使用小词库中的词语。用了哪个，请画“√”。**  
 *G juésèbànyǎn: liǎng rén yìzǔ, yī rén bànyǎn láizì xiǎochéngzhèn de xuéshēng, yī rén bànyǎn láizì dàchéngshì de xuéshēng. Hùxiāng jièshào gèzì jiāxiāng de yèshēnghuó qíngkuàng, bìng shuōmíng zìjǐ shìfǒu xǐhuan yèshēnghuó. Qǐng jǐnliàng shǐyòng xiǎocíkù zhōng de cíyǔ. Yòng le nǎge, qǐng huà “√”.*
 
@@ -439,7 +439,7 @@ Các giải thích dưới đây gắn với cách dùng trong chính bài này;
 | 10 | 港口 (cảng khẩu) | gǎngkǒu | 名 | Nơi ở bờ sông, bờ biển có xây bến để tàu thuyền cập bến, v.v. Ví dụ: thành phố cảng |
 | 11 | 繁华 (phồn hoa) | fánhuá | 形 | Phồn vinh và náo nhiệt. Ví dụ: chợ đêm phồn hoa; cảng phồn hoa |
 
-#### A 头脑风暴 (Động não (brainstorm). Làm theo nhóm 3–4 người, thảo luận: những mặt dưới đây có ảnh hưởng gì đến sự phát triển kinh tế đêm của một khu vực hoặc một thành phố?)
+#### A 头脑风暴 (Động não (brainstorm).)
 
 **A 头脑风暴。**  
 *A tóunǎo fēngbào.*  

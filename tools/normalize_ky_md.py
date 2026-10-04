@@ -17,6 +17,7 @@ FILES = {1: 'Bai01_ban_dich_song_ngu_hoan_chinh.docx', 2: 'Bai02_dich_song_ngu.m
          4: 'Bai04_TronBo.md', 5: 'Bai05_TongHop_SongNgu.md', 6: 'Bai06_TongHop_SongNgu.md', 7: 'Bai07_Tong_hop_day_du.md',
          8: 'Bai08_Tong_hop_day_du.md', 9: 'Bai09_song_ngu_day_du.md', 10: 'Bai10_TONG_HOP_song_ngu.md',
          11: 'Bai11_toan_bo_song_ngu.md', 12: 'Bai12_ban_dich_song_ngu_day_du.md'}
+CJK = re.compile(r'[\u4e00-\u9fff]')
 # Tiêu đề Hán lấy từ h1 của HTML ky hiện có (bài nào md không có)
 HAN = {1: '友谊的小船要远行', 2: '我想去旅游', 3: '话说“相亲”', 4: '生，还是不生？', 5: '宠物大家谈', 6: '健康最重要',
        7: '今天你晒了没有？', 8: '闲话“瘾”', 9: '共享的生活', 10: '人工智能改变生活', 11: '卡主还是卡奴？', 12: '夜经济，夜生活'}
@@ -108,7 +109,7 @@ def role(t):
     return 'OTHER'
 
 # ---------------------------------------------------------------- tách thân theo mẫu «**中文：** / A 听…»
-CN_EX = re.compile(r'^\s*([A-H])\s+[\u4e00-\u9fff（(]')
+CN_EX = re.compile(r'^\s*([A-H])\s+[\u4e00-\u9fff（(“‘「]')
 CN_TASK = re.compile(r'^\s*任务([一二三])[\s　]')
 
 def split_body(body, kind):
@@ -151,7 +152,7 @@ def cand(lines, i):
     else:
         if not ln.startswith('**'): return None
         rest = _clean(ln)
-    if re.match(r'^[A-H]\s+[\u4e00-\u9fff（(]', rest): return ('EX', rest.rstrip('。').strip(), j)
+    if re.match(r'^[A-H]\s+[\u4e00-\u9fff（(“‘「]', rest): return ('EX', rest.rstrip('。').strip(), j)
     if re.match(r'^任务[一二三][\s　]', rest): return ('TASK', rest, j)
     if has_cn and rest.startswith('词语表'): return ('VOC', rest, j)
     return None
@@ -170,6 +171,18 @@ def marker(lines, i):
                     if lines[q].strip(): vie = lines[q].strip().rstrip('\\').strip(); break
             break
     return kind, label, vie, j
+
+def short_label(x, vi=False):
+    """Nhãn heading chỉ lấy câu đầu của đề bài (thân bài giữ nguyên toàn văn)."""
+    if vi:
+        m = re.search(r'[.!?…]["”)]?(?=\s|$)', x)
+        return x[:m.end()].strip() if m and len(x) > 90 else x
+    n = len(CJK.findall(x))
+    if n <= 40: return x
+    m = re.search(r'[。！？]', x)
+    if m and len(CJK.findall(x[:m.end()])) >= 6: return x[:m.end()].rstrip('。')
+    m = re.search(r'[，；]', x)
+    return x[:m.start()] if m and m.start() >= 6 else x
 
 def explode(blocks, flags):
     res = []
@@ -190,12 +203,12 @@ def explode(blocks, flags):
         for (i, mk), nxt in zip(cuts, cuts[1:] + [(len(lines), None)]):
             kind, han, vie = mk
             if kind == 'EX':
-                vie2 = re.sub(r'^[A-H]\s*[\.:：]\s*', '', vie).strip()
+                han = short_label(han); vie2 = short_label(re.sub(r'^[A-H](?:\s*[\.:：]\s*|\s+)', '', vie).strip(), True)
                 t = han + (' (' + vie2 + ')' if vie2 else '')
             elif kind == 'VOC':
                 t = han + (' (' + vie + ')' if vie else '')
             else:
-                t = han
+                t = re.sub(r'^(任务[一二三])[ 　]+', lambda m_: m_.group(1) + '　', han)
             flags.append('tiêu đề «%s» được chèn từ nhãn Hán trong thân (nguồn không có heading) — cần duyệt' % han)
             res.append(dict(lv=b['lv'] + 1, t=t, body=lines[i:nxt[0]], synthetic=True))
     return res
@@ -410,7 +423,14 @@ def normalize(n, text):
                             if l0.strip():
                                 c0 = cand(body, i0)
                                 if c0 and c0[1] == han:
-                                    vie = re.sub(r'^[A-H]\s*[\.:：]\s*', '', marker(body, i0)[2]).strip(); break
+                                    vie = short_label(re.sub(r'^[A-H](?:\s*[\.:：]\s*|\s+)', '', marker(body, i0)[2]).strip(), True); break
+                    if not han:                                   # nhãn Hán nằm trong ô bảng: | **E 两人一组…。** | **E Làm theo cặp…** |
+                        for bl_ in body[:8]:
+                            if bl_.lstrip().startswith('|'):
+                                cs_ = [re.sub(r'\*\*|\*[^*]+\*', '', c_).strip() for c_ in bl_.strip().strip('|').split('|')]
+                                if len(cs_) >= 2 and re.match(r'^%s\s+[\u4e00-\u9fff]' % letter, cs_[0]):
+                                    han = short_label(cs_[0].rstrip('。').strip()); vie = short_label(re.sub(r'^[A-H]\s*[\.:：]?\s*', '', cs_[1]).strip().rstrip('.'), True); break
+                    if han: han = short_label(han)
                     if han and not re.search(r'[\u4e00-\u9fff]', t):
                         label = han + (' (' + vie + ')' if vie else '')
                     else: label = t
