@@ -10,3 +10,4 @@ python3 tools/reorder_kb.py /tmp/_v4_b.html /tmp/_v4_c.html
 python3 tools/gen_ky.py /tmp/_v4_c.html Tong_hop_3_giao_trinh_D1_D2_KY_v4.html ${@:-4}
 python3 tools/link_kb.py Tong_hop_3_giao_trinh_D1_D2_KY_v4.html
 python3 tools/link_tonghop.py Tong_hop_3_giao_trinh_D1_D2_KY_v4.html
+python3 tools/rekey.py Tong_hop_3_giao_trinh_D1_D2_KY_v4.html
