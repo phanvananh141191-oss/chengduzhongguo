@@ -61,7 +61,7 @@ def fix_lesson(sec, n):
         out.append(f'<h{nl}{attr}>{lab}</h{nl}>' + (f'<p class="py pg">{pg}</p>' if pg else ''))
     r = ''.join(out)
     if n == 8:  # thiếu nguồn: 题解, 走进课文 (D2)
-        r = r.replace('<h2>词语学习 · Từ vựng</h2>', '<h2>题解 · Giới thiệu chủ đề</h2>' + BANNER + '<h2>词语学习 · Học từ vựng</h2>', 1)
+        r = r.replace('<h2>词语学习 · Học từ vựng</h2>', '<h2>题解 · Giới thiệu chủ đề</h2>' + BANNER + '<h2>词语学习 · Học từ vựng</h2>', 1)
         r = r.replace('<h2>综合注释 · Chú giải tổng hợp</h2>', '<h2>走进课文 · Tìm hiểu bài đọc</h2>' + BANNER + '<h2>综合注释 · Chú giải tổng hợp</h2>', 1)
     return r
 

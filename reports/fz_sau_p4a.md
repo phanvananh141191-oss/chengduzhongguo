@@ -9,7 +9,7 @@
 | l5 | 5 | 23 | 15 | 10 | lệch 5 | 0 | e2b4b1bfcd | 668bdfe93c |
 | l6 | 5 | 22 | 15 | 10 | lệch 5 | 0 | 30a2171d1c | 2666a14bd9 |
 | l7 | 5 | 23 | 15 | 10 | lệch 5 | 0 | 5a71636251 | 181c776120 |
-| l8 | 4 | 14 | 13 | 7 | lệch 6 | 0 | bbc1b785d4 | 167bacefc2 |
+| l8 | 5 | 14 | 13 | 7 | lệch 6 | 0 | 6814df0799 | 48dedffe54 |
 | l9 | 5 | 19 | 18 | 18 | khớp | 0 | 36ddd60bfd | c9096fbcb8 |
 | l10 | 5 | 18 | 16 | 16 | khớp | 0 | 587626c07f | 377c2a9058 |
 | l11 | 5 | 19 | 16 | 15 | lệch 1 | 0 | 4079daa47d | 17b054ffff |
@@ -98,7 +98,7 @@ S10 tổng heading có số trang: **29**
 - l5: 题解 · Giới thiệu chủ đề → 词语学习 · Học từ vựng → 走进课文 · Tìm hiểu bài đọc → 综合注释 · Chú giải tổng hợp → 综合练习 · Luyện tập tổng hợp
 - l6: 题解 · Giới thiệu chủ đề → 词语学习 · Học từ vựng → 走进课文 · Tìm hiểu bài đọc → 综合注释 · Chú giải tổng hợp → 综合练习 · Luyện tập tổng hợp
 - l7: 题解 · Giới thiệu chủ đề → 词语学习 · Học từ vựng → 走进课文 · Tìm hiểu bài đọc → 综合注释 · Chú giải tổng hợp → 综合练习 · Luyện tập tổng hợp
-- l8: 词语学习 · Học từ vựng → 走进课文 · Tìm hiểu bài đọc → 综合注释 · Chú giải tổng hợp → 综合练习 · Luyện tập tổng hợp
+- l8: 题解 · Giới thiệu chủ đề → 词语学习 · Học từ vựng → 走进课文 · Tìm hiểu bài đọc → 综合注释 · Chú giải tổng hợp → 综合练习 · Luyện tập tổng hợp
 - l9: 题解 · Giới thiệu chủ đề → 词语学习 · Học từ vựng → 走进课文 · Tìm hiểu bài đọc → 综合注释 · Chú giải tổng hợp → 综合练习 · Luyện tập tổng hợp
 - l10: 题解 · Giới thiệu chủ đề → 词语学习 · Học từ vựng → 走进课文 · Tìm hiểu bài đọc → 综合注释 · Chú giải tổng hợp → 综合练习 · Luyện tập tổng hợp
 - l11: 题解 · Giới thiệu chủ đề → 词语学习 · Học từ vựng → 走进课文 · Tìm hiểu bài đọc → 综合注释 · Chú giải tổng hợp → 综合练习 · Luyện tập tổng hợp
