@@ -6,25 +6,25 @@
 | l2 | 5 | 0 | 14 | 0 | lệch 14 | 0 | eda82ba92f | 958a6031c2 |
 | l3 | 23 | 4 | 3 | 3 | khớp | 19 | c886300e1c | fc96a28d93 |
 | l4 | 6 | 11 | 10 | 10 | khớp | 10 | d496d7bea3 | 726f92ec1a |
-| l5 | 7 | 21 | 15 | 10 | lệch 5 | 8 | e7fc38120b | 668bdfe93c |
-| l6 | 9 | 21 | 15 | 10 | lệch 5 | 8 | 0b041f7d66 | 2666a14bd9 |
-| l7 | 9 | 24 | 15 | 10 | lệch 5 | 7 | 8d46091d3f | 181c776120 |
-| l8 | 5 | 14 | 13 | 7 | lệch 6 | 1 | dbf1607f27 | bdf99e1b35 |
+| l5 | 5 | 23 | 15 | 10 | lệch 5 | 0 | e2b4b1bfcd | 668bdfe93c |
+| l6 | 5 | 22 | 15 | 10 | lệch 5 | 0 | 30a2171d1c | 2666a14bd9 |
+| l7 | 5 | 23 | 15 | 10 | lệch 5 | 0 | 5a71636251 | 181c776120 |
+| l8 | 4 | 14 | 13 | 7 | lệch 6 | 0 | bbc1b785d4 | 167bacefc2 |
 | l9 | 5 | 19 | 18 | 18 | khớp | 0 | 36ddd60bfd | c9096fbcb8 |
-| l10 | 5 | 18 | 16 | 16 | khớp | 0 | 48dce9e695 | 377c2a9058 |
-| l11 | 5 | 19 | 16 | 15 | lệch 1 | 0 | 9aa3a9008a | 17b054ffff |
+| l10 | 5 | 18 | 16 | 16 | khớp | 0 | 587626c07f | 377c2a9058 |
+| l11 | 5 | 19 | 16 | 15 | lệch 1 | 0 | 4079daa47d | 17b054ffff |
 | l12 | 5 | 17 | 15 | 15 | khớp | 0 | e814b3f4a7 | f85e1ead1a |
 | l13 | 5 | 18 | 15 | 15 | khớp | 0 | 80666cb397 | 793ce958af |
 | l14 | 6 | 19 | 16 | 16 | khớp | 0 | 4e19e7f5cb | a4ea50f575 |
 | lg | 14 | 0 | 0 | 0 | khớp | 0 | 60aefdedfe | 057531a51c |
 | lv | 14 | 0 | 0 | 0 | khớp | 0 | 20ec70d971 | 87264e7145 |
 
-S10 tổng heading có số trang: **53**
+S10 tổng heading có số trang: **29**
 
 ## S3 — nhãn h2 ngoài bảng chuẩn
 
 - `题解 · Giới thiệu` — l1
-- `词语学习 · Từ vựng` — l1, l2, l5, l6, l7, l8
+- `词语学习 · Từ vựng` — l1, l2
 - `走进课文 · Bài khóa` — l1
 - `课文问题与注释补充` — l1
 - `综合注释 · Chú thích ngữ pháp` — l1, l2
@@ -60,23 +60,6 @@ S10 tổng heading có số trang: **53**
 - `二、语法练习（P56–P60）` — l4
 - `三、汉字与词语练习（P61–P62）` — l4
 - `Ghi chú về phần còn thiếu` — l4
-- `题解 (Giới thiệu bài, tr. 69)` — l5
-- `走进课文 (Vào bài đọc)` — l5, l6, l7
-- `Câu hỏi bên lề (边栏问题, tr. 71–73)` — l5
-- `Chú thích (注释, tr. 69–73)` — l5
-- `综合注释 (Chú thích ngữ pháp tổng hợp)` — l5, l6, l7, l8
-- `综合练习 (Bài tập tổng hợp)` — l5, l6, l7, l8
-- `题解 (Giới thiệu bài, tr. 86)` — l6
-- `边栏问题 (Câu hỏi bên lề)` — l6, l7
-- `注释 (Chú thích)` — l6, l7
-- `Trang 100` — l6
-- `十、阅读短文,并按要求完成练习 (tr. 101–102)` — l6
-- `题解 (Giới thiệu bài, tr. 103)` — l7
-- `十、阅读短文,并按要求完成练习` — l7
-- `十一、拓展学习 (Học mở rộng)` — l7
-- `八、阅读短文,并按要求完成练习` — l8
-- `九、拓展学习 (Học mở rộng)` — l8
-- `走进课文 · Bài đọc` — l10, l11
 - `第1课 · Bài 1 — Bạch thoại và văn ngôn đối thoại` — lg
 - `第2课 · Bài 2 — Chuyện cụ già trăm tuổi Chu Hữu Quang` — lg
 - `第3课 · Bài 3 — Niềm tin của một cây bách hợp` — lg
@@ -112,13 +95,13 @@ S10 tổng heading có số trang: **53**
 - l2: 词语学习 · Từ vựng → 课文 · Bài khóa (kèm ghi chú của cô) → Ghi chú của cô (lời giảng trên lớp) → 综合注释 · Chú thích ngữ pháp → 综合练习 · Bài tập (có đáp án)
 - l3: 题解 → 词语学习（P35–P36） → 走进课文（P37–P39） → PHẦN 2. ĐÁP ÁN CÂU HỎI BÀI KHÓA → 六、在理解课文的基础上，完成练习（P47–P48） → 七、完成对话（P48） → 八、写一写（P49） → 综合注释（P39） → PHẦN 3. NGỮ PHÁP & LUYỆN TẬP（P40–P43） → 3.1 不慌不忙 · 没完没了 · 全心全意（P40） → 3.2 偏偏（P40） → 3.3 还不是（P41） → 3.4 反而（P42） → 3.5 ……也好／也罢，……也好／也罢（P43） → PHẦN 4. BÀI TẬP TỔNG HỢP（P44–P46） → 一、字词知识（P44） → 二、理解新词语 → 三、选择合适的词语填空（gợi ý） → 四、用指定词语完成对话（P46，gợi ý） → PHẦN 5. BÀI TẬP P47–P51 → 五、用指定词语或格式改写句子（P47） → 九、阅读短文《金银花的介绍》（P50–P51） → 十、拓展学习（P51）
 - l4: 题解 → 词语学习（P52–P53） → 一、课文问答（P54、P55 右侧思考题） → 二、语法练习（P56–P60） → 三、汉字与词语练习（P61–P62） → Ghi chú về phần còn thiếu
-- l5: 题解 (Giới thiệu bài, tr. 69) → 词语学习 · Từ vựng → 走进课文 (Vào bài đọc) → Câu hỏi bên lề (边栏问题, tr. 71–73) → Chú thích (注释, tr. 69–73) → 综合注释 (Chú thích ngữ pháp tổng hợp) → 综合练习 (Bài tập tổng hợp)
-- l6: 题解 (Giới thiệu bài, tr. 86) → 词语学习 · Từ vựng → 走进课文 (Vào bài đọc) → 边栏问题 (Câu hỏi bên lề) → 注释 (Chú thích) → 综合注释 (Chú thích ngữ pháp tổng hợp) → 综合练习 (Bài tập tổng hợp) → Trang 100 → 十、阅读短文,并按要求完成练习 (tr. 101–102)
-- l7: 题解 (Giới thiệu bài, tr. 103) → 词语学习 · Từ vựng → 走进课文 (Vào bài đọc) → 边栏问题 (Câu hỏi bên lề) → 注释 (Chú thích) → 综合注释 (Chú thích ngữ pháp tổng hợp) → 综合练习 (Bài tập tổng hợp) → 十、阅读短文,并按要求完成练习 → 十一、拓展学习 (Học mở rộng)
-- l8: 词语学习 · Từ vựng → 综合注释 (Chú thích ngữ pháp tổng hợp) → 综合练习 (Bài tập tổng hợp) → 八、阅读短文,并按要求完成练习 → 九、拓展学习 (Học mở rộng)
+- l5: 题解 · Giới thiệu chủ đề → 词语学习 · Học từ vựng → 走进课文 · Tìm hiểu bài đọc → 综合注释 · Chú giải tổng hợp → 综合练习 · Luyện tập tổng hợp
+- l6: 题解 · Giới thiệu chủ đề → 词语学习 · Học từ vựng → 走进课文 · Tìm hiểu bài đọc → 综合注释 · Chú giải tổng hợp → 综合练习 · Luyện tập tổng hợp
+- l7: 题解 · Giới thiệu chủ đề → 词语学习 · Học từ vựng → 走进课文 · Tìm hiểu bài đọc → 综合注释 · Chú giải tổng hợp → 综合练习 · Luyện tập tổng hợp
+- l8: 词语学习 · Học từ vựng → 走进课文 · Tìm hiểu bài đọc → 综合注释 · Chú giải tổng hợp → 综合练习 · Luyện tập tổng hợp
 - l9: 题解 · Giới thiệu chủ đề → 词语学习 · Học từ vựng → 走进课文 · Tìm hiểu bài đọc → 综合注释 · Chú giải tổng hợp → 综合练习 · Luyện tập tổng hợp
-- l10: 题解 · Giới thiệu chủ đề → 词语学习 · Học từ vựng → 走进课文 · Bài đọc → 综合注释 · Chú giải tổng hợp → 综合练习 · Luyện tập tổng hợp
-- l11: 题解 · Giới thiệu chủ đề → 词语学习 · Học từ vựng → 走进课文 · Bài đọc → 综合注释 · Chú giải tổng hợp → 综合练习 · Luyện tập tổng hợp
+- l10: 题解 · Giới thiệu chủ đề → 词语学习 · Học từ vựng → 走进课文 · Tìm hiểu bài đọc → 综合注释 · Chú giải tổng hợp → 综合练习 · Luyện tập tổng hợp
+- l11: 题解 · Giới thiệu chủ đề → 词语学习 · Học từ vựng → 走进课文 · Tìm hiểu bài đọc → 综合注释 · Chú giải tổng hợp → 综合练习 · Luyện tập tổng hợp
 - l12: 题解 · Giới thiệu chủ đề → 词语学习 · Học từ vựng → 走进课文 · Tìm hiểu bài đọc → 综合注释 · Chú giải tổng hợp → 综合练习 · Luyện tập tổng hợp
 - l13: 题解 · Giới thiệu chủ đề → 词语学习 · Học từ vựng → 走进课文 · Tìm hiểu bài đọc → 综合注释 · Chú giải tổng hợp → 综合练习 · Luyện tập tổng hợp
 - l14: 题解 · Giới thiệu chủ đề → 词语学习 · Học từ vựng → 走进课文 · Tìm hiểu bài đọc → 综合注释 · Chú giải tổng hợp → 综合练习 · Luyện tập tổng hợp → 附录 · Phụ lục
