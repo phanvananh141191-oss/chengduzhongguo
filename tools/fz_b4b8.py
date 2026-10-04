@@ -129,9 +129,17 @@ def l8(s):
     s = s[:m.start()] + new + m.group(1) + s[m.end():]
     return s
 
+def l2(s):
+    old = '<h2>题解 · Giới thiệu chủ đề</h2><div class="note"><b>Chưa có trong nguồn.</b> Tài liệu gốc không có phần này; không tự bổ sung.</div>'
+    assert old in s
+    note = '<div class="note"><b>Bổ sung từ ảnh trang sách (trang đầu bài 2)</b> (bạn gửi 04/10/2026; ảnh không thấy số trang nên chưa gắn nhãn trang): chữ Hán theo nguyên văn; bản dịch tiếng Việt do biên soạn.</div>'
+    return s.replace(old, '<h2>题解 · Giới thiệu chủ đề</h2>' + note + para_p(*L2_TIJIE))
+
 def main(path):
     h = open(path, encoding='utf-8').read()
     m = re.search(r'(<script type="application/json" id="src-fz">)(.*?)(</script>)', h, re.S); f = json.loads(m.group(2))
+    if 'Bổ sung từ ảnh trang sách (trang đầu bài 2)' not in f:
+        i, j = section(f, 2); f = f[:i] + l2(f[i:j]) + f[j:]
     if 'Bổ sung từ ảnh trang sách tr.54' not in f:
         i, j = section(f, 4); f = f[:i] + l4(f[i:j]) + f[j:]
         i, j = section(f, 8); f = f[:i] + l8(f[i:j]) + f[j:]

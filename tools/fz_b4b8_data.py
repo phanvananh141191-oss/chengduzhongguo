@@ -203,3 +203,7 @@ L8_FIX = {  # câu 八 bị mờ ở bản cũ → khôi phục từ tr.138
  "new_zh": "姐姐因为家里穷耽误了学习，她一边工作，一边上夜校，完成了大专学业。",
  "new_vi": "Chị gái vì nhà nghèo mà lỡ dở việc học, vừa làm việc vừa học trường buổi tối, hoàn thành chương trình cao đẳng.",
 }
+
+# ───────────────────────── BÀI 2 (题解, ảnh không có số trang) ─────────────────────────
+L2_TIJIE = ("周有光先生是中国千千万万知识分子当中的一个，他既普通，也不普通。说他普通，是因为他和别人没什么区别；说他不普通，不仅因为他在经济学，特别是语言文字学和中外文化领域做出的学术贡献，也在于他跨世纪活了112岁。",
+            "Ông Chu Hữu Quang là một trong hàng nghìn hàng vạn trí thức Trung Quốc, ông vừa bình thường, lại vừa không bình thường. Nói ông bình thường, là vì ông chẳng có gì khác người khác; nói ông không bình thường, không chỉ vì những đóng góp học thuật của ông trong kinh tế học, đặc biệt là ngôn ngữ văn tự học và lĩnh vực văn hóa Trung Quốc – nước ngoài, mà còn vì ông sống xuyên thế kỷ, thọ 112 tuổi.")
