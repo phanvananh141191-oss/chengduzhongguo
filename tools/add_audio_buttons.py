@@ -13,7 +13,7 @@ def js(book, M, D):
             "function norm(s){return s.replace(/[（(][^）)]*[A-Za-z][^）)]*[）)]/g,'').replace(/[¹²³⁴⁵⁶⁷⁸⁹⁰]/g,'').replace(/\\s+/g,' ').trim()}"
             "var cur=null,cb=null;function stop(){if(cur){cur.pause();cur=null}if(cb){cb.textContent='▶';cb.classList.remove('on');cb=null}}"
             "function play(b){var same=cb===b;stop();if(same)return;var a=new Audio(url(b.dataset.h));cur=a;cb=b;b.textContent='⏸';b.classList.add('on');a.onended=a.onerror=function(){if(cb===b)stop()};a.play().catch(function(){if(cb===b)stop()})}"
-            "function put(w,cell){if(!cell||cell.dataset.aud)return;var h=M[w]||M[norm(w)];if(!h)return;cell.dataset.aud='1';var b=document.createElement('button');b.type='button';b.className='aud';b.textContent='▶';b.title='Nghe đọc';b.setAttribute('aria-label','Nghe đọc '+w);b.dataset.h=h;"
+            "function put(w,cell){if(!cell)return;var ex=cell.querySelectorAll('.aud');if(ex.length){for(var i=1;i<ex.length;i++)ex[i].remove();return}var h=M[w]||M[norm(w)];if(!h)return;var b=document.createElement('button');b.type='button';b.className='aud';b.textContent='▶';b.title='Nghe đọc';b.setAttribute('aria-label','Nghe đọc '+w);b.dataset.h=h;"
             "b.onclick=function(e){e.preventDefault();e.stopPropagation();play(b)};cell.appendChild(b)}"
             "var t=null;function run(){%s}function sched(){clearTimeout(t);t=setTimeout(run,150)}"
             "new MutationObserver(sched).observe(document.body,{childList:true,subtree:true});addEventListener('load',run);run()})();") % (json.dumps(M, ensure_ascii=False), json.dumps(D), SEL[book])
