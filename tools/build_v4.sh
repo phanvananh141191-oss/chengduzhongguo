@@ -15,3 +15,4 @@ python3 tools/rekey.py Tong_hop_3_giao_trinh_D1_D2_KY_v4.html
 python3 tools/fix_ans_layout.py Tong_hop_3_giao_trinh_D1_D2_KY_v4.html
 python3 tools/fz_cardui.py Tong_hop_3_giao_trinh_D1_D2_KY_v4.html
 python3 tools/fz_pair.py Tong_hop_3_giao_trinh_D1_D2_KY_v4.html
+python3 tools/ky_cardui.py Tong_hop_3_giao_trinh_D1_D2_KY_v4.html
