@@ -1,6 +1,6 @@
 """Tạo audio ElevenLabs cho manifest (tools/audio_extract.py). Không làm lại file đã có (so hash văn bản).
   export ELEVENLABS_API_KEY=...        # khoá API
-  export ELEVENLABS_VOICE_ID=...       # giọng nói tiếng Trung (python3 tools/audio_gen.py --voices để xem)
+  export (giọng chọn theo manifest: từ vựng xoay vòng 5 giọng; bài khoá một giọng mỗi bài/nhóm bài chung câu dài)
   python3 tools/audio_gen.py --dry                 # chỉ đếm ký tự/ước tính dung lượng
   python3 tools/audio_gen.py --only fz/l01         # chạy theo tiền tố id (fz/l01/w, ky, ld/l03 …)
   python3 tools/audio_gen.py --limit 20            # thử vài file
@@ -10,6 +10,7 @@ from concurrent.futures import ThreadPoolExecutor
 ROOT = os.path.join(os.path.dirname(__file__), '..', 'assets', 'audio')
 MAN = os.path.join(ROOT, 'manifest.json'); IDX = os.path.join(ROOT, 'index.json')
 API = 'https://api.elevenlabs.io/v1'
+VOICES = {'danyu': 'BWN0mOtkGHghA3CYFzFK', 'beijing': '2I36mEahS1u7ZnTKUoaB', 'amy': 'bhJUNIXWQQ94l8eI2VUf', 'anson': 'xh2OInDk4GEYuYRtHx4M', 'bobo': 's2LjOZIlsH2Yu4p6MtAK'}
 FMT = 'mp3_22050_32'            # ~4 KB/giây, đủ rõ cho giọng đọc; đổi mp3_44100_64 nếu muốn chất lượng cao
 
 def call(path, key, body=None):
@@ -17,7 +18,8 @@ def call(path, key, body=None):
                                  headers={'xi-api-key': key, 'Content-Type': 'application/json', 'Accept': 'audio/mpeg'})
     return urllib.request.urlopen(req, timeout=120).read()
 
-def one(it, key, voice, model, idx):
+def one(it, key, voice_unused, model, idx):
+    voice = VOICES[it['voice']]
     out = os.path.join(ROOT, it['file'] + '.mp3'); os.makedirs(os.path.dirname(out), exist_ok=True)
     for a in range(5):
         try:
@@ -49,8 +51,8 @@ def main():
     chars = sum(len(i['text']) for i in todo)
     print('Cần tạo: %d file · %d ký tự · ước tính ~%.0f MB, ~%.1f giờ audio' % (len(todo), chars, chars / 4.5 * 4 / 1024, chars / 4.5 / 3600))
     if a.dry: return
-    voice = os.environ.get('ELEVENLABS_VOICE_ID', '')
-    if not key or not voice: sys.exit('Thiếu ELEVENLABS_API_KEY hoặc ELEVENLABS_VOICE_ID')
+    voice = ''
+    if not key: sys.exit('Thiếu ELEVENLABS_API_KEY')
     done = 0
     def run(it):
         nonlocal done
