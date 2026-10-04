@@ -296,7 +296,10 @@ def normalize(n, text):
         if r == 'DROP':
             if re.match(r'^(Bài\s*\d+\s*·\s*Phần|PHẦN\s*\d)', t, re.I):
                 if any(x.strip() for x in body):
-                    out.extend(body); flags.append('thân của dấu «%s» được giữ nguyên (chỉ bỏ dòng tiêu đề)' % t[:40])
+                    for l in body:
+                        if l.strip(): gone[l.strip()] += 1
+                    kbout.append('# Ghi chú của dịch giả (%s)\n' % t + '\n'.join(body))
+                    flags.append('thân của dấu «%s» là ghi chú của dịch giả: chuyển sang KB' % t[:40])
                 continue
             for l in body:
                 if l.strip(): gone[l.strip()] += 1

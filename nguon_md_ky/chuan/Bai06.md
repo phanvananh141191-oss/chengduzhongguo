@@ -100,8 +100,6 @@ Mục tiêu học tập. Qua bài học này, bạn sẽ có thể:
 
 ---
 
-Xưng hô dùng nhất quán như Phần 1: ba nhân vật chính xưng “tớ – cậu”, gọi nhau bằng tên; nói với hai người thì “các cậu”. Khi kể về người thứ ba trong hội thoại, dùng “cậu ấy” cho bạn cùng tuổi và “anh họ của tớ” cho 表哥. Trong các bài tập (lời dẫn của sách), dùng “cô ấy”, “anh ấy”.
-
 ## EXPLORE · 促成 (Khám phá)
 
 ### 促成 · 对话 (Hội thoại)
@@ -612,8 +610,6 @@ Các giải thích dưới đây gắn với cách dùng trong chính bài này;
 
 ---
 
-Xưng hô và quy ước tên giữ nhất quán như Phần 1 và Phần 2. Phần này không có hội thoại tên riêng; các nhân vật chỉ xuất hiện dưới dạng nghề nghiệp (nhân viên trẻ của công ty công nghệ cao, giáo viên trung niên, nghiên cứu sinh). Văn bản của bài nghe 6-4 nằm ở Phụ lục (phiên 5), nên các ghi chú cấu trúc cuối phần này dựa vào các mẫu câu gợi ý trong bài tập; những chỗ trong văn bản nghe sẽ được ghi chú thêm khi dịch Phụ lục.
-
 ### 促成 · 拓展 (Mở rộng)
 
 **中文：** 促成 · 拓展  
@@ -942,8 +938,6 @@ Các giải thích dưới đây gắn với cách dùng trong chính bài này;
 
 ---
 
-Xưng hô và quy ước tên giữ nhất quán như các phần trước. Phần này gồm lời dẫn nhiệm vụ và bảng tự đánh giá, không có hội thoại, bài đọc hay bài nghe, nên không có “Ghi chú sắc thái cấu trúc” và “Những từ dễ dịch lệch” ở phiên này. Các ghi chú đó nằm ở phiên Phụ lục (có bài nghe).
-
 ## PRODUCE · 产出 (Sản xuất)
 
 ### 任务支持 (Hỗ trợ nhiệm vụ)
@@ -1077,8 +1071,6 @@ Bảng gốc có 5 cột mức độ, mỗi mục có 5 ô ☐ để chọn; dư
 *Lưu ý văn bản:* Mục ⑦ giữ nguyên chữ “你们国家” (đất nước “của các bạn”) như nguồn, dù đây là bảng tự đánh giá và theo logic nên là “我们国家/我的国家”. Bản dịch giữ đúng nguyên văn, đồng nhất với mục tiêu học tập số 3 ở Phần 1.
 
 ---
-
-Cả ba bài nghe là lời độc thoại, người nói xưng “tôi” như đã quy ước ở Phần 1. Người nói ẩn danh, dịch theo nghề nghiệp: “Nhân viên trẻ của công ty công nghệ cao”, “Giáo viên trung niên”, “Nghiên cứu sinh”.
 
 ## 附录 · 录音文本 (Bài nghe)
 

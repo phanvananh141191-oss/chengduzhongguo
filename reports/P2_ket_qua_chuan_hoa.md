@@ -7,7 +7,7 @@
 | 3 | 6 | 608 | 599 | 0 | 0 | Tổng kết toàn bài (1228 ký tự) | 1 |
 | 4 | 6 | 932 | 925 | 0 | 0 | Tổng kết toàn bài (sau lượt cuối) (691 ký tự) | 0 |
 | 5 | 6 | 831 | 819 | 0 | 0 | Tổng kết Bài 5 (1355 ký tự) | 0 |
-| 6 | 6 | 819 | 812 | 0 | 0 | Tổng kết toàn bài (822 ký tự) | 4 |
+| 6 | 6 | 819 | 808 | 0 | 0 | Tổng kết toàn bài (822 ký tự) | 4 |
 | 7 | 6 | 756 | 746 | 0 | 0 | Tổng kết cuối bài (986 ký tự) | 15 |
 | 8 | 6 | 688 | 676 | 0 | 0 | Tổng kết cuối bài (1404 ký tự) | 16 |
 | 9 | 6 | 1013 | 995 | 0 | 0 | Mục lục (161 ký tự), Tổng kết toàn bài (970 ký tự) | 6 |
@@ -77,10 +77,10 @@
 
 **h2:** Tiêu đề bài → Bảng tên nhân vật → PREPARE · 驱动 (Khởi động) → EXPLORE · 促成 (Khám phá) → PRODUCE · 产出 (Sản xuất) → 附录 · 录音文本 (Bài nghe)
 
-- ⚠ thân của dấu «Bài 6 · Phần 2: EXPLORE · 促成 · 对话» được giữ nguyên (chỉ bỏ dòng tiêu đề)
-- ⚠ thân của dấu «Bài 6 · Phần 3: EXPLORE · 促成 · 拓展» được giữ nguyên (chỉ bỏ dòng tiêu đề)
-- ⚠ thân của dấu «Bài 6 · Phần 4: PRODUCE · 产出 và 评价» được giữ nguyên (chỉ bỏ dòng tiêu đề)
-- ⚠ thân của dấu «Bài 6 · Phần 5: 附录 · 录音文本» được giữ nguyên (chỉ bỏ dòng tiêu đề)
+- ⚠ thân của dấu «Bài 6 · Phần 2: EXPLORE · 促成 · 对话» là ghi chú của dịch giả: chuyển sang KB
+- ⚠ thân của dấu «Bài 6 · Phần 3: EXPLORE · 促成 · 拓展» là ghi chú của dịch giả: chuyển sang KB
+- ⚠ thân của dấu «Bài 6 · Phần 4: PRODUCE · 产出 và 评价» là ghi chú của dịch giả: chuyển sang KB
+- ⚠ thân của dấu «Bài 6 · Phần 5: 附录 · 录音文本» là ghi chú của dịch giả: chuyển sang KB
 
 ## Bài 7
 
