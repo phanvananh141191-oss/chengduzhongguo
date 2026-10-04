@@ -34,7 +34,7 @@ def one(it, key, voice_unused, model, idx):
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--dry', action='store_true'); ap.add_argument('--voices', action='store_true')
-    ap.add_argument('--only', default=''); ap.add_argument('--limit', type=int, default=0); ap.add_argument('--model', default='eleven_v4')
+    ap.add_argument('--only', default=''); ap.add_argument('--kind', default='', help='w = chỉ từ vựng, t = chỉ bài khoá'); ap.add_argument('--limit', type=int, default=0); ap.add_argument('--model', default='eleven_v4')
     ap.add_argument('--workers', type=int, default=3); a = ap.parse_args()
     key = os.environ.get('ELEVENLABS_API_KEY', '')
     if a.voices:
@@ -44,7 +44,7 @@ def main():
     idx = json.load(open(IDX)) if os.path.exists(IDX) else {}
     seen = set(); todo = []
     for i in items:     # mỗi file mp3 (từ/câu trùng giữa các giáo trình) chỉ tạo một lần
-        if not i['id'].startswith(a.only) or i['file'] in seen: continue
+        if not i['id'].startswith(a.only) or (a.kind and i['kind'] != a.kind) or i['file'] in seen: continue
         seen.add(i['file'])
         if idx.get(i['file']) != i['hash'] or not os.path.exists(os.path.join(ROOT, i['file'] + '.mp3')): todo.append(i)
     if a.limit: todo = todo[:a.limit]
