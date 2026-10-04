@@ -59,7 +59,7 @@ function parseSpace(t){
 function answersOf(c){var a={};c.querySelectorAll('input[data-a]').forEach(function(i){i.dataset.a.split('|').forEach(function(x){a[x.trim()]=1})});return a}
 function mkBank(c,ents,after){
   var ans=answersOf(c),hit=0,tot=ents.length;ents.forEach(function(e){if(ans[e[0]])hit++});
-  if(Object.keys(ans).length&&hit<Math.max(2,tot*0.3))return null;
+  if(!Object.keys(ans).length||hit<2)return null;
   var b=document.createElement('div');b.className='xbank';
   ents.forEach(function(e){var x=document.createElement('button');x.type='button';x.className='xch';x.dataset.w=e[0];x.textContent=e[0];if(e[1]){var s=document.createElement('small');s.textContent=e[1];x.appendChild(s)}b.appendChild(x)});
   var tip=document.createElement('div');tip.className='xtip';tip.textContent='Chạm một từ, rồi chạm ô trống để điền. Nhấp đúp ô đã điền để trả từ về khung.';b.appendChild(tip);
@@ -94,26 +94,43 @@ function bindBank(c){
   c.addEventListener('dblclick',function(e){var i=e.target.closest&&e.target.closest('input[data-a],input.uw');if(i&&i.value){i.value='';i.dispatchEvent(new Event('input',{bubbles:true}));upd()}});
   c.addEventListener('input',upd);setTimeout(upd,300)}
 var ITEM=/^\s*(?:\d+[\.、．]|[（(]\d+[）)])/;
-function frames(c,key){
-  var typ=c.querySelector('.xbd').textContent;if(!/完成对话|完成句子|改写|问答/.test(typ))return;
-  var items=[];[].slice.call(c.querySelectorAll('.ln.lz,li')).forEach(function(e){
-    if(e.closest('.ans,.uin,.xin,.xbank'))return;if(e.tagName==='LI'&&e.querySelector('.ln.lz,li'))return;
-    if(e.tagName!=='LI'&&e.querySelector('.ln.lz'))return;
-    if(ITEM.test(e.textContent))items.push(e)});
-  if(items.length<2)return;
-  items.forEach(function(it,k){
-    var last=it;while(last.nextElementSibling&&last.nextElementSibling.classList.contains('ln')&&!last.nextElementSibling.classList.contains('lz')&&!ITEM.test(last.nextElementSibling.textContent))last=last.nextElementSibling;
-    var inps=it.querySelectorAll('input.uw'),inp=inps.length===1?inps[0]:null;
-    if(inps.length>1)return;
-    var d=document.createElement('div');d.className='xin';var t=document.createElement('textarea');t.rows=2;t.placeholder='Viết câu của bạn…';
-    d.appendChild(t);last.parentNode.insertBefore(d,last.nextSibling);
-    if(inp){inp.classList.add('xmir');inp.readOnly=true;
-      t.value=inp.value||'';
-      t.addEventListener('input',function(){inp.value=t.value;inp.dispatchEvent(new Event('input',{bubbles:true}))});
-      var iv=setInterval(function(){if(!t.value&&inp.value){t.value=inp.value}},700);setTimeout(function(){clearInterval(iv)},4000)}
-    else{var kk=key+':i'+k;try{t.value=UEX.ls.getItem(kk)||''}catch(e){}
-      t.addEventListener('input',function(){try{UEX.ls.setItem(kk,t.value)}catch(e){}});
-      setTimeout(function(){try{if(!t.value)t.value=UEX.ls.getItem(kk)||''}catch(e){}},900)}})}
+var FTYPE=/完成对话|完成句子|改写|完成练习|回答|理解课文/;
+function mkFrame(it,anchor,inp,kk,append){
+  var d=document.createElement('div');d.className='xin';var t=document.createElement('textarea');t.rows=2;t.placeholder='Viết câu của bạn…';d.appendChild(t);
+  if(append)anchor.appendChild(d);else anchor.parentNode.insertBefore(d,anchor.nextSibling);
+  if(inp){inp.classList.add('xmir');inp.readOnly=true;t.value=inp.value||'';
+    t.addEventListener('input',function(){inp.value=t.value;inp.dispatchEvent(new Event('input',{bubbles:true}))});
+    var iv=setInterval(function(){if(!t.value&&inp.value)t.value=inp.value},700);setTimeout(function(){clearInterval(iv)},4000)}
+  else{try{t.value=UEX.ls.getItem(kk)||''}catch(e){}
+    t.addEventListener('input',function(){try{UEX.ls.setItem(kk,t.value)}catch(e){}});
+    setTimeout(function(){try{if(!t.value)t.value=UEX.ls.getItem(kk)||''}catch(e){}},900)}
+  return d}
+function framesAll(){
+  document.querySelectorAll('section.les h3').forEach(function(h3){
+    if(h3.dataset.fr||!/综合练习/.test(sec(h3))||!FTYPE.test(h3.textContent)||/选/.test(h3.textContent))return;
+    h3.dataset.fr='1';
+    var card=h3.parentElement&&h3.parentElement.classList.contains('card')?h3.parentElement:null,roots=[];
+    if(card)roots=[card];else{var e=h3.nextElementSibling;while(e&&e.tagName!=='H3'&&e.tagName!=='H2'){roots.push(e);e=e.nextElementSibling}}
+    var sc=h3.closest('section'),hs=[].slice.call(sc.querySelectorAll('h3')),hi=hs.indexOf(h3);
+    var uk=null,items=[];
+    roots.forEach(function(r){
+      if(!uk){var u=r.matches&&r.matches('textarea.uans')?r:(r.querySelector&&r.querySelector('textarea.uans'));if(u)uk=u.dataset.k}
+      var els=[].slice.call(r.querySelectorAll('li,.ln.lz'));if(r.matches&&r.matches('.ln.lz'))els.unshift(r);
+      els.forEach(function(e){
+        if(e.closest('.ans,.uin,.xin,.xbank,table,.w'))return;
+        if(e.tagName==='LI'){if(e.querySelector('li')||e.querySelector('.uin,.xin'))return;items.push(['li',e]);return}
+        if(e.closest('li'))return;if(e.querySelector('.ln.lz'))return;
+        if(ITEM.test(e.textContent))items.push(['ln',e])})});
+    if(items.length<2)return;
+    var base=uk||('ans:fz:'+sc.id+':f'+hi),made=0;
+    items.forEach(function(x,k){
+      var it=x[1],inps=it.querySelectorAll('input.uw'),inp=inps.length===1?inps[0]:null;
+      if(inps.length>1)return;
+      if(x[0]==='li'){mkFrame(it,it,inp,base+':i'+k,true);made++}
+      else{var last=it;while(last.nextElementSibling&&last.nextElementSibling.classList.contains('ln')&&!last.nextElementSibling.classList.contains('lz')&&!ITEM.test(last.nextElementSibling.textContent))last=last.nextElementSibling;
+        mkFrame(it,last,inp,base+':i'+k,false);made++}});
+    if(made>=2&&card)card.querySelectorAll('.uin').forEach(function(u){if(!u.closest('li'))u.style.display='none'});
+  })}
 function run(){
  document.querySelectorAll('.card.ex').forEach(function(c){
   if(c.classList.contains('xc'))return;
@@ -126,8 +143,6 @@ function run(){
   c.appendChild(hd);c.appendChild(b);c.classList.add('xc');
   var vt=document.createElement('button');vt.type='button';vt.className='xvt';vt.textContent='🇻🇳 Dịch';vt.setAttribute('aria-pressed','true');vt.onclick=function(){var off=c.classList.toggle('novi');vt.setAttribute('aria-pressed',off?'false':'true')};hd.appendChild(vt);
   try{banks(c);bindBank(c)}catch(e){}
-  var tk=c.querySelector('textarea.uans'),key=tk?tk.dataset.k:('ans:fz:'+((c.closest('section')||{}).id||'x')+':x'+[].indexOf.call(document.querySelectorAll('.card.ex'),c));
-  try{frames(c,key)}catch(e){}
   setSt(c,status(c));
   c.addEventListener('input',function(){if(c.dataset.st!=='checked')setSt(c,status(c))});
   c.addEventListener('click',function(e){var x=e.target.closest&&e.target.closest('.uxb .b');if(!x)return;var tx=x.textContent;
@@ -139,7 +154,7 @@ function run(){
   function u(){var n=t.value.replace(/\s/g,'').length,i=bar.firstChild;i.style.width=Math.min(100,100*n/mn)+'%';i.className=n>=mn?'full':''}
   t.addEventListener('input',u);u()});
 }
-function go(){setTimeout(run,900);setTimeout(run,2500)}
+function go(){setTimeout(function(){run();try{framesAll()}catch(e){}},900);setTimeout(function(){run();try{framesAll()}catch(e){}},2500)}
 if(document.readyState==='complete')go();else addEventListener('load',go);
 })();
 """
