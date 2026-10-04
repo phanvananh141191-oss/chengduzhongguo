@@ -23,7 +23,7 @@
 | lg | Hán −0/+0 | từ −0/+0 |  |
 | lv | Hán −0/+0 | từ −0/+0 |  |
 
-ld toàn khối: Hán mất 0, Hán thêm 18118 (chủ yếu 5 đoạn 《家庭学校》 biên soạn).
+ld toàn khối: Hán mất 0, Hán thêm 18118 (chủ yếu do bản sao theo câu `sn` của bài đọc, và 5 đoạn 《家庭学校》 biên soạn).
 
 fz toàn khối: Hán mất **12**, thêm 9670.
 

@@ -103,7 +103,7 @@ for k in ld3:
 if ld3: table(['ld mục', 'Hán', 'Việt'], rows[:40])
 # ld là một tài liệu dữ liệu JS: so cả khối
 la = collections.Counter(CJK.findall(S3['ld'])); lb = collections.Counter(CJK.findall(S4['ld']))
-P('ld toàn khối: Hán mất %d, Hán thêm %d (chủ yếu 5 đoạn 《家庭学校》 biên soạn).\n' % (sum((la - lb).values()), sum((lb - la).values())))
+P('ld toàn khối: Hán mất %d, Hán thêm %d (chủ yếu do bản sao theo câu `sn` của bài đọc, và 5 đoạn 《家庭学校》 biên soạn).\n' % (sum((la - lb).values()), sum((lb - la).values())))
 la = collections.Counter(CJK.findall(S3['fz'])); lb = collections.Counter(CJK.findall(S4['fz']))
 verdict['S1'] = 'fz: Hán mất %d ký tự toàn khối' % sum((la - lb).values())
 P('fz toàn khối: Hán mất **%d**, thêm %d.\n' % (sum((la - lb).values()), sum((lb - la).values())))
