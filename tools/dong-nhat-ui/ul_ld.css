@@ -1,0 +1,15 @@
+html[data-u-book=ld] body,html[data-u-book=ld] #lm{background:var(--u-bg)!important;background-image:none!important}
+html[data-u-book=ld] #lm{padding-top:env(safe-area-inset-top,0px)}
+.ul-sub{scroll-margin-top:76px}
+html.ul-nosay [data-say]{display:none!important}
+html[data-u-book=ld] .ul-lesson .chip,html[data-u-book=ld] .ul-crumb .chip{min-height:44px;min-width:44px;padding:0 14px}
+html[data-u-book=ld] .ul-crumb .crumb{display:inline-flex;flex-wrap:wrap;gap:4px 6px;align-items:center}
+html[data-u-book=ld] .ul-crumb .cr{min-height:44px;min-width:44px}
+html[data-u-book=ld] .hp rt{filter:blur(6px)}
+html[data-u-book=ld] .pa{background:var(--u-card)!important;border:1px solid var(--u-line)!important;border-left:6px solid var(--gc)!important;box-shadow:none!important}
+html[data-u-book=ld] .pa .ptx{font-size:var(--ul-hz)!important;line-height:2.15!important}
+html[data-u-book=ld] .pa .sum{font-size:calc(14px*var(--u-scale,1))!important}
+html[data-u-book=ld] .stat{background:var(--u-card);border:1px solid var(--u-line);box-shadow:none}
+
+/* dòng pinyin riêng của ld (đã có ruby trên chữ Hán): ẩn hiển thị, dữ liệu vẫn còn */
+html[data-u-book=ld] .gpy.pin,html[data-u-book=ld] .gcp,html[data-u-book=ld] p.py.pin,html[data-u-book=ld] .cx small.pin,html[data-u-book=ld] .ref .pin,html[data-u-book=ld] .gex .pin{display:none!important}

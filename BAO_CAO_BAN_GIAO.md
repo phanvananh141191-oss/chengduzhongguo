@@ -1,0 +1,103 @@
+# Báo cáo bàn giao: đồng nhất giao diện D1 · D2 · KY
+
+File đã chỉnh: `Tong_hop_3_giao_trinh_D1_D2_KY.html`. Bản gốc trước khi sửa: `backup/Tong_hop_3_giao_trinh_D1_D2_KY.truoc-khi-dong-nhat.html`.
+Mã dựng lại file: `tools/dong-nhat-ui/` (chạy `python3 build.py`, đọc bản sao lưu và ghi ra file chính).
+
+Quy ước: D1 = 乐读 5, D2 = 发展汉语 II, KY = 汉语口语.
+
+## 1. Đã thay đổi
+- **Khuôn bài chung cho cả ba:** đầu bài (tên giáo trình · Bài N · tên Hán · nghĩa Việt), thanh tab *Tổng quan · Từ vựng · Bài khóa / Hội thoại · Ngữ pháp / Mẫu câu · Luyện tập*, có tab *Bổ sung* khi bài có nội dung không thuộc 5 mục. Nội dung rộng 920 px trên desktop.
+- **Xem toàn bài:** nút trên thanh công cụ chung, đọc liên tục mọi phần.
+- **Thanh công cụ vỏ:** Hiện pinyin · Hiện dịch · Cỡ chữ · Xem toàn bài · Tùy chọn. Lựa chọn được giữ khi đổi bài, đổi giáo trình và tải lại. Nút Hiện dịch tự làm mờ ở nơi không có bản dịch (KY).
+- **Pinyin:** chỉ hiện một lần, bằng ruby trên từng chữ Hán (119.559 ruby, đều một chữ một âm tiết). Hán 23 px, pinyin 13 px, Việt 16 px, giống nhau ở cả ba. Dòng pinyin riêng (D1 `.spy/.gpy`, D2 `.lp` và ghi chú pinyin) được ẩn, dữ liệu vẫn còn trong trang. Từ nhiều chữ không bị ngắt dòng giữa chừng. Tắt pinyin thì dòng thu gọn.
+- **Từ vựng:** cùng khuôn *Từ vựng · Nghĩa tiếng Việt · Ví dụ · Chi tiết* (Loại từ, Hán Việt, Ghi chú, English). Cột Ví dụ ẩn khi cả bảng không có ví dụ. Điện thoại chuyển thành thẻ dọc.
+- **Hội thoại KY:** tách từng lượt, tên người nói in đậm (chỉ khi dữ liệu có).
+- **Ngữ pháp:** nhãn *Cấu trúc · Giải thích · Ví dụ · Lưu ý* cho các thẻ nhận dạng được (D2 bài 1–2; D1 thẻ mẫu câu).
+- **Luyện tập:** có đáp án → *Kiểm tra · Xem đáp án · Làm lại*; không có đáp án → *Đánh dấu đã luyện · Làm lại*. Tiến độ tách *Đã làm* và *Làm đúng*. Khóa lưu bài làm giữ nguyên.
+- **Điện thoại:** nút ≥ 44 px, bảng cuộn trong khung riêng, không tràn ngang cả trang (đã sửa KY bài 7, 10, 12 và D1 mục mẫu câu). Sơ đồ vẽ bằng ký tự khung của KY cuộn trong khung riêng.
+- **Sửa thêm:** thời gian chờ khôi phục bài làm của KY tăng từ 0,6 s lên 3 s, vì trang mới nặng hơn nên bản trước bị mất bài làm sau khi tải lại.
+
+## 2. Phần nội dung còn thiếu (để trống, không điền)
+| Giáo trình | Phần thiếu |
+|---|---|
+| D2 | Bài 4 và bài 8: không có bài khóa. Bài 4, bài 8: không có ví dụ nào trong bảng từ vựng. Một số dòng thiếu ví dụ: bài 3 (1), bài 5 (2), bài 6 (1). |
+| KY | Ngữ pháp / Mẫu câu trống ở cả 12 bài. Bài 4: không có bài khóa. Bài 5: chỉ có bản ghi âm (mọi tab khác trống). Bài 6: không có Tổng quan, Từ vựng, Bài khóa. Không có bản dịch Việt cho hội thoại, không có đáp án bài tập. |
+| D1 | Bảng từ vựng không có ví dụ. Không có bài tập tương tác hay đáp án (Luyện tập gồm Kỹ năng và 实况阅读). Tab Bổ sung chỉ ở bài 2 (Bài giảng). |
+| Pinyin | Không có trong từ điển nên để trống: 葬 · 陶 · 陵 (KY bài 2), 狭隘 (KY bài 3). |
+
+## 3. Lỗi nội dung phát hiện (không sửa, cần rà sau)
+- D2 bài 6: `“Suàn wǒ jiā”`, `Zhùyì “hái yǒu”`, `Bǎ “nà yì nián”` nằm ở dòng chữ Hán, nên có vẻ thiếu chữ Hán.
+- D2 bài 3: các tiêu đề ghi “gợi ý” chưa có đáp án chính thức. Bài 4: có mục nguyên bản “Ghi chú về phần còn thiếu” (giữ ở Bổ sung).
+- KY bài 6: ghi chú nguyên bản “File gốc chỉ có 3 trang cuối…” (giữ ở Bổ sung). 19 dấu “cần duyệt” ở cột nghĩa tiếng Việt của KY được giữ trong tiêu đề cột.
+- D2 bài 6 có mục tiêu đề “Trang 100” (nguyên bản).
+
+## 4. Kết quả kiểm tra (Chromium thật)
+- Kích thước: desktop 1440×900, tablet 820×1180, điện thoại 390×844 (có cảm ứng). Đã duyệt toàn bộ 32 bài × mọi tab. Không có lỗi JavaScript, không tràn ngang cả trang, không nút nhỏ hơn 44 px ở điện thoại (đo cả ba cỡ).
+- **Bảo toàn nội dung:** đối chiếu trước/sau cả 43 mục. Chỉ thiếu 86 ký tự, toàn bộ là nhãn giao diện cũ đã thay (tiêu đề cột bảng cũ, “Tiến độ / Ô đúng”).
+- Đã thử: chuyển tab, Xem toàn bài, bật/tắt pinyin và dịch, phím mũi tên trên thanh tab, tìm kiếm tự mở đúng tab, Kiểm tra / Xem đáp án / Làm lại, Đánh dấu đã luyện, lưu bài làm sau khi tải lại (D2 và KY), khóa lưu giữ nguyên, chế độ tối (một trang).
+
+## 5. Chưa kiểm chứng được
+- Thiết bị thật, Safari, Firefox.
+- Phông web (Google Fonts) không tải được trong môi trường kiểm tra, nên điểm xuống dòng có thể lệch nhẹ.
+- Nút nghe của D1 (đọc bằng giọng trình duyệt) chưa nghe thử; chỉ ẩn khi trình duyệt không hỗ trợ. D2 và KY không có dữ liệu âm thanh.
+- Chế độ tối mới xem một trang. Thứ tự Tab bàn phím và trình đọc màn hình chưa kiểm hết.
+- Pinyin lấy từ từ điển nhúng sẵn và ruby có sẵn trong file; không tự sinh thêm.
+
+---
+
+# Bổ sung D2 (发展汉语 II) bài 9–14 từ file bản dịch song ngữ
+
+Nguồn: `tools/dong-nhat-ui/nguon/ban-dich-bai-9-14.md`. Bộ chuyển đổi: `tools/dong-nhat-ui/md2fz.py`, được gọi từ `build.py`.
+
+## Đã làm
+- Thêm 6 bài vào D2: 9 中国的四季, 10 匆匆, 11 把生活调成“飞行模式”, 12 中国第一合唱——《黄河大合唱》, 13 胡适致吴健雄的一封信, 14 《乾隆帝》序. Mục lục D2 là Bài 1–14, tổng số bài là 38.
+- Mỗi bài có đủ 5 tab theo khuôn chung (Tổng quan · Từ vựng · Bài khóa · Ngữ pháp · Luyện tập), bài 14 có thêm Bổ sung (Phụ lục). Chữ Hán đặt cùng bản dịch tiếng Việt ngay bên dưới. Bản dịch tắt/bật bằng nút **Hiện dịch**.
+- Mục chú giải ngữ pháp dùng nhãn *Câu trong bài · Giải thích · Ví dụ · Thử làm* ngay như trong file nguồn.
+- Đã bỏ phần lời nhắc và lời dẫn của cuộc trò chuyện (các dòng “tiếp tục…”, ghi chú của trợ lý, chú thích nguồn).
+- Chỗ trống trong bài tập giữ nguyên, **không điền đáp án**. Bài tập của 9–14 là dạng văn bản tĩnh, vì file nguồn không có đáp án nên không có nút Kiểm tra / Xem đáp án.
+
+## Phần còn thiếu (theo ghi chú của file nguồn, để trống)
+- Bài 11: không còn trang nào thiếu (trang 186 là trang kẻ ô nên không có nội dung cần thêm).
+- Trang 219 (bài 13) và 236 (bài 14) chỉ là ô vuông trống theo xác nhận của bạn, không có nội dung cần bổ sung.
+- Bảng từ vựng bài 9–14 không có ví dụ (nguồn không có), nên cột Ví dụ bị ẩn.
+- **Pinyin:** file nguồn không có pinyin, từ điển nhúng trong file không có 211 chữ Hán khác nhau (634 lần xuất hiện, chẳng hạn 摸 嫩 芽 煤 魂…). Những chữ này để trống pinyin, không tự sinh âm đọc. 32.132 chữ còn lại có pinyin. Nếu bạn muốn bổ sung pinyin cho 211 chữ này thì cần bạn duyệt nguồn pinyin.
+
+## Kiểm tra
+Mọi đoạn, câu, ô bảng và mục danh sách trong file nguồn đều có mặt trên trang (chỉ khác các nhãn tiêu đề cột và nhãn mục đã chuẩn hóa). Điện thoại 390 px không tràn ngang, không nút nhỏ hơn 44 px; desktop không tràn ngang. Không có lỗi JavaScript.
+
+## Bổ sung bài 11 từ ảnh sách (trang 171–172)
+- Đã thêm 题解 và bảng 38 từ vựng (pinyin, loại từ, nghĩa tiếng Anh) đúng như ảnh. Tab Tổng quan và Từ vựng của bài 11 giờ đã có nội dung.
+- **Cần duyệt:** bản dịch tiếng Việt của 题解 và nghĩa tiếng Việt của 38 từ do mình dịch thêm (sách chỉ có tiếng Anh). Nghĩa tiếng Anh nằm trong *Chi tiết*, hiện khi bật tùy chọn *Cột English*.
+- Pinyin của 36 từ nhiều chữ trong bảng được đưa vào từ điển pinyin (nguồn: ảnh sách). Chữ 调 đọc *tiáo* theo ảnh; cụm 调成 trong tiêu đề và 题解 cũng đọc *tiáo chéng* theo đó.
+- Số chữ Hán bài 9–14 còn thiếu pinyin giảm còn 625 lần (209 chữ khác nhau).
+
+## Bổ sung từ kho từ vựng `kho-tu-vung-obsidian.csv`
+Nguồn: `tools/dong-nhat-ui/nguon/kho-tu-vung-obsidian.csv` (14.697 từ). Mã: `tools/dong-nhat-ui/csvdata.py`.
+- **Bảng từ vựng bài 9–14:** thêm cột Pinyin (hiện trên chữ Hán) và Hán Việt (trong *Chi tiết*) cho 167 trên 216 từ có trong kho. 49 từ không có trong kho (như 嫩绿 沐浴 闷热 颠簸 瞥见 屏蔽 终极 咆哮…) vẫn để trống hai trường này. Bài 11 giữ pinyin theo ảnh sách. Nghĩa tiếng Việt giữ nguyên như file bản dịch.
+- **Từ điển pinyin:** thêm 65 chữ đơn, 509 từ ghép và 60 từ vựng bài 9–14 từ kho, chỉ cho chữ trước đó chưa có pinyin. Chữ Hán thiếu pinyin ở bài 9–14 giảm từ 625 xuống 323 lần xuất hiện (103 chữ khác nhau). Lỗi pinyin của KY bài 2 giảm từ 3 chữ xuống 2.
+- **Khác biệt cần biết:** kho ghi 一时 là *yīshí*, ảnh sách ghi *yìshí* → giữ theo sách. Kho có hai cách đọc cho 调 (*diào*, *tiáo*) → bài 11 giữ *tiáo* theo sách.
+- Các từ ghép thêm vào từ điển có thể đổi cách đọc ở những chỗ khác trong file nếu từ đó xuất hiện (chỉ với từ chứa chữ trước đó chưa có pinyin).
+
+## Bổ sung bài 11 tr.182 và tr.184 từ ảnh sách
+- Tab Luyện tập bài 11 đã có các bài tập 四 (chọn từ điền chỗ trống, kèm bảng từ), 五 (câu 1–7), các câu 4–8 của bài tập viết lại câu (tr.184), 八, 九 (bảng gợi ý và đoạn đầu hội thoại). Đoạn hội thoại tr.185 đã có từ trước nối tiếp ngay sau bài 九.
+- Chỗ trống giữ nguyên, không điền đáp án. **Bản dịch tiếng Việt do mình dịch thêm, cần duyệt.**
+- Các câu 4–8 (tr.184) nằm dưới tiêu đề trung tính “（续）”, vì tiêu đề bài tập chứa các câu đầu ở tr.183 chưa có nên mình không ghi.
+- Thứ tự và khóa lưu bài làm của các bài khác không bị ảnh hưởng.
+
+## Bổ sung từ 18 ảnh (file zip)
+- **Từ vựng bài 9, 10, 12, 13, 14:** nhập pinyin và nghĩa tiếng Anh từ ảnh các trang từ vựng (tr.139–140, 155–156, 188–189, 204–205, 222–223) cho toàn bộ 36 + 32 + 35 + 36 + 39 từ. Mình đối chiếu từng từ theo số thứ tự với bảng bản dịch, khớp 100%. Pinyin hiển thị trên chữ Hán; nghĩa tiếng Anh nằm trong *Chi tiết* (bật *Cột English* trong Tùy chọn). Pinyin của các từ nhiều chữ được đưa vào từ điển pinyin.
+- **Bài 11 trang 183:** thêm bài tập 六 (hội thoại, câu 1–8) và các câu 1–3 của bài 七. Hai nhóm câu 1–3 (tr.183) và 4–8 (tr.184) giờ nằm chung trong một bài 七 liền mạch; tiêu đề “（续）” tạm dùng trước đó đã bỏ. **Bản dịch tiếng Việt do mình dịch thêm, cần duyệt.** Riêng câu 6 (六), cụm “老有人给开支” mình dịch sát nghĩa là “lúc nào cũng có người chi trả”, bạn xem lại giúp.
+- **Chữ Hán còn thiếu pinyin** ở bài 9–14: 256 lần xuất hiện (92 chữ khác nhau), giảm từ 323. Đó là các chữ không có trong từ điển lẫn kho từ vựng.
+- Bốn ảnh trùng với trang đã dùng (tr.171, 172, 182, 184) và ảnh trang 224 (走进课文 bài 14) đã có nội dung từ file bản dịch nên không thay đổi gì.
+- Sai khác nhỏ so với kho từ vựng CSV (giữ theo sách): 播种 *bōzhòng* (kho *bōzhǒng*), 一同 *yìtóng*, 一无所知 *yìwúsuǒzhī* (kho ghi *yī*).
+
+## Hình minh hoạ "Cách học"
+
+- Thêm nút **📖 Cách học** vào thanh công cụ; bấm mở khung bên phải (toàn màn hình trên điện thoại), đóng bằng ✕, nền mờ hoặc Esc. Khung tự hiện đúng giáo trình đang xem.
+- Mỗi giáo trình gồm: ảnh minh hoạ + thẻ hướng dẫn dựng bằng HTML (văn bản chọn/đọc được, chép lại từ các thẻ phẳng bạn gửi).
+  - D2 发展汉语 ← "Phát triển Hán ngữ" (6 bước)
+  - KY 汉语口语 ← "Khẩu ngữ thời đại mới" (5 bước)
+  - D1 乐读 5 ← "Lạc Độc – Đọc hiểu" (5 bước)
+- **Bỏ qua (thừa):** hai ảnh + thẻ "Khẩu ngữ Mục tiêu mới 6" (không thuộc 3 giáo trình này).
+- Ảnh nén WebP rộng 760px (~100–140 KB/ảnh). Đã thử 1440/820/390: không tràn ngang, nút ≥44px trên máy bbảng/điện thoại.
+- Nguồn: `tools/dong-nhat-ui/guide.py`, ảnh trong `nguon/cach-hoc/`.
